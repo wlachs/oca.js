@@ -3,3 +3,25 @@
 body {
     background-color: #e8e8e8;
 }
+
+/* Overview styles */
+
+.overview_nav {
+    background-color: #3f3f3f;
+}
+
+.side_nav {
+    background-color: #28252e;
+}
+
+.overview_nav_title {
+    color: white;
+}
+
+.side_nav_entry {
+    color: white;
+}
+
+.side_nav_entry_active {
+    background-color: #727272;
+}
