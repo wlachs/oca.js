@@ -2,13 +2,16 @@
   "name": "open_course_admin_server",
   "version": "0.1.0",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node dist/index.js",
     "dev": "babel-node src/index.js",
-    "build": "babel src -d build",
+    "build": "babel src -d dist",
     "postinstall": "npm run build"
   },
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "npmlog": "^4.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",

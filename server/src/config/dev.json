@@ -1,0 +1,15 @@
+{
+  "port": 4000,
+  "graphiql": true,
+  "cors": true,
+  "auth": {
+    "enabled": false,
+    "jwtAlgorithm": "HS256",
+    "jwtExpire": "1h"
+  },
+  "db": {
+    "host": "admin:admin@localhost",
+    "port": 27017,
+    "dbName": "oca"
+  }
+}
