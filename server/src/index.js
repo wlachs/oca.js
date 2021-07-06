@@ -2,12 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import log from 'npmlog';
 import getConfig from './config';
+import connect from './core/db';
 
 async function start() {
   log.info('INIT', 'starting server');
 
   /* Get current configuration */
   const configuration = getConfig();
+
+  /* Init DB */
+  await connect();
 
   /* Initialize express */
   const app = express();
