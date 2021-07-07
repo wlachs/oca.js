@@ -2,13 +2,20 @@ import express from 'express';
 import cors from 'cors';
 import log from 'npmlog';
 import getConfig from './config';
-import connect from './core/db';
+
+/* Module imports */
+import core from './core';
 import layout from './layout';
 
 const LOG_PREFIX = 'CORE_INIT';
 
 async function loadModules() {
   log.info(LOG_PREFIX, 'load modules');
+
+  /* Always load core first */
+  await core();
+
+  /* Then the rest */
   return Promise.all([
     layout(),
   ]);
@@ -19,9 +26,6 @@ async function start() {
 
   /* Get current configuration */
   const configuration = getConfig();
-
-  /* DB connection */
-  await connect();
 
   /* Initialize modules */
   await loadModules();
