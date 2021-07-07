@@ -5,6 +5,7 @@ const viewSchema = new Schema({
   key: {
     type: Schema.Types.String, required: true, unique: true, index: true,
   },
+  template: { type: Schema.Types.ObjectId, ref: 'Template', required: true },
   content: [
     {
       slot: { type: Schema.Types.ObjectId, ref: 'Slot', required: true },

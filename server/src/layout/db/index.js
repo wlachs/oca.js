@@ -4,6 +4,7 @@ import ContentModel from './content';
 import SlotModel from './slot';
 import TemplateModel from './template';
 import ViewModel from './view';
+import RouteModel from './route';
 
 const LOG_PREFIX = 'LAYOUT_DB';
 
@@ -48,6 +49,7 @@ async function initDB() {
   /* Generate initial view */
   const mainView = new ViewModel();
   mainView.key = 'MAIN';
+  mainView.template = mainTemplate;
   mainView.content.push({
     slot: mainSlot,
     content: mainContent,
@@ -55,6 +57,14 @@ async function initDB() {
 
   log.info(LOG_PREFIX, 'initial view: ', mainView);
   await Promise.all([mainView.save()]);
+
+  /* Generate default route */
+  const rootRoute = new RouteModel();
+  rootRoute.path = '/';
+  rootRoute.view = mainView;
+
+  log.info(LOG_PREFIX, 'initial view: ', rootRoute);
+  await Promise.all([rootRoute.save()]);
 }
 
 export default initDB;
