@@ -24,6 +24,7 @@ export async function addContent(key, type, attributes) {
   content.type = contentType;
   content.attributes = attributes;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(content));
   return content.save();
 }
 
@@ -54,6 +55,7 @@ export async function updateContent(key, newKey, type, attributes) {
   content.type = contentType;
   content.attributes = attributes;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(content));
   return content.save();
 }
 
@@ -66,25 +68,30 @@ export async function removeContent(key) {
     throw new Error(`can't delete content, no content found with key: ${key}`);
   }
 
-  return ContentModel.findOneAndDelete({ key });
+  const deleted = await ContentModel.findOneAndDelete({ key }).populate('type');
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
 }
 
 export async function getContentByKey(key) {
   log.info(LOG_PREFIX, 'get content by key:', key);
 
-  const content = await ContentModel.findOne({ key });
+  const content = await ContentModel.findOne({ key }).populate('type');
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new Error(`can't get content, no content found with key: ${key}`);
   }
 
+  log.verbose(LOG_PREFIX, JSON.stringify(content));
   return content;
 }
 
 export async function getContentList() {
   log.info(LOG_PREFIX, 'get content list');
 
-  return ContentModel.find();
+  const contents = await ContentModel.find().populate('type');
+  log.verbose(LOG_PREFIX, JSON.stringify(contents));
+  return contents;
 }
 
 export async function getContentByType(key) {
@@ -96,5 +103,7 @@ export async function getContentByType(key) {
     throw new Error(`can't get content, no content type found with key: ${key}`);
   }
 
-  return ContentModel.find({ type });
+  const contents = await ContentModel.find({ type }).populate('type');
+  log.verbose(LOG_PREFIX, JSON.stringify(contents));
+  return contents;
 }
