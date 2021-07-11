@@ -52,10 +52,7 @@ export async function updateContent(key, newKey, type, attributes) {
   }
 
   content.type = contentType;
-  content.attributes = {
-    ...content.attributes,
-    ...attributes,
-  };
+  content.attributes = attributes;
 
   return content.save();
 }
