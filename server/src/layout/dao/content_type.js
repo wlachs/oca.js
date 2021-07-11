@@ -32,7 +32,7 @@ export async function updateContentType(key, newKey) {
     throw new Error(`can't update content type, invalid new key: ${newKey}`);
   }
 
-  const contentTypeWithNewKey = ContentTypeModel.findOne({ key: newKey });
+  const contentTypeWithNewKey = await ContentTypeModel.findOne({ key: newKey });
   if (contentTypeWithNewKey) {
     log.error(LOG_PREFIX, 'content type with key already exists:', newKey);
     throw new Error(`can't update content type, content type with key already exists: ${newKey}`);
@@ -46,7 +46,7 @@ export async function updateContentType(key, newKey) {
 export async function removeContentType(key) {
   log.info(LOG_PREFIX, 'delete content type:', key);
 
-  const contentType = ContentTypeModel.findOne({ key });
+  const contentType = await ContentTypeModel.findOne({ key });
   if (!contentType) {
     log.error(LOG_PREFIX, 'no content type found with key:', key);
     throw new Error(`can't delete content type, no content type found with key: ${key}`);

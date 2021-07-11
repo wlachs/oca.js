@@ -7,7 +7,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_CONTENT';
 export async function addContent(key, type, attributes) {
   log.info(LOG_PREFIX, 'add content:', key, type, attributes);
 
-  const existingContent = ContentModel.findOne({ key });
+  const existingContent = await ContentModel.findOne({ key });
   if (existingContent) {
     log.error(LOG_PREFIX, 'content with key already exists', key);
     throw new Error(`can't create content, content with key already exists: ${key}`);
@@ -30,7 +30,7 @@ export async function addContent(key, type, attributes) {
 export async function updateContent(key, newKey, type, attributes) {
   log.info(LOG_PREFIX, 'update content:', key, newKey, type, attributes);
 
-  const content = ContentModel.findOne({ key });
+  const content = await ContentModel.findOne({ key });
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new Error(`can't update content, no content found with key: ${key}`);
@@ -43,7 +43,7 @@ export async function updateContent(key, newKey, type, attributes) {
   }
 
   if (newKey) {
-    const contentWithNewKey = ContentModel.findOne({ key: newKey });
+    const contentWithNewKey = await ContentModel.findOne({ key: newKey });
     if (contentWithNewKey) {
       log.error(LOG_PREFIX, 'content with key already exists:', newKey);
       throw new Error(`can't update content, content with key already exists: ${newKey}`);
@@ -60,7 +60,7 @@ export async function updateContent(key, newKey, type, attributes) {
 export async function removeContent(key) {
   log.info(LOG_PREFIX, 'delete content:', key);
 
-  const content = ContentModel.findOne({ key });
+  const content = await ContentModel.findOne({ key });
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new Error(`can't delete content, no content found with key: ${key}`);
@@ -72,7 +72,7 @@ export async function removeContent(key) {
 export async function getContentByKey(key) {
   log.info(LOG_PREFIX, 'get content by key:', key);
 
-  const content = ContentModel.findOne({ key });
+  const content = await ContentModel.findOne({ key });
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new Error(`can't get content, no content found with key: ${key}`);
@@ -90,7 +90,7 @@ export async function getContentList() {
 export async function getContentByType(key) {
   log.info(LOG_PREFIX, 'get content by type:', key);
 
-  const type = ContentTypeModel.findOne({ key });
+  const type = await ContentTypeModel.findOne({ key });
   if (!type) {
     log.error(LOG_PREFIX, 'no content type found with key:', key);
     throw new Error(`can't get content, no content type found with key: ${key}`);
