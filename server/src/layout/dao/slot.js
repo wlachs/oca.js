@@ -94,5 +94,5 @@ export async function getSlotListForContentType(key) {
     throw new Error(`can't get slot list, no content type found with key: ${key}`);
   }
 
-  return SlotModel.find({ allowedContentTypes: { $in: [key] } });
+  return SlotModel.find({ allowedContentTypes: { $in: [contentType] } });
 }
