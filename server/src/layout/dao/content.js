@@ -27,8 +27,14 @@ export async function addContent(key, type, attributes) {
   return content.save();
 }
 
-export async function updateContent(key, type, attributes) {
-  log.info(LOG_PREFIX, 'update content:', key, type, attributes);
+export async function updateContent(key, newKey, type, attributes) {
+  log.info(LOG_PREFIX, 'update content:', key, newKey, type, attributes);
+
+  const content = ContentModel.findOne({ key });
+  if (!content) {
+    log.error(LOG_PREFIX, 'no content found with key:', key);
+    throw new Error(`can't update content, no content found with key: ${key}`);
+  }
 
   const contentType = await ContentTypeModel.findOne({ key: type });
   if (!contentType) {
@@ -36,10 +42,8 @@ export async function updateContent(key, type, attributes) {
     throw new Error(`can't update content, no content type found with key: ${type}`);
   }
 
-  const content = ContentModel.findOne({ key });
-  if (!content) {
-    log.error(LOG_PREFIX, 'no content found with key:', key);
-    throw new Error(`can't update content, no content found with key: ${key}`);
+  if (newKey) {
+    content.key = newKey;
   }
 
   content.type = contentType;
