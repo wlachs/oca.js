@@ -5,7 +5,7 @@ import {
   addContentType, getContentTypeList, removeContentType, updateContentType,
 } from '../dao/content_type';
 
-const ContentType = new GraphQLObjectType({
+export const ContentType = new GraphQLObjectType({
   name: 'ContentType',
   description: 'Data type for representing various available content types of the layout module.',
   fields: {
