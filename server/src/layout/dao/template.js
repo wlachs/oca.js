@@ -13,7 +13,7 @@ export async function addTemplate(key, slots) {
     throw new Error(`can't create template, template with key already exists: ${key}`);
   }
 
-  const slotList = await SlotModel.find({ key: { $in: slots } });
+  const slotList = await SlotModel.find({ key: { $in: slots } }).populate('allowedContentTypes');
   if (slotList.length !== slots.length) {
     log.error(LOG_PREFIX, 'invalid slot key in list:', slots);
     throw new Error(`can't create template, invalid slot key in list: ${slots}`);
@@ -23,6 +23,7 @@ export async function addTemplate(key, slots) {
   template.key = key;
   template.slots = slotList;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template)));
   return template.save();
 }
 
@@ -35,7 +36,7 @@ export async function updateTemplate(key, newKey, slots) {
     throw new Error(`can't update template, no template found with key: ${key}`);
   }
 
-  const slotList = await SlotModel.find({ key: { $in: slots } });
+  const slotList = await SlotModel.find({ key: { $in: slots } }).populate('allowedContentTypes');
   if (slotList.length !== slots.length) {
     log.error(LOG_PREFIX, 'invalid slot key in list:', slots);
     throw new Error(`can't update template, invalid slot key in list: ${slots}`);
@@ -52,6 +53,7 @@ export async function updateTemplate(key, newKey, slots) {
 
   template.slots = slotList;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template)));
   return template.save();
 }
 
@@ -64,25 +66,48 @@ export async function removeTemplate(key) {
     throw new Error(`can't delete template, no template found with key: ${key}`);
   }
 
-  return TemplateModel.findOneAndDelete({ key });
+  const deleted = await TemplateModel.findOneAndDelete({ key }).populate({
+    path: 'slots',
+    populate: {
+      path: 'allowedContentTypes',
+      model: 'ContentType',
+    },
+  });
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
 }
 
 export async function getTemplateByKey(key) {
   log.info(LOG_PREFIX, 'get template by key:', key);
 
-  const template = await TemplateModel.findOne({ key });
+  const template = await TemplateModel.findOne({ key }).populate({
+    path: 'slots',
+    populate: {
+      path: 'allowedContentTypes',
+      model: 'ContentType',
+    },
+  });
   if (!template) {
     log.error(LOG_PREFIX, 'no template found with key:', key);
     throw new Error(`can't get template, no template found with key: ${key}`);
   }
 
+  log.verbose(LOG_PREFIX, JSON.stringify(template));
   return template;
 }
 
 export async function getTemplateList() {
   log.info(LOG_PREFIX, 'get template list');
 
-  return TemplateModel.find();
+  const templates = await TemplateModel.find().populate({
+    path: 'slots',
+    populate: {
+      path: 'allowedContentTypes',
+      model: 'ContentType',
+    },
+  });
+  log.verbose(LOG_PREFIX, JSON.stringify(templates));
+  return templates;
 }
 
 export async function getTemplateBySlot(key) {
@@ -94,5 +119,13 @@ export async function getTemplateBySlot(key) {
     throw new Error(`can't get template, no slot found with key: ${key}`);
   }
 
-  return TemplateModel.find({ slots: { $in: [slot] } });
+  const templates = await TemplateModel.find({ slots: { $in: [slot] } }).populate({
+    path: 'slots',
+    populate: {
+      path: 'allowedContentTypes',
+      model: 'ContentType',
+    },
+  });
+  log.verbose(LOG_PREFIX, JSON.stringify(templates));
+  return templates;
 }
