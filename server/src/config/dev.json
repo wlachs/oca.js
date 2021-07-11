@@ -2,6 +2,7 @@
   "port": 4000,
   "graphiql": true,
   "cors": true,
+  "log": "verbose",
   "auth": {
     "enabled": false,
     "jwtAlgorithm": "HS256",

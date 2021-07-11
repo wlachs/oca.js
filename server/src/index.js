@@ -28,6 +28,9 @@ async function start() {
   /* Get current configuration */
   const configuration = getConfig();
 
+  /* Set loglevel */
+  log.level = configuration.log || 'info';
+
   /* Initialize modules */
   await loadModules();
 
