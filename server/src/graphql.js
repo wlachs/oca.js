@@ -7,6 +7,7 @@ import getConfig from './config';
 import { ContentTypeMutation, ContentTypeQuery } from './layout/graphql/content_type';
 import { SlotMutation, SlotQuery } from './layout/graphql/slot';
 import { ContentMutation, ContentQuery } from './layout/graphql/content';
+import { TemplateMutation, TemplateQuery } from './layout/graphql/template';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -23,6 +24,7 @@ const AdminQueryType = new GraphQLObjectType({
     ...ContentTypeQuery,
     ...SlotQuery,
     ...ContentQuery,
+    ...TemplateQuery,
   },
 });
 
@@ -33,6 +35,7 @@ const AdminMutationType = new GraphQLObjectType({
     ...ContentTypeMutation,
     ...SlotMutation,
     ...ContentMutation,
+    ...TemplateMutation,
   },
 });
 
