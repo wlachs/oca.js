@@ -23,6 +23,7 @@ export async function addSlot(key, types) {
   slot.key = key;
   slot.allowedContentTypes = contentTypes;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(slot));
   return slot.save();
 }
 
@@ -52,6 +53,7 @@ export async function updateSlot(key, newKey, types) {
 
   slot.allowedContentTypes = contentTypes;
 
+  log.verbose(LOG_PREFIX, JSON.stringify(slot));
   return slot.save();
 }
 
@@ -64,25 +66,30 @@ export async function removeSlot(key) {
     throw new Error(`can't delete slot, no slot found with key: ${key}`);
   }
 
-  return SlotModel.findOneAndDelete({ key });
+  const deleted = await SlotModel.findOneAndDelete({ key }).populate('allowedContentTypes');
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
 }
 
 export async function getSlotByKey(key) {
   log.info(LOG_PREFIX, 'get slot by key:', key);
 
-  const slot = await SlotModel.findOne({ key });
+  const slot = await SlotModel.findOne({ key }).populate('allowedContentTypes');
   if (!slot) {
     log.error(LOG_PREFIX, 'no slot found with key:', key);
     throw new Error(`can't get slot, no slot found with key: ${key}`);
   }
 
+  log.verbose(LOG_PREFIX, JSON.stringify(slot));
   return slot;
 }
 
 export async function getSlotList() {
   log.info(LOG_PREFIX, 'get slot list');
 
-  return SlotModel.find();
+  const slots = await SlotModel.find().populate('allowedContentTypes');
+  log.verbose(LOG_PREFIX, JSON.stringify(slots));
+  return slots;
 }
 
 export async function getSlotListForContentType(key) {
@@ -94,5 +101,7 @@ export async function getSlotListForContentType(key) {
     throw new Error(`can't get slot list, no content type found with key: ${key}`);
   }
 
-  return SlotModel.find({ allowedContentTypes: { $in: [contentType] } });
+  const slots = await SlotModel.find({ allowedContentTypes: { $in: [contentType] } }).populate('allowedContentTypes');
+  log.verbose(LOG_PREFIX, JSON.stringify(slots));
+  return slots;
 }
