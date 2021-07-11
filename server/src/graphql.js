@@ -1,9 +1,12 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
+import getConfig from './config';
+
+/* Queries and mutations */
 import { ContentTypeMutation, ContentTypeQuery } from './layout/graphql/content_type';
 import { SlotMutation, SlotQuery } from './layout/graphql/slot';
-import getConfig from './config';
+import { ContentMutation, ContentQuery } from './layout/graphql/content';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -19,6 +22,7 @@ const AdminQueryType = new GraphQLObjectType({
   fields: {
     ...ContentTypeQuery,
     ...SlotQuery,
+    ...ContentQuery,
   },
 });
 
@@ -28,6 +32,7 @@ const AdminMutationType = new GraphQLObjectType({
   fields: {
     ...ContentTypeMutation,
     ...SlotMutation,
+    ...ContentMutation,
   },
 });
 
