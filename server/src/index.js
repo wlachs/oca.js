@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import log from 'npmlog';
 import getConfig from './config';
+import initRoutes from './routes';
 
 /* Module imports */
 import core from './core';
@@ -35,11 +36,15 @@ async function start() {
 
   if (configuration.cors) {
     log.info(LOG_PREFIX, 'Cors enabled');
-    app.use(cors);
+    app.use(cors());
   }
 
-  app.listen(configuration.port);
-  log.info(LOG_PREFIX, 'Server listening on port:', configuration.port);
+  /* Initialize routes */
+  initRoutes(app);
+
+  app.listen(configuration.port, () => {
+    log.info(LOG_PREFIX, 'Server listening on port:', configuration.port);
+  });
 }
 
 start()
