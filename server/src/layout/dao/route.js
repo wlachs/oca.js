@@ -4,13 +4,13 @@ import ViewModel from '../db/view';
 
 const LOG_PREFIX = 'LAYOUT_DAO_ROUTE';
 
-export async function addRoute(key, view) {
-  log.info(LOG_PREFIX, 'add route:', key, view);
+export async function addRoute(path, view) {
+  log.info(LOG_PREFIX, 'add route:', path, view);
 
-  const existingRoute = await RouteModel.findOne({ key });
+  const existingRoute = await RouteModel.findOne({ path });
   if (existingRoute) {
-    log.error(LOG_PREFIX, 'route with key already exists', key);
-    throw new Error(`can't create route, route with key already exists: ${key}`);
+    log.error(LOG_PREFIX, 'route with path already exists', path);
+    throw new Error(`can't create route, route with path already exists: ${path}`);
   }
 
   const existingView = await ViewModel.findOne({ key: view });
@@ -20,19 +20,19 @@ export async function addRoute(key, view) {
   }
 
   const route = new RouteModel();
-  route.key = key;
+  route.path = path;
   route.view = existingView;
 
   return route.save();
 }
 
-export async function updateRoute(key, newKey, view) {
-  log.info(LOG_PREFIX, 'update route:', key, newKey, view);
+export async function updateRoute(path, newPath, view) {
+  log.info(LOG_PREFIX, 'update route:', path, newPath, view);
 
-  const route = await RouteModel.findOne({ key });
+  const route = await RouteModel.findOne({ path });
   if (!route) {
-    log.error(LOG_PREFIX, 'no route found with key:', key);
-    throw new Error(`can't update route, no route found with key: ${key}`);
+    log.error(LOG_PREFIX, 'no route found with path:', path);
+    throw new Error(`can't update route, no route found with path: ${path}`);
   }
 
   const existingView = await ViewModel.findOne({ key: view });
@@ -41,13 +41,13 @@ export async function updateRoute(key, newKey, view) {
     throw new Error(`can't update route, no view found with key: ${view}`);
   }
 
-  if (newKey) {
-    const routeWithNewKey = await RouteModel.findOne({ key: newKey });
-    if (routeWithNewKey) {
-      log.error(LOG_PREFIX, 'route with key already exists:', newKey);
-      throw new Error(`can't update route, route with key already exists: ${newKey}`);
+  if (newPath) {
+    const routeWithNewPath = await RouteModel.findOne({ path: newPath });
+    if (routeWithNewPath) {
+      log.error(LOG_PREFIX, 'route with path already exists:', newPath);
+      throw new Error(`can't update route, route with path already exists: ${newPath}`);
     }
-    route.key = newKey;
+    route.path = newPath;
   }
 
   route.view = existingView;
@@ -55,25 +55,25 @@ export async function updateRoute(key, newKey, view) {
   return route.save();
 }
 
-export async function removeRoute(key) {
-  log.info(LOG_PREFIX, 'delete route:', key);
+export async function removeRoute(path) {
+  log.info(LOG_PREFIX, 'delete route:', path);
 
-  const route = await RouteModel.findOne({ key });
+  const route = await RouteModel.findOne({ path });
   if (!route) {
-    log.error(LOG_PREFIX, 'no route found with key:', key);
-    throw new Error(`can't delete route, no route found with key: ${key}`);
+    log.error(LOG_PREFIX, 'no route found with path:', path);
+    throw new Error(`can't delete route, no route found with path: ${path}`);
   }
 
-  return RouteModel.findOneAndDelete({ key });
+  return RouteModel.findOneAndDelete({ path });
 }
 
-export async function getRouteByKey(key) {
-  log.info(LOG_PREFIX, 'get route by key:', key);
+export async function getRouteByPath(path) {
+  log.info(LOG_PREFIX, 'get route by path:', path);
 
-  const route = await RouteModel.findOne({ key });
+  const route = await RouteModel.findOne({ path });
   if (!route) {
-    log.error(LOG_PREFIX, 'no route found with key:', key);
-    throw new Error(`can't get route, no route found with key: ${key}`);
+    log.error(LOG_PREFIX, 'no route found with path:', path);
+    throw new Error(`can't get route, no route found with path: ${path}`);
   }
 
   return route;
