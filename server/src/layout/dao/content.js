@@ -43,6 +43,11 @@ export async function updateContent(key, newKey, type, attributes) {
   }
 
   if (newKey) {
+    const contentWithNewKey = ContentModel.findOne({ key: newKey });
+    if (contentWithNewKey) {
+      log.error(LOG_PREFIX, 'content with key already exists:', newKey);
+      throw new Error(`can't update content, content with key already exists: ${newKey}`);
+    }
     content.key = newKey;
   }
 
