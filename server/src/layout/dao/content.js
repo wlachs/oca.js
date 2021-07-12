@@ -1,6 +1,7 @@
 import log from 'npmlog';
 import ContentModel from '../db/content';
 import ContentTypeModel from '../db/content_type';
+import { POPULATE_TYPE } from '../db/populators';
 
 const LOG_PREFIX = 'LAYOUT_DAO_CONTENT';
 
@@ -68,7 +69,7 @@ export async function removeContent(key) {
     throw new Error(`can't delete content, no content found with key: ${key}`);
   }
 
-  const deleted = await ContentModel.findOneAndDelete({ key }).populate('type');
+  const deleted = await ContentModel.findOneAndDelete({ key }).populate(POPULATE_TYPE);
   log.verbose(LOG_PREFIX, JSON.stringify(deleted));
   return deleted;
 }
@@ -76,7 +77,7 @@ export async function removeContent(key) {
 export async function getContentByKey(key) {
   log.info(LOG_PREFIX, 'get content by key:', key);
 
-  const content = await ContentModel.findOne({ key }).populate('type');
+  const content = await ContentModel.findOne({ key }).populate(POPULATE_TYPE);
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new Error(`can't get content, no content found with key: ${key}`);
@@ -89,7 +90,7 @@ export async function getContentByKey(key) {
 export async function getContentList() {
   log.info(LOG_PREFIX, 'get content list');
 
-  const contents = await ContentModel.find().populate('type');
+  const contents = await ContentModel.find().populate(POPULATE_TYPE);
   log.verbose(LOG_PREFIX, JSON.stringify(contents));
   return contents;
 }
@@ -103,7 +104,7 @@ export async function getContentByType(key) {
     throw new Error(`can't get content, no content type found with key: ${key}`);
   }
 
-  const contents = await ContentModel.find({ type }).populate('type');
+  const contents = await ContentModel.find({ type }).populate(POPULATE_TYPE);
   log.verbose(LOG_PREFIX, JSON.stringify(contents));
   return contents;
 }

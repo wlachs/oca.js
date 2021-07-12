@@ -1,6 +1,7 @@
 import log from 'npmlog';
 import ContentTypeModel from '../db/content_type';
 import SlotModel from '../db/slot';
+import { POPULATE_ALLOWED_CONTENT_TYPES } from '../db/populators';
 
 const LOG_PREFIX = 'LAYOUT_DAO_SLOT';
 
@@ -66,7 +67,8 @@ export async function removeSlot(key) {
     throw new Error(`can't delete slot, no slot found with key: ${key}`);
   }
 
-  const deleted = await SlotModel.findOneAndDelete({ key }).populate('allowedContentTypes');
+  const deleted = await SlotModel.findOneAndDelete({ key })
+    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
   log.verbose(LOG_PREFIX, JSON.stringify(deleted));
   return deleted;
 }
@@ -74,7 +76,7 @@ export async function removeSlot(key) {
 export async function getSlotByKey(key) {
   log.info(LOG_PREFIX, 'get slot by key:', key);
 
-  const slot = await SlotModel.findOne({ key }).populate('allowedContentTypes');
+  const slot = await SlotModel.findOne({ key }).populate(POPULATE_ALLOWED_CONTENT_TYPES);
   if (!slot) {
     log.error(LOG_PREFIX, 'no slot found with key:', key);
     throw new Error(`can't get slot, no slot found with key: ${key}`);
@@ -87,7 +89,7 @@ export async function getSlotByKey(key) {
 export async function getSlotList() {
   log.info(LOG_PREFIX, 'get slot list');
 
-  const slots = await SlotModel.find().populate('allowedContentTypes');
+  const slots = await SlotModel.find().populate(POPULATE_ALLOWED_CONTENT_TYPES);
   log.verbose(LOG_PREFIX, JSON.stringify(slots));
   return slots;
 }
@@ -101,7 +103,8 @@ export async function getSlotListForContentType(key) {
     throw new Error(`can't get slot list, no content type found with key: ${key}`);
   }
 
-  const slots = await SlotModel.find({ allowedContentTypes: { $in: [contentType] } }).populate('allowedContentTypes');
+  const slots = await SlotModel.find({ allowedContentTypes: { $in: [contentType] } })
+    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
   log.verbose(LOG_PREFIX, JSON.stringify(slots));
   return slots;
 }
