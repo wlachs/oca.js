@@ -117,7 +117,7 @@ export const ContentMutation = {
         description: 'Unique key',
       },
       newKey: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'New key',
       },
       type: {
