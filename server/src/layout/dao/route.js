@@ -1,6 +1,10 @@
 import log from 'npmlog';
 import RouteModel from '../db/route';
 import ViewModel from '../db/view';
+import {
+  POPULATE_ROUTE_FULL, POPULATE_VIEW_FULL,
+} from '../db/populators';
+import validate from './validators/route_validator';
 
 const LOG_PREFIX = 'LAYOUT_DAO_ROUTE';
 
@@ -13,7 +17,10 @@ export async function addRoute(path, view) {
     throw new Error(`can't create route, route with path already exists: ${path}`);
   }
 
-  const existingView = await ViewModel.findOne({ key: view });
+  const existingView = await ViewModel
+    .findOne({ key: view })
+    .populate(POPULATE_VIEW_FULL);
+
   if (!existingView) {
     log.error(LOG_PREFIX, 'no view found with key:', view);
     throw new Error(`can't create route, no view type found with key: ${view}`);
@@ -23,6 +30,8 @@ export async function addRoute(path, view) {
   route.path = path;
   route.view = existingView;
 
+  validate(route);
+  log.verbose(LOG_PREFIX, JSON.stringify(route));
   return route.save();
 }
 
@@ -35,7 +44,10 @@ export async function updateRoute(path, newPath, view) {
     throw new Error(`can't update route, no route found with path: ${path}`);
   }
 
-  const existingView = await ViewModel.findOne({ key: view });
+  const existingView = await ViewModel
+    .findOne({ key: view })
+    .populate(POPULATE_VIEW_FULL);
+
   if (!existingView) {
     log.error(LOG_PREFIX, 'no view found with key:', view);
     throw new Error(`can't update route, no view found with key: ${view}`);
@@ -52,6 +64,8 @@ export async function updateRoute(path, newPath, view) {
 
   route.view = existingView;
 
+  validate(route);
+  log.verbose(LOG_PREFIX, JSON.stringify(route));
   return route.save();
 }
 
@@ -64,7 +78,12 @@ export async function removeRoute(path) {
     throw new Error(`can't delete route, no route found with path: ${path}`);
   }
 
-  return RouteModel.findOneAndDelete({ path });
+  const deleted = await RouteModel
+    .findOneAndDelete({ path })
+    .populate(POPULATE_ROUTE_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
 }
 
 export async function getRouteByPath(path) {
@@ -82,7 +101,12 @@ export async function getRouteByPath(path) {
 export async function getRouteList() {
   log.info(LOG_PREFIX, 'get route list');
 
-  return RouteModel.find();
+  const routes = await RouteModel
+    .find()
+    .populate(POPULATE_ROUTE_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(routes));
+  return routes;
 }
 
 export async function getRouteByView(key) {
@@ -94,5 +118,10 @@ export async function getRouteByView(key) {
     throw new Error(`can't get route, no view found with key: ${key}`);
   }
 
-  return RouteModel.find({ view });
+  const routes = await RouteModel
+    .find({ view })
+    .populate(POPULATE_ROUTE_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(routes));
+  return routes;
 }

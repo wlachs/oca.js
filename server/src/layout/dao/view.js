@@ -6,11 +6,8 @@ import ContentModel from '../db/content';
 import SlotModel from '../db/slot';
 import {
   POPULATE_ALLOWED_CONTENT_TYPES,
-  POPULATE_CONTENT_CONTENT_FULL,
-  POPULATE_CONTENT_SLOT_FULL,
   POPULATE_SLOTS_FULL,
-  POPULATE_TEMPLATE_FULL,
-  POPULATE_TYPE,
+  POPULATE_TYPE, POPULATE_VIEW_FULL,
 } from '../db/populators';
 
 const LOG_PREFIX = 'LAYOUT_DAO_VIEW';
@@ -74,7 +71,7 @@ export async function addView(key, template, content) {
   view.template = existingTemplate;
   view.content = await resolveSlotContentMapping(content);
 
-  await validate(view);
+  validate(view);
   log.verbose(LOG_PREFIX, JSON.stringify(view));
   return view.save();
 }
@@ -110,7 +107,7 @@ export async function updateView(key, newKey, template, content) {
   view.template = existingTemplate;
   view.content = await resolveSlotContentMapping(content);
 
-  await validate(view);
+  validate(view);
   return view.save();
 }
 
@@ -125,9 +122,7 @@ export async function removeView(key) {
 
   return ViewModel
     .findOneAndDelete({ key })
-    .populate(POPULATE_TEMPLATE_FULL)
-    .populate(POPULATE_CONTENT_SLOT_FULL)
-    .populate(POPULATE_CONTENT_CONTENT_FULL);
+    .populate(POPULATE_VIEW_FULL);
 }
 
 export async function getViewByKey(key) {
@@ -147,9 +142,7 @@ export async function getViewList() {
 
   const views = await ViewModel
     .find()
-    .populate(POPULATE_TEMPLATE_FULL)
-    .populate(POPULATE_CONTENT_SLOT_FULL)
-    .populate(POPULATE_CONTENT_CONTENT_FULL);
+    .populate(POPULATE_VIEW_FULL);
 
   log.verbose(LOG_PREFIX, JSON.stringify(views));
   return views;
@@ -166,7 +159,5 @@ export async function getViewByTemplate(key) {
 
   return ViewModel
     .find({ template })
-    .populate(POPULATE_TEMPLATE_FULL)
-    .populate(POPULATE_CONTENT_SLOT_FULL)
-    .populate(POPULATE_CONTENT_CONTENT_FULL);
+    .populate(POPULATE_VIEW_FULL);
 }
