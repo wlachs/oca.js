@@ -123,7 +123,11 @@ export async function removeView(key) {
     throw new Error(`can't delete view, no view found with key: ${key}`);
   }
 
-  return ViewModel.findOneAndDelete({ key });
+  return ViewModel
+    .findOneAndDelete({ key })
+    .populate(POPULATE_TEMPLATE_FULL)
+    .populate(POPULATE_CONTENT_SLOT_FULL)
+    .populate(POPULATE_CONTENT_CONTENT_FULL);
 }
 
 export async function getViewByKey(key) {
@@ -160,7 +164,8 @@ export async function getViewByTemplate(key) {
     throw new Error(`can't get view, no template found with key: ${key}`);
   }
 
-  return ViewModel.find({ template })
+  return ViewModel
+    .find({ template })
     .populate(POPULATE_TEMPLATE_FULL)
     .populate(POPULATE_CONTENT_SLOT_FULL)
     .populate(POPULATE_CONTENT_CONTENT_FULL);
