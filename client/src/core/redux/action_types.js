@@ -1,0 +1,4 @@
+export const SET_LOADING_STATE = 'CORE/SET_LOADING_STATE';
+export const INIT_START = 'CORE/INIT_START';
+export const INIT_SUCCESS = 'CORE/INIT_SUCCESS';
+export const INIT_ERROR = 'CORE/INIT_ERROR';
