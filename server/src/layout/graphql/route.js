@@ -5,6 +5,7 @@ import { View } from './view';
 import {
   addRoute, getRouteByPath, getRouteByView, getRouteList, removeRoute, updateRoute,
 } from '../dao/route';
+import { getDefaultRoute } from '../services/route';
 
 export const Route = new GraphQLObjectType({
   name: 'Route',
@@ -50,6 +51,12 @@ export const RouteQuery = {
       },
     },
     resolve: async (_, { key }) => getRouteByView(key),
+  },
+
+  defaultRoute: {
+    type: GraphQLNonNull(Route),
+    description: 'Get default application route',
+    resolve: async () => getDefaultRoute(),
   },
 };
 
