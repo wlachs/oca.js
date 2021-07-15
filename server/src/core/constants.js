@@ -15,3 +15,15 @@ export const ADMIN_USERNAME_DEFAULT = 'admin';
  * @type {string}
  */
 export const ADMIN_PASSWORD_DEFAULT = 'admin';
+
+/**
+ * Default application route key
+ * @type {string}
+ */
+export const DEFAULT_ROUTE_KEY = 'DEFAULT_ROUTE';
+
+/**
+ * Default application route
+ * @type {string}
+ */
+export const DEFAULT_ROUTE = '/';
