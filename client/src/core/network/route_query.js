@@ -9,21 +9,26 @@ async function routeQuery(path) {
     fields: [
       'path',
       {
-        view: [{
-          content: [
-            {
-              slot: ['key'],
-            },
-            {
-              content: [
-                'key',
-                {
-                  attributes: ['key', 'value'],
-                },
-              ],
-            },
-          ],
-        }],
+        view: [
+          {
+            content: [
+              {
+                slot: ['key'],
+              },
+              {
+                content: [
+                  'key',
+                  {
+                    attributes: ['key', 'value'],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            template: ['key'],
+          },
+        ],
       }],
   }));
 
