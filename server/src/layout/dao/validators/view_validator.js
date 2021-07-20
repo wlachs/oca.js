@@ -6,14 +6,14 @@ function validateSlotContentAssignment(slot, content) {
   log.verbose(LOG_PREFIX, 'validate slot->content assignment', JSON.stringify(slot), JSON.stringify(content));
 
   const { key, allowedContentTypes } = slot;
-  const assignment = content.find((contentAssignment) => contentAssignment.slot === key);
+  const assignment = content.find((contentAssignment) => contentAssignment.slot.key === key);
 
   if (!assignment) {
     log.error(LOG_PREFIX, 'no assigned content found for slot:', slot.key);
     return false;
   }
 
-  if (allowedContentTypes.indexOf(assignment.content.type) !== -1) {
+  if (allowedContentTypes.find((type) => type.key === assignment.content.type.key)) {
     log.verbose(LOG_PREFIX, 'valid slot->content association:', slot.key, assignment.content.key);
     return true;
   }
