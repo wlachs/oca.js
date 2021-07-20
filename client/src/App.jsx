@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 
 /* Redux imports */
 import { connect } from 'react-redux';
-import { init } from './core/redux/actions';
-import { getDefaultRoute } from './layout/redux/actions';
+import { getDefaultRoute, init } from './core/redux/actions';
 
 /* Component imports */
-import FullLoadingPage from './core/views/FullLoadingPage';
+import FullLoadingPage from './core/containers/FullLoadingPage';
 import Routing from './routing';
 
 function App({ loading, init_, getDefaultRoute_ }) {

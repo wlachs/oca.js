@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 
 /* Custom imports */
-import RouteRenderer from './layout/components/RouteRenderer';
+import RouteRenderer from './core/containers/RouteRenderer';
 
 function Routing() {
   return (

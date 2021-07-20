@@ -1,10 +1,13 @@
 /* React imports */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-/* Custom imports */
+/* Redux imports */
+import { connect } from 'react-redux';
 import { getRoute } from '../redux/actions';
+
+/* Custom containers */
+import FullLoadingPage from './FullLoadingPage';
 
 function RouteRenderer({ route, path, getRoute_ }) {
   useEffect(() => {
@@ -12,6 +15,11 @@ function RouteRenderer({ route, path, getRoute_ }) {
       getRoute_(path);
     }
   }, [path]);
+
+  if (!route) {
+    return <FullLoadingPage />;
+  }
+
   return (
     <div>
       {JSON.stringify(route)}
@@ -33,8 +41,8 @@ RouteRenderer.defaultProps = {
 
 function mapStateToProps(state) {
   return {
-    route: state.layout.route,
-    path: state.layout.path,
+    route: state.core.route,
+    path: state.core.path,
   };
 }
 
