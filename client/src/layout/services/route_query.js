@@ -5,13 +5,20 @@ import { query } from 'gql-query-builder';
 async function routeQuery(path) {
   const response = await axios.post('http://localhost:4000/api', query({
     operation: 'route',
-    variables: { path },
+    variables: { path: { value: path, required: true } },
     fields: [{
       view: [{
         content: [
-          'key',
           {
-            attributes: ['key', 'value'],
+            slot: ['key'],
+          },
+          {
+            content: [
+              'key',
+              {
+                attributes: ['key', 'value'],
+              },
+            ],
           },
         ],
       }],

@@ -3,14 +3,14 @@ import {
 } from './action_types';
 import routeQuery from '../services/route_query';
 
-export function getRoute() {
+export function getRoute(path) {
   return (dispatch) => {
     /* Start route query */
     dispatch({
       type: ROUTE_QUERY_START,
     });
 
-    routeQuery()
+    routeQuery(path)
       /* Route query successful */
       .then((value) => dispatch({
         type: ROUTE_QUERY_SUCCESS,
