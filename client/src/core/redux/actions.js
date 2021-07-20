@@ -2,8 +2,6 @@ import {
   DEFAULT_ROUTE_QUERY_ERROR,
   DEFAULT_ROUTE_QUERY_START,
   DEFAULT_ROUTE_QUERY_SUCCESS,
-  INIT_START,
-  INIT_SUCCESS,
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
@@ -18,20 +16,6 @@ export function setLoadingState(state) {
     type: SET_LOADING_STATE,
     value: state,
   });
-}
-
-export function init() {
-  return (dispatch) => {
-    /* Start initialization */
-    dispatch({
-      type: INIT_START,
-    });
-
-    /* Finish initialization */
-    dispatch({
-      type: INIT_SUCCESS,
-    });
-  };
 }
 
 export function getDefaultRoute() {

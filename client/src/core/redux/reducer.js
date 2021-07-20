@@ -2,9 +2,6 @@ import {
   DEFAULT_ROUTE_QUERY_ERROR,
   DEFAULT_ROUTE_QUERY_START,
   DEFAULT_ROUTE_QUERY_SUCCESS,
-  INIT_ERROR,
-  INIT_START,
-  INIT_SUCCESS,
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
@@ -25,26 +22,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: action.value,
-      };
-
-    case INIT_START:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
-
-    case INIT_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-      };
-
-    case INIT_ERROR:
-      return {
-        ...state,
-        loading: false,
-        error: action.value,
       };
 
     case DEFAULT_ROUTE_QUERY_START:
