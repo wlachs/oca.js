@@ -89,7 +89,10 @@ export async function removeRoute(path) {
 export async function getRouteByPath(path) {
   log.info(LOG_PREFIX, 'get route by path:', path);
 
-  const route = await RouteModel.findOne({ path });
+  const route = await RouteModel
+    .findOne({ path })
+    .populate(POPULATE_ROUTE_FULL);
+
   if (!route) {
     log.error(LOG_PREFIX, 'no route found with path:', path);
     throw new Error(`can't get route, no route found with path: ${path}`);
