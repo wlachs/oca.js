@@ -5,15 +5,17 @@ import PropTypes from 'prop-types';
 /* Redux imports */
 import { connect } from 'react-redux';
 import { init } from './core/redux/actions';
+import { getDefaultRoute } from './layout/redux/actions';
 
 /* Component imports */
 import FullLoadingPage from './core/views/FullLoadingPage';
 import Routing from './routing';
 
-function App({ loading, init_ }) {
+function App({ loading, init_, getDefaultRoute_ }) {
   /* TODO: error message handling, preferably as high in the stack as possible */
   useEffect(() => {
     init_();
+    getDefaultRoute_();
   }, []);
 
   if (loading) {
@@ -29,11 +31,13 @@ function App({ loading, init_ }) {
 App.propTypes = {
   loading: PropTypes.bool,
   init_: PropTypes.func,
+  getDefaultRoute_: PropTypes.func,
 };
 
 App.defaultProps = {
   loading: true,
   init_: null,
+  getDefaultRoute_: null,
 };
 
 function mapStateToProps(state) {
@@ -44,6 +48,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   init_: init,
+  getDefaultRoute_: getDefaultRoute,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

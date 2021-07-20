@@ -8,7 +8,7 @@ import { getRoute } from '../redux/actions';
 
 function RouteRenderer({ route, path, getRoute_ }) {
   useEffect(() => {
-    if (path) {
+    if (route && path && route.path !== path) {
       getRoute_(path);
     }
   }, [path]);
@@ -34,7 +34,7 @@ RouteRenderer.defaultProps = {
 function mapStateToProps(state) {
   return {
     route: state.layout.route,
-    path: state.layout.path || state.core.defaultRoute,
+    path: state.layout.path,
   };
 }
 

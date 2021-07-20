@@ -5,7 +5,6 @@ import {
 const INITIAL_STATE = {
   loading: null,
   error: null,
-  defaultRoute: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,7 +26,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        defaultRoute: action.value,
       };
 
     case INIT_ERROR:

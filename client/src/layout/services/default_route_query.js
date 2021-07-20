@@ -2,10 +2,9 @@ import axios from 'axios';
 import { query } from 'gql-query-builder';
 
 /* TODO: replace API URL */
-async function routeQuery(path) {
+async function defaultRouteQuery() {
   const response = await axios.post('http://localhost:4000/api', query({
-    operation: 'route',
-    variables: { path: { value: path, required: true } },
+    operation: 'defaultRoute',
     fields: [
       'path',
       {
@@ -27,7 +26,7 @@ async function routeQuery(path) {
       }],
   }));
 
-  return response.data.data.route;
+  return response.data.data.defaultRoute;
 }
 
-export default routeQuery;
+export default defaultRouteQuery;
