@@ -8,7 +8,7 @@ import { getRoute } from '../redux/actions';
 
 /* Custom containers */
 import FullLoadingPage from './FullLoadingPage';
-import TemplatePopulator from '../components/TemplatePopulator';
+import Template from './Template';
 
 function RouteRenderer({ route, path, getRoute_ }) {
   useEffect(() => {
@@ -22,7 +22,7 @@ function RouteRenderer({ route, path, getRoute_ }) {
   }
 
   return (
-    <TemplatePopulator template={route.view.template.key} content={route.view.content} />
+    <Template />
   );
 }
 
