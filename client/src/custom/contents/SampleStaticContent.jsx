@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SampleContent1() {
+function SampleStaticContent() {
   return (
     <div>
       Sample Content 1
@@ -8,4 +8,4 @@ function SampleContent1() {
   );
 }
 
-export default SampleContent1;
+export default SampleStaticContent;

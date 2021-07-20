@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /* Custom imports */
-import GetTemplate from '../../custom/config/templates';
+import getTemplate from '../../custom/config/templates';
 
 function Template({ template }) {
+  const T = getTemplate(template);
   return (
-    <GetTemplate templateKey={template} />
+    <T />
   );
 }
 

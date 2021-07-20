@@ -6,14 +6,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /* Custom imports */
-import GetContent from '../../custom/config/contents';
+import getContent from '../../custom/config/contents';
 
 function Slot({ slotKey, content, className }) {
-  const contentKey = content.find((c) => c.slot.key === slotKey).content.key;
+  const contentSlot = content.find((c) => c.slot.key === slotKey);
+  const contentKey = contentSlot.content.key;
+  const contentAttributes = contentSlot.content.attributes;
+  const Content = getContent(contentKey);
 
   return (
     <div className={className}>
-      <GetContent contentKey={contentKey} />
+      <Content attributes={contentAttributes} />
     </div>
   );
 }
