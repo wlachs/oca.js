@@ -7,10 +7,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 // App imports
 import core from '../core/redux/reducer';
+import layout from '../layout/redux/reducer';
 
 // App reducer
 const appReducer = combineReducers({
   core,
+  layout,
 });
 
 // Root reducer

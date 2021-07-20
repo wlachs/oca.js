@@ -1,40 +1,41 @@
 import {
-  INIT_ERROR, INIT_START, INIT_SUCCESS, SET_LOADING_STATE,
+  ROUTE_QUERY_ERROR, ROUTE_QUERY_START, ROUTE_QUERY_SUCCESS, SET_PATH,
 } from './action_types';
 
 const INITIAL_STATE = {
   loading: null,
   error: null,
-  defaultRoute: null,
+  route: null,
+  path: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_LOADING_STATE:
-      return {
-        ...state,
-        loading: action.value,
-      };
-
-    case INIT_START:
+    case ROUTE_QUERY_START:
       return {
         ...state,
         loading: true,
         error: null,
       };
 
-    case INIT_SUCCESS:
+    case ROUTE_QUERY_SUCCESS:
       return {
         ...state,
         loading: false,
-        defaultRoute: action.value,
+        route: action.value,
       };
 
-    case INIT_ERROR:
+    case ROUTE_QUERY_ERROR:
       return {
         ...state,
         loading: false,
         error: action.value,
+      };
+
+    case SET_PATH:
+      return {
+        ...state,
+        path: action.value,
       };
 
     default:

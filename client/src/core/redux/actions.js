@@ -1,7 +1,7 @@
 import {
   INIT_ERROR, INIT_START, INIT_SUCCESS, SET_LOADING_STATE,
 } from './action_types';
-import initialize from '../services/init';
+import initialize from '../services/initialize';
 
 export function setLoadingState(state) {
   return (dispatch) => dispatch({
