@@ -1,0 +1,6 @@
+mutation {
+    defaultRoute: addApplicationProperty(key: "DEFAULT_ROUTE", value: "/") {
+        key
+        value
+    }
+}
