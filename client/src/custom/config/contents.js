@@ -1,21 +1,21 @@
 /* Custom imports */
-import SampleStaticContent from '../contents/SampleStaticContent';
-import SampleDynamicContent from '../contents/SampleDynamicContent';
+import MissingContent from '../content/MissingContent';
 
-const content = [
+const CONTENT_MAP = [
   {
-    key: 'SAMPLE_CONTENT_1',
-    content: SampleStaticContent,
-  },
-  {
-    key: 'SAMPLE_CONTENT_2',
-    content: SampleDynamicContent,
+    key: 'MISSING_CONTENT',
+    content: MissingContent,
   },
 ];
 
 function getContent(key) {
-  /* FIXME: handle if content is not found */
-  return content.find((c) => c.key === key).content;
+  const content = CONTENT_MAP.find((c) => c.key === key);
+
+  if (!content) {
+    return MissingContent;
+  }
+
+  return content;
 }
 
 export default getContent;
