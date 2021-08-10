@@ -9,13 +9,13 @@ const CONTENT_MAP = [
 ];
 
 function getContent(key) {
-  const content = CONTENT_MAP.find((c) => c.key === key);
+  const contentAssociation = CONTENT_MAP.find((c) => c.key === key);
 
-  if (!content) {
+  if (!contentAssociation) {
     return MissingContent;
   }
 
-  return content;
+  return contentAssociation.content;
 }
 
 export default getContent;

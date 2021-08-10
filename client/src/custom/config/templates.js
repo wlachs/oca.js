@@ -1,15 +1,31 @@
 /* Custom imports */
-import Sample from '../templates/Sample';
+import SimplePage from '../templates/SimplePage';
+import SidebarPage from '../templates/SidebarPage';
+import MissingPage from '../templates/MissingPage';
 
-const template = [
+const TEMPLATE_MAP = [
   {
-    key: 'SAMPLE_TEMPLATE',
-    content: Sample,
+    key: 'SIMPLE_PAGE_TEMPLATE',
+    content: SimplePage,
+  },
+  {
+    key: 'PAGE_SIDEBAR_TEMPLATE',
+    content: SidebarPage,
+  },
+  {
+    key: 'MISSING_TEMPLATE',
+    content: MissingPage,
   },
 ];
 
 function getTemplate(key) {
-  return template.find((t) => t.key === key).content;
+  const template = TEMPLATE_MAP.find((t) => t.key === key);
+
+  if (!template) {
+    return MissingPage;
+  }
+
+  return template.content;
 }
 
 export default getTemplate;
