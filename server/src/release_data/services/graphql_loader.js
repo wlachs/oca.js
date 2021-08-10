@@ -15,14 +15,20 @@ async function loadFiles(path, recursive) {
   const files = fs.readdirSync(path);
 
   if (recursive) {
-    files
-      .forEach((subDirectory) => loadFiles(`${cleanPath}/${subDirectory}`, false));
+    for (const directory of files) {
+      await loadFiles(`${cleanPath}/${directory}`, false);
+    }
   } else {
-    const promises = files
-      .filter((file) => file.match(/^.+\.graphql$/))
-      .map((file) => executeFile(fs.readFileSync(`${cleanPath}/${file}`, 'utf-8')));
+    const env = fs.readFileSync(`${cleanPath}/env.json`, 'utf-8');
+    const envObject = JSON.parse(env);
+    if (!envObject.run) {
+      return;
+    }
 
-    await Promise.all(promises);
+    const gqlFiles = files.filter((file) => file.match(/^.+\.graphql$/));
+    for (const file of gqlFiles) {
+      await executeFile(fs.readFileSync(`${cleanPath}/${file}`, 'utf-8'));
+    }
   }
 }
 
