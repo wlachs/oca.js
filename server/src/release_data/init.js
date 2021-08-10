@@ -14,4 +14,8 @@ const LOG_PREFIX = 'RELEASE_DATA_INIT';
 log.info(LOG_PREFIX, 'start initialisation');
 initDB()
   .then(wipeDB)
+  .then(() => {
+    log.info(LOG_PREFIX, 'initialisation successful');
+    process.exit();
+  })
   .catch((err) => log.error(LOG_PREFIX, JSON.stringify(err)));
