@@ -161,3 +161,14 @@ export async function getViewByTemplate(key) {
     .find({ template })
     .populate(POPULATE_VIEW_FULL);
 }
+
+export async function removeViews() {
+  log.info(LOG_PREFIX, 'delete views');
+
+  const deleted = await ViewModel
+    .deleteMany()
+    .populate(POPULATE_VIEW_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}

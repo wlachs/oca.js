@@ -109,3 +109,14 @@ export async function getTemplateBySlot(key) {
   log.verbose(LOG_PREFIX, JSON.stringify(templates));
   return templates;
 }
+
+export async function removeTemplates() {
+  log.info(LOG_PREFIX, 'delete templates');
+
+  const deleted = await TemplateModel
+    .deleteMany()
+    .populate(POPULATE_SLOTS_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}

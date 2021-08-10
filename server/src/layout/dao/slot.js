@@ -108,3 +108,14 @@ export async function getSlotListForContentType(key) {
   log.verbose(LOG_PREFIX, JSON.stringify(slots));
   return slots;
 }
+
+export async function removeSlots() {
+  log.info(LOG_PREFIX, 'delete slots');
+
+  const deleted = await SlotModel
+    .deleteMany()
+    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}
