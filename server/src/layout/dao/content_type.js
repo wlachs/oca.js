@@ -60,3 +60,11 @@ export async function getContentTypeList() {
 
   return ContentTypeModel.find();
 }
+
+export async function removeContentTypes() {
+  log.info(LOG_PREFIX, 'remove content types');
+
+  const deleted = await ContentTypeModel.deleteMany();
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}

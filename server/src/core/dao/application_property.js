@@ -82,3 +82,11 @@ export async function getApplicationPropertyList() {
   log.verbose(LOG_PREFIX, JSON.stringify(applicationProperties));
   return applicationProperties;
 }
+
+export async function removeApplicationProperties() {
+  log.info(LOG_PREFIX, 'remove application properties');
+
+  const deleted = await ApplicationPropertyModel.deleteMany();
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}

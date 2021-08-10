@@ -128,3 +128,14 @@ export async function getRouteByView(key) {
   log.verbose(LOG_PREFIX, JSON.stringify(routes));
   return routes;
 }
+
+export async function removeRoutes() {
+  log.info(LOG_PREFIX, 'delete routes');
+
+  const deleted = await RouteModel
+    .deleteMany()
+    .populate(POPULATE_ROUTE_FULL);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}

@@ -4,6 +4,7 @@ import { graphqlHTTP } from 'express-graphql';
 import getConfig from './config';
 
 /* Queries and mutations */
+import { ApplicationPropertyMutation, ApplicationPropertyQuery } from './core/graphql/application_property';
 import { ContentTypeMutation, ContentTypeQuery } from './layout/graphql/content_type';
 import { SlotMutation, SlotQuery } from './layout/graphql/slot';
 import { ContentMutation, ContentQuery } from './layout/graphql/content';
@@ -24,6 +25,7 @@ const AdminQueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'Admin query type',
   fields: {
+    ...ApplicationPropertyQuery,
     ...ContentTypeQuery,
     ...SlotQuery,
     ...ContentQuery,
@@ -37,6 +39,7 @@ const AdminMutationType = new GraphQLObjectType({
   name: 'Mutation',
   description: 'Admin mutation type',
   fields: {
+    ...ApplicationPropertyMutation,
     ...ContentTypeMutation,
     ...SlotMutation,
     ...ContentMutation,
@@ -53,7 +56,7 @@ const querySchema = new GraphQLSchema({
   query: GuestQueryType,
 });
 
-const adminSchema = new GraphQLSchema({
+export const adminSchema = new GraphQLSchema({
   query: AdminQueryType,
   mutation: AdminMutationType,
 });

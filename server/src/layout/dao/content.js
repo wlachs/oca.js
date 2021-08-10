@@ -108,3 +108,11 @@ export async function getContentByType(key) {
   log.verbose(LOG_PREFIX, JSON.stringify(contents));
   return contents;
 }
+
+export async function removeAllContent() {
+  log.info(LOG_PREFIX, 'remove all content');
+
+  const deleted = await ContentModel.deleteMany().populate(POPULATE_TYPE);
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  return deleted;
+}
