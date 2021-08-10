@@ -6,13 +6,14 @@
 
 import log from 'npmlog';
 import initDB from '../core/db';
-import loadFiles, { UPDATE_MODE } from './services/graphql_loader';
+import loadFiles from './services/graphql_loader';
 
 const LOG_PREFIX = 'RELEASE_DATA_UPDATE';
+const IMPORT_DIR = `${__dirname}/resources/update_data/`;
 
 log.info(LOG_PREFIX, 'start update');
 initDB()
-  .then(() => loadFiles(UPDATE_MODE))
+  .then(() => loadFiles(IMPORT_DIR, true))
   .then(() => {
     log.info(LOG_PREFIX, 'update successful');
     process.exit();

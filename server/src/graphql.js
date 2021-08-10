@@ -56,7 +56,7 @@ const querySchema = new GraphQLSchema({
   query: GuestQueryType,
 });
 
-const adminSchema = new GraphQLSchema({
+export const adminSchema = new GraphQLSchema({
   query: AdminQueryType,
   mutation: AdminMutationType,
 });
