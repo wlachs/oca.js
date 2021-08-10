@@ -7,10 +7,10 @@ import Slot from '../../../core/containers/Slot';
 
 function SimplePage() {
   return (
-    <div className="container">
-      <Slot slotKey="HEADER_CONTENT_SLOT" />
+    <div className="container-fluid" id="SimplePage-Template">
+      <Slot slotKey="TOP_BAR_SLOT" />
+      <Slot slotKey="PAGE_HEADER_SLOT" />
       <Slot slotKey="MAIN_CONTENT_SLOT" />
-      <Slot slotKey="FOOTER_CONTENT_SLOT" />
     </div>
   );
 }
