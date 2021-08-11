@@ -18,7 +18,9 @@ async function routeQuery(path) {
               {
                 content: [
                   'key',
-                  'type',
+                  {
+                    type: ['key'],
+                  },
                   {
                     attributes: ['key', 'value'],
                   },
