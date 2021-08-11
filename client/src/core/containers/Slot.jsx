@@ -16,9 +16,7 @@ function Slot({ slotKey, content, className }) {
   const Content = getContent(contentKey, contentType);
 
   return (
-    <div className={className}>
-      <Content attributes={contentAttributes} />
-    </div>
+    <Content className={className} attributes={contentAttributes} />
   );
 }
 
