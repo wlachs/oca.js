@@ -11,8 +11,9 @@ import getContent from '../../custom/config/contents';
 function Slot({ slotKey, content, className }) {
   const contentSlot = content.find((c) => c.slot.key === slotKey);
   const contentKey = contentSlot.content.key;
+  const contentType = contentSlot.content.type;
   const contentAttributes = contentSlot.content.attributes;
-  const Content = getContent(contentKey);
+  const Content = getContent(contentKey, contentType);
 
   return (
     <div className={className}>
