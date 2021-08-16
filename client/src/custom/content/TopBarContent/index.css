@@ -1,4 +1,4 @@
-@import '../../config/global.css';
+@import '../../../core/config/global.css';
 
 .navbar-logo {
     margin: .6rem 0;

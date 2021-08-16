@@ -1,7 +1,7 @@
 /* React imports */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import { Col, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import './index.css';
 
 /* Custom components */
@@ -10,21 +10,15 @@ import Slot from '../../../core/containers/Slot';
 function SimplePage() {
   return (
     <Container fluid className="m-0 p-0 min-vh-100 py-4 d-flex flex-column">
-      <Row>
-        <Col xs={12}>
-          <Slot slotKey="TOP_BAR_SLOT" />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12}>
-          <Slot slotKey="PAGE_HEADER_SLOT" />
-        </Col>
-      </Row>
-      <Row className="d-flex flex-grow-1 align-items-center">
-        <Col xs={12}>
-          <Slot slotKey="MAIN_CONTENT_SLOT" />
-        </Col>
-      </Row>
+      <Col xs={12}>
+        <Slot slotKey="TOP_BAR_SLOT" />
+      </Col>
+      <Col xs={12}>
+        <Slot slotKey="PAGE_HEADER_SLOT" />
+      </Col>
+      <Col xs={12} className="d-flex flex-grow-1">
+        <Slot slotKey="MAIN_CONTENT_SLOT" />
+      </Col>
     </Container>
   );
 }
