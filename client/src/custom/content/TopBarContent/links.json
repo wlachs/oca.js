@@ -1,0 +1,12 @@
+{
+  "links": [
+    {
+      "text": "Contact",
+      "link": "/contact"
+    },
+    {
+      "text": "Projects",
+      "link": "/projects"
+    }
+  ]
+}
