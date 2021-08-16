@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import './index.css';
 import { Col, SafeAnchor } from 'react-bootstrap';
 import MissingContent from '../MissingContent';
-import PureButton from '../../../core/components/PureButton';
+import PureButton from '../../components/PureButton';
 
 const EMAIL_ENTRY_KEY = 'email';
 
