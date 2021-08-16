@@ -9,7 +9,7 @@ import Slot from '../../../core/containers/Slot';
 
 function SimplePage() {
   return (
-    <Container fluid className="m-0 p-0 min-vh-100 py-4">
+    <Container fluid className="m-0 p-0 min-vh-100 py-4 d-flex flex-column">
       <Row>
         <Col xs={12}>
           <Slot slotKey="TOP_BAR_SLOT" />
@@ -20,7 +20,7 @@ function SimplePage() {
           <Slot slotKey="PAGE_HEADER_SLOT" />
         </Col>
       </Row>
-      <Row>
+      <Row className="d-flex flex-grow-1 align-items-center">
         <Col xs={12}>
           <Slot slotKey="MAIN_CONTENT_SLOT" />
         </Col>
