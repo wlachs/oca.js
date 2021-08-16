@@ -11,13 +11,13 @@ mutation {
     projectListContent: addContent(key: "PROJECT_LIST_CONTENT", type: "MAIN_CONTENT_TYPE") {
         key
     }
-    homeHeaderTextContent: addContent(key: "HOME_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Laszlo Borbely"}, {key: "text", value: "Software Systems Engineering M.Sc."}]) {
+    homeHeaderTextContent: addContent(key: "HOME_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "h1", value: "Laszlo Borbely"}, {key: "h2", value: "Software Systems Engineering M.Sc."}]) {
         key
     }
-    contactHeaderTextContent: addContent(key: "CONTACT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Thanks for reaching out to me!"}]) {
+    contactHeaderTextContent: addContent(key: "CONTACT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "h1", value: "Thanks for reaching out to me!"}]) {
         key
     }
-    projectHeaderTextContent: addContent(key: "PROJECT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Projects and contributions"}]) {
+    projectHeaderTextContent: addContent(key: "PROJECT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "h1", value: "Projects and contributions"}]) {
         key
     }
 }
