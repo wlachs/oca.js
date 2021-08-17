@@ -5,15 +5,24 @@ import PropTypes from 'prop-types';
 /* Custom imports */
 import './index.css';
 import { NavLink } from 'react-router-dom';
+import { SafeAnchor } from 'react-bootstrap';
 
-function PureButton(props) {
-  const { to, children, onClick } = props;
-
+function PureButton({
+  to, children, onClick, link,
+}) {
   if (to) {
     return (
       <NavLink to={to} className="button-link link" onClick={onClick}>
         {children}
       </NavLink>
+    );
+  }
+
+  if (link) {
+    return (
+      <SafeAnchor type="button" className="button-link link" href={link}>
+        {children}
+      </SafeAnchor>
     );
   }
 
@@ -26,6 +35,7 @@ function PureButton(props) {
 
 PureButton.propTypes = {
   to: PropTypes.string,
+  link: PropTypes.string,
   children: PropTypes.oneOfType(
     [PropTypes.string, PropTypes.object, PropTypes.element],
   ).isRequired,
@@ -34,6 +44,7 @@ PureButton.propTypes = {
 
 PureButton.defaultProps = {
   to: null,
+  link: null,
   onClick: null,
 };
 

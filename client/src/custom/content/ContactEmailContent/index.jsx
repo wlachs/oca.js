@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 /* Custom imports */
 import './index.css';
-import { Col, SafeAnchor } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import MissingContent from '../MissingContent';
 import PureButton from '../../components/PureButton';
 
@@ -17,10 +17,8 @@ function ContactEmailContent({ attributes }) {
   }
 
   return (
-    <Col xs={12} className="d-flex justify-content-center my-3">
-      <SafeAnchor href={`mailto:${emailEntry.value}`}>
-        <PureButton>{emailEntry.value}</PureButton>
-      </SafeAnchor>
+    <Col xs={12} className="my-3 d-flex flex-column align-items-center">
+      <PureButton link={`mailto:${emailEntry.value}`}>{emailEntry.value}</PureButton>
     </Col>
   );
 }
