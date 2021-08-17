@@ -6,7 +6,6 @@ import initRoutes from './routes';
 
 /* Module imports */
 import core from './core';
-import layout from './layout';
 
 const LOG_PREFIX = 'CORE_INIT';
 
@@ -15,11 +14,6 @@ async function loadModules() {
 
   /* Always load core first */
   await core();
-
-  /* Then the rest */
-  return Promise.all([
-    layout(),
-  ]);
 }
 
 async function start() {
