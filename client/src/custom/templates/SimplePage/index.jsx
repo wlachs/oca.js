@@ -16,7 +16,7 @@ function SimplePage() {
       <Col xs={12}>
         <Slot slotKey="PAGE_HEADER_SLOT" />
       </Col>
-      <Col xs={12} className="d-flex flex-column flex-grow-1">
+      <Col xs={12} className="d-flex flex-column flex-grow-1 my-3">
         <Slot slotKey="MAIN_CONTENT_SLOT" />
       </Col>
     </Container>

@@ -17,7 +17,7 @@ function ContactEmailContent({ attributes }) {
   }
 
   return (
-    <Col xs={12} className="my-3 d-flex flex-column align-items-center">
+    <Col xs={12} className="d-flex flex-column align-items-center">
       <PureButton link={`mailto:${emailEntry.value}`}>{emailEntry.value}</PureButton>
     </Col>
   );
