@@ -54,6 +54,10 @@ export const View = new GraphQLObjectType({
       type: GraphQLList(SlotContentOutputPair),
       description: 'List of slot->content associations',
     },
+    pageTitle: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'Page title to show in the client',
+    },
   },
 });
 
@@ -106,8 +110,14 @@ export const ViewMutation = {
         type: GraphQLList(SlotContentInputPair),
         description: 'Slot->Content key associations',
       },
+      pageTitle: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Page title to show in the client',
+      },
     },
-    resolve: async (_, { key, template, content }) => addView(key, template, content),
+    resolve: async (_, {
+      key, template, content, pageTitle,
+    }) => addView(key, template, content, pageTitle),
   },
 
   updateView: {
@@ -130,10 +140,14 @@ export const ViewMutation = {
         type: GraphQLList(SlotContentInputPair),
         description: 'Slot->Content key associations',
       },
+      pageTitle: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Page title to show in the client',
+      },
     },
     resolve: async (_, {
-      key, newKey, template, content,
-    }) => updateView(key, newKey, template, content),
+      key, newKey, template, content, pageTitle,
+    }) => updateView(key, newKey, template, content, pageTitle),
   },
 
   removeView: {

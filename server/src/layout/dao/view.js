@@ -2,53 +2,12 @@ import log from 'npmlog';
 import validate from './validators/view_validator';
 import ViewModel from '../db/view';
 import TemplateModel from '../db/template';
-import ContentModel from '../db/content';
-import SlotModel from '../db/slot';
-import {
-  POPULATE_ALLOWED_CONTENT_TYPES,
-  POPULATE_SLOTS_FULL,
-  POPULATE_TYPE, POPULATE_VIEW_FULL,
-} from '../db/populators';
+import { POPULATE_SLOTS_FULL, POPULATE_VIEW_FULL } from '../db/populators';
+import resolveSlotContentMapping from './utils/slot_content_mapping_resolver';
 
 const LOG_PREFIX = 'LAYOUT_DAO_VIEW';
 
-async function resolveSlotContentMapping(mapping) {
-  log.info(LOG_PREFIX, 'resolve slot->content mapping for:', JSON.stringify(mapping));
-
-  const slotKeys = mapping.map((pair) => pair.slot);
-  const slots = await Promise.all(slotKeys.map(
-    (key) => SlotModel
-      .findOne({ key })
-      .populate(POPULATE_ALLOWED_CONTENT_TYPES),
-  ));
-
-  if (slots.length !== slotKeys.length) {
-    log.error(LOG_PREFIX, 'invalid slot key in list:', slotKeys);
-    throw new Error(`can't resolve slot->content mapping, invalid slot key in list: ${slotKeys}`);
-  }
-
-  const contentKeys = mapping.map((pair) => pair.content);
-  const content = await Promise.all(contentKeys.map(
-    (key) => ContentModel
-      .findOne({ key })
-      .populate(POPULATE_TYPE),
-  ));
-
-  if (content.length !== contentKeys.length) {
-    log.error(LOG_PREFIX, 'invalid content key in list:', contentKeys);
-    throw new Error(`can't resolve slot->content mapping, invalid content key in list: ${contentKeys}`);
-  }
-
-  const mappedContent = slots.map((slot, id) => ({
-    slot,
-    content: content[id],
-  }));
-
-  log.verbose(LOG_PREFIX, JSON.stringify(mappedContent));
-  return mappedContent;
-}
-
-export async function addView(key, template, content) {
+export async function addView(key, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'add view:', key, template, JSON.stringify(content));
 
   const existingView = await ViewModel.findOne({ key });
@@ -70,13 +29,14 @@ export async function addView(key, template, content) {
   view.key = key;
   view.template = existingTemplate;
   view.content = await resolveSlotContentMapping(content);
+  view.pageTitle = pageTitle;
 
   validate(view);
   log.verbose(LOG_PREFIX, JSON.stringify(view));
   return view.save();
 }
 
-export async function updateView(key, newKey, template, content) {
+export async function updateView(key, newKey, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'update view:', key, newKey, template, JSON.stringify(content));
 
   const view = await ViewModel.findOne({ key });
@@ -106,6 +66,7 @@ export async function updateView(key, newKey, template, content) {
 
   view.template = existingTemplate;
   view.content = await resolveSlotContentMapping(content);
+  view.pageTitle = pageTitle;
 
   validate(view);
   return view.save();
