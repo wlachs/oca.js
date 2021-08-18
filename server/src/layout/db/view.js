@@ -12,6 +12,7 @@ const viewSchema = new Schema({
       content: { type: Schema.Types.ObjectId, ref: 'Content', required: true },
     },
   ],
+  pageTitle: { type: Schema.Types.String, required: true },
 });
 
 export default model('View', viewSchema);
