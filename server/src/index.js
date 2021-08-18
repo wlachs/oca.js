@@ -6,6 +6,7 @@ import initRoutes from './routes';
 
 /* Module imports */
 import core from './core';
+import releaseData from './release_data';
 
 const LOG_PREFIX = 'CORE_INIT';
 
@@ -14,6 +15,9 @@ async function loadModules() {
 
   /* Always load core first */
   await core();
+
+  /* Then the rest */
+  await releaseData();
 }
 
 async function start() {

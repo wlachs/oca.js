@@ -1,6 +1,13 @@
 mutation {
-    defaultRoute: addApplicationProperty(key: "DEFAULT_ROUTE", value: "/") {
-        key
-        value
-    }
+    requestInitialization: addApplicationProperty(
+         key: "REQUEST_INITIALIZATION",
+         value: "false"
+     )
+     { key }
+
+    defaultRoute: addApplicationProperty(
+        key: "DEFAULT_ROUTE",
+        value: "/"
+    )
+    { key }
 }
