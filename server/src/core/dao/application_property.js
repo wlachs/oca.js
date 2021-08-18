@@ -58,8 +58,21 @@ export async function removeApplicationProperty(key) {
   return deleted;
 }
 
-export async function getApplicationPropertyByKey(key, fallback) {
-  log.info(LOG_PREFIX, 'get applicationProperty by key:', key, fallback);
+export async function getApplicationPropertyByKey(key) {
+  log.info(LOG_PREFIX, 'get applicationProperty by key:', key);
+
+  const applicationProperty = await ApplicationPropertyModel.findOne({ key });
+  if (!applicationProperty) {
+    log.error(LOG_PREFIX, 'no application property found with key:', key);
+    throw new Error(`can't get application property, no application property found with key: ${key}`);
+  }
+
+  log.verbose(LOG_PREFIX, JSON.stringify(applicationProperty));
+  return applicationProperty;
+}
+
+export async function getApplicationPropertyValue(key, fallback) {
+  log.info(LOG_PREFIX, 'get applicationProperty value with fallback:', key, fallback);
 
   const applicationProperty = await ApplicationPropertyModel.findOne({ key });
   if (!applicationProperty) {
@@ -72,7 +85,7 @@ export async function getApplicationPropertyByKey(key, fallback) {
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(applicationProperty));
-  return applicationProperty;
+  return applicationProperty.value;
 }
 
 export async function getApplicationPropertyList() {
