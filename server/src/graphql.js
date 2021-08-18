@@ -12,6 +12,7 @@ import { TemplateMutation, TemplateQuery } from './layout/graphql/template';
 import { ViewMutation, ViewQuery } from './layout/graphql/view';
 import { RouteMutation, RouteQuery } from './layout/graphql/route';
 import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
+import { conditionalMW } from './utils/express-utils';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -54,7 +55,7 @@ const AdminMutationType = new GraphQLObjectType({
 });
 
 const router = new Router();
-const { graphiql } = getConfig();
+const { graphiql, auth } = getConfig();
 
 const querySchema = new GraphQLSchema({
   query: GuestQueryType,
@@ -66,10 +67,12 @@ export const adminSchema = new GraphQLSchema({
 });
 
 router.use('/admin',
-  graphqlHTTP({
-    graphiql,
-    schema: adminSchema,
-  }));
+  /* TODO: fix this in #12 with proper authentication */
+  conditionalMW(!auth.enabled,
+    graphqlHTTP({
+      graphiql,
+      schema: adminSchema,
+    })));
 
 router.use('/',
   graphqlHTTP({
