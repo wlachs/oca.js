@@ -10,6 +10,7 @@ async function routeQuery(path) {
       'path',
       {
         view: [
+          'pageTitle',
           {
             content: [
               {
