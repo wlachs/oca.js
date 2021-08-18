@@ -25,6 +25,10 @@ export const Project = new GraphQLObjectType({
       type: GraphQLNonNull(GraphQLString),
       description: 'Project image URL',
     },
+    link: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'Project link',
+    },
   },
 });
 
@@ -65,8 +69,14 @@ export const ProjectMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Project image URL',
       },
+      link: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project link',
+      },
     },
-    resolve: async (_, { name, description, imageUrl }) => addProject(name, description, imageUrl),
+    resolve: async (_, {
+      name, description, imageUrl, link,
+    }) => addProject(name, description, imageUrl, link),
   },
 
   updateProject: {
@@ -89,10 +99,14 @@ export const ProjectMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Project image URL',
       },
+      link: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project link',
+      },
     },
     resolve: async (_, {
-      _id, name, description, imageUrl,
-    }) => updateProject(_id, name, description, imageUrl),
+      _id, name, description, imageUrl, link,
+    }) => updateProject(_id, name, description, imageUrl, link),
   },
 
   removeProject: {

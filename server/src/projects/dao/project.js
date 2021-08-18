@@ -3,19 +3,20 @@ import ProjectModel from '../db/project';
 
 const LOG_PREFIX = 'PROJECTS_DAO_PROJECT';
 
-export async function addProject(name, description, imageUrl) {
+export async function addProject(name, description, imageUrl, link) {
   log.info(LOG_PREFIX, 'add project:', name, description, imageUrl);
 
   const project = new ProjectModel();
   project.name = name;
   project.description = description;
   project.imageUrl = imageUrl;
+  project.link = link;
 
   log.verbose(LOG_PREFIX, JSON.stringify(project));
   return project.save();
 }
 
-export async function updateProject(_id, name, description, imageUrl) {
+export async function updateProject(_id, name, description, imageUrl, link) {
   log.info(LOG_PREFIX, 'update project:', _id, name, description, imageUrl);
 
   const project = await ProjectModel.findById(_id);
@@ -27,6 +28,7 @@ export async function updateProject(_id, name, description, imageUrl) {
   project.name = name;
   project.description = description;
   project.imageUrl = imageUrl;
+  project.link = link;
 
   log.verbose(LOG_PREFIX, JSON.stringify(project));
   return project.save();
