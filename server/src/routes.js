@@ -1,4 +1,6 @@
 import log from 'npmlog';
+import express from 'express';
+import path from 'path';
 import api from './graphql';
 
 const LOG_PREFIX = 'CORE_ROUTES';
@@ -8,6 +10,12 @@ function init(app) {
 
   /* API */
   app.use('/api', api);
+
+  /* Client */
+  app.use(express.static(path.join(process.cwd(), 'client')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(`${process.cwd()}/client/index.html`));
+  });
 }
 
 export default init;
