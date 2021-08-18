@@ -1,0 +1,15 @@
+:root {
+    --primary-color: #66CC33;
+    --off-color: #141C3A;
+    --secondary-color: #0A0A0A;
+    --background-color: #FFFFFF;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}

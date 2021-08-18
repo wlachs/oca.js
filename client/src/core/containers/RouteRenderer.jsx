@@ -10,12 +10,10 @@ import { getRoute } from '../redux/actions';
 import FullLoadingPage from './FullLoadingPage';
 import Template from './Template';
 
-function RouteRenderer({ route, path, getRoute_ }) {
+function RouteRenderer({ route, getRoute_, location }) {
   useEffect(() => {
-    if (route && path && route.path !== path) {
-      getRoute_(path);
-    }
-  }, [path]);
+    getRoute_(location.pathname);
+  }, [location]);
 
   if (!route) {
     return <FullLoadingPage />;
@@ -28,14 +26,14 @@ function RouteRenderer({ route, path, getRoute_ }) {
 
 RouteRenderer.propTypes = {
   route: PropTypes.objectOf(PropTypes.any),
-  path: PropTypes.string,
   getRoute_: PropTypes.func,
+  location: PropTypes.objectOf(PropTypes.any),
 };
 
 RouteRenderer.defaultProps = {
   route: null,
-  path: null,
   getRoute_: null,
+  location: null,
 };
 
 function mapStateToProps(state) {

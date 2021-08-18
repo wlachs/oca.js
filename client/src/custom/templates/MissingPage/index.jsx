@@ -1,14 +1,13 @@
 /* React imports */
 import React from 'react';
+import Container from 'react-bootstrap/Container';
 import './index.css';
-
-/* Custom components */
 
 function MissingPage() {
   return (
-    <div className="container">
-      Template not found!
-    </div>
+    <Container fluid>
+      <p>Template not found!</p>
+    </Container>
   );
 }
 

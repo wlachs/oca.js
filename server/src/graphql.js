@@ -11,6 +11,7 @@ import { ContentMutation, ContentQuery } from './layout/graphql/content';
 import { TemplateMutation, TemplateQuery } from './layout/graphql/template';
 import { ViewMutation, ViewQuery } from './layout/graphql/view';
 import { RouteMutation, RouteQuery } from './layout/graphql/route';
+import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -18,6 +19,7 @@ const GuestQueryType = new GraphQLObjectType({
   fields: {
     ...ViewQuery,
     ...RouteQuery,
+    ...ProjectQuery,
   },
 });
 
@@ -32,6 +34,7 @@ const AdminQueryType = new GraphQLObjectType({
     ...TemplateQuery,
     ...ViewQuery,
     ...RouteQuery,
+    ...ProjectQuery,
   },
 });
 
@@ -46,6 +49,7 @@ const AdminMutationType = new GraphQLObjectType({
     ...TemplateMutation,
     ...ViewMutation,
     ...RouteMutation,
+    ...ProjectMutation,
   },
 });
 

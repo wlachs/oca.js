@@ -1,21 +1,58 @@
 /* Custom imports */
 import MissingContent from '../content/MissingContent';
+import TopBarContent from '../content/TopBarContent';
+import HomeImageContent from '../content/HomeImageContent';
+import ContactEmailContent from '../content/ContactEmailContent';
+import ProjectListContent from '../content/ProjectListContent';
+import HeaderTextContent from '../content/HeaderTextContent';
 
 const CONTENT_MAP = [
+  /*
+   * Type-based component associations
+   */
+  {
+    key: 'HEADER_CONTENT_TYPE',
+    content: HeaderTextContent,
+  },
+  {
+    key: 'TOP_BAR_CONTENT_TYPE',
+    content: TopBarContent,
+  },
+  /*
+   * Key-based component associations
+   */
   {
     key: 'MISSING_CONTENT',
     content: MissingContent,
   },
+  {
+    key: 'HOME_IMAGE_CONTENT',
+    content: HomeImageContent,
+  },
+  {
+    key: 'CONTACT_EMAIL_CONTENT',
+    content: ContactEmailContent,
+  },
+  {
+    key: 'PROJECT_LIST_CONTENT',
+    content: ProjectListContent,
+  },
 ];
 
-function getContent(key) {
+function getContent(key, type) {
   const contentAssociation = CONTENT_MAP.find((c) => c.key === key);
 
-  if (!contentAssociation) {
-    return MissingContent;
+  if (contentAssociation) {
+    return contentAssociation.content;
   }
 
-  return contentAssociation.content;
+  const contentTypeAssociation = CONTENT_MAP.find((c) => c.key === type);
+
+  if (contentTypeAssociation) {
+    return contentTypeAssociation.content;
+  }
+
+  return MissingContent;
 }
 
 export default getContent;

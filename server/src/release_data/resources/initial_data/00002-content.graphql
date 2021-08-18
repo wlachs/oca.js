@@ -1,23 +1,58 @@
 mutation {
-    topNavContent: addContent(key: "TOP_NAV_CONTENT", type: "TOP_BAR_CONTENT_TYPE") {
-        key
-    }
-    homeImageContent: addContent(key: "HOME_IMAGE_CONTENT", type: "MAIN_CONTENT_TYPE") {
-        key
-    }
-    contactEmailContent: addContent(key: "CONTACT_EMAIL_CONTENT", type: "MAIN_CONTENT_TYPE", attributes: [{key: "email", value: "hello@laszloborbely.com"}]) {
-        key
-    }
-    projectListContent: addContent(key: "PROJECT_LIST_CONTENT", type: "MAIN_CONTENT_TYPE") {
-        key
-    }
-    homeHeaderTextContent: addContent(key: "HOME_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Laszlo Borbely"}, {key: "text", value: "Software Systems Engineering M.Sc."}]) {
-        key
-    }
-    contactHeaderTextContent: addContent(key: "CONTACT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Thanks for reaching out to me!"}]) {
-        key
-    }
-    projectHeaderTextContent: addContent(key: "PROJECT_HEADER_TEXT_CONTENT", type: "HEADER_CONTENT_TYPE", attributes: [{key: "text", value: "Projects and contributions"}]) {
-        key
-    }
+    topNavContent: addContent(
+        key: "TOP_NAV_CONTENT",
+        type: "TOP_BAR_CONTENT_TYPE"
+    )
+    { key }
+
+    homeImageContent: addContent(
+        key: "HOME_IMAGE_CONTENT",
+        type: "MAIN_CONTENT_TYPE"
+    )
+    { key }
+
+    contactEmailContent: addContent(
+        key: "CONTACT_EMAIL_CONTENT",
+        type: "MAIN_CONTENT_TYPE",
+        attributes: [
+            { key: "email", value: "hello@laszloborbely.com" }
+        ]
+    )
+    { key }
+
+    projectListContent: addContent(
+        key: "PROJECT_LIST_CONTENT",
+        type: "MAIN_CONTENT_TYPE"
+    )
+    { key }
+
+    homeHeaderTextContent: addContent(
+        key: "HOME_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "László Borbély" },
+            { key: "h2", value: "Software Systems Engineering M.Sc." }
+        ]
+    )
+    { key }
+
+    contactHeaderTextContent: addContent(
+        key: "CONTACT_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "Thanks for taking the time to reach out." },
+            { key: "h2", value: "Feel free to send me a mail." }
+        ]
+    )
+    { key }
+
+    projectHeaderTextContent: addContent(
+        key: "PROJECT_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "My recent work"},
+            { key: "h2", value: "Check out my latest contributions."}
+        ]
+    )
+    { key }
 }

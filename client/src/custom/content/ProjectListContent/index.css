@@ -1,0 +1,43 @@
+@import '../../config/global.css';
+
+a.project-card {
+    width: 20rem;
+    height: 6rem;
+    color: var(--off-color);
+
+    transition: 0.3s;
+}
+
+.project-name {
+    color: var(--off-color);
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.project-description {
+    color: var(--secondary-color);
+    font-weight: 300;
+    font-size: .8rem;
+}
+
+.project-image-frame {
+    min-height: 5rem;
+    min-width: 5rem;
+    max-height: 5rem;
+    max-width: 5rem;
+    padding: .8rem;
+
+    border: 2px solid var(--off-color);
+    border-radius: .6rem;
+    transition: inherit;
+}
+
+
+.project-image {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+
+    transition: inherit;
+}

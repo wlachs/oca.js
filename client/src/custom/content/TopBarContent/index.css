@@ -1,0 +1,23 @@
+@import '../../config/global.css';
+
+.navbar-logo {
+    margin: .6rem 0;
+}
+
+.link {
+    color: var(--secondary-color);
+    font-weight: 300;
+    font-size: 1.1rem;
+    text-decoration: none !important;
+    transition: 0.2s;
+    margin: 0 .7rem;
+    padding: .4rem 0;
+}
+
+.link:hover {
+    color: var(--primary-color);
+}
+
+.link_active {
+    color: var(--primary-color);
+}

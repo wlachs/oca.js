@@ -1,0 +1,17 @@
+mutation {
+    swofi: addProject(
+        name: "SWOFI",
+        description: "Scientific Workflow Guide",
+        imageUrl: "https://swofi.net:30000/logo.png",
+        link: "https://swofi.net/"
+    )
+    { _id }
+
+    literature_wizard: addProject(
+        name: "Literature Wizard",
+        description: "A lightweight tool for managing scientific publications.",
+        imageUrl: "https://laszloborbely.com/assets/literature.png",
+        link: "https://swofi.net:30012/"
+    )
+    { _id }
+}
