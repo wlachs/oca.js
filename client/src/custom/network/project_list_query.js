@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
+import { apiEndpoint } from '../../core/config/api_config';
 
 /* TODO: replace API URL */
 async function projectListQuery() {
-  const response = await axios.post('http://localhost:4000/api', query({
+  const response = await axios.post(apiEndpoint(), query({
     operation: 'projects',
     fields: ['_id', 'name', 'description', 'imageUrl', 'link'],
   }));
