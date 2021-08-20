@@ -10,7 +10,7 @@ mutation {
     literature_wizard: addProject(
         name: "Literature Wizard",
         description: "A lightweight tool for managing scientific publications.",
-        imageUrl: "https://laszloborbely.com/assets/literature.png",
+        imageUrl: "https://i.postimg.cc/6qcJnB65/image.png",
         link: "https://swofi.net:30012/"
     )
     { _id }
