@@ -12,8 +12,10 @@
     box-sizing: border-box;
     border-radius: 1.3rem;
 
-    display: inline-block;
     cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .button-link:hover {
