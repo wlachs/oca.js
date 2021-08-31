@@ -1,5 +1,6 @@
 import * as devConfiguration from './dev.json';
 import * as prodConfiguration from './production.json';
+import { DEVELOPMENT, PRODUCTION, STAGE } from './environment';
 
 const guestApi = '/api';
 const adminApi = '/api/admin';
@@ -8,10 +9,10 @@ const adminApi = '/api/admin';
 
 function getEndpoint() {
   switch (process.env.NODE_ENV) {
-    case 'production':
+    case PRODUCTION:
       return prodConfiguration.serverUrl;
-    case 'stage':
-    case 'development':
+    case STAGE:
+    case DEVELOPMENT:
       return devConfiguration.serverUrl;
     default:
       return devConfiguration;
