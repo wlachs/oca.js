@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { getRoute } from '../redux/actions';
 
 /* Custom containers */
-import FullLoadingPage from './FullLoadingPage';
+import LoadingIndicator from './LoadingIndicator';
 import Template from './Template';
 
 function RouteRenderer({ route, getRoute_, location }) {
@@ -16,7 +16,7 @@ function RouteRenderer({ route, getRoute_, location }) {
   }, [location]);
 
   if (!route) {
-    return <FullLoadingPage />;
+    return <LoadingIndicator />;
   }
 
   return (

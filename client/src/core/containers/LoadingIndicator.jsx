@@ -6,7 +6,7 @@ import '../components/Loading/index.css';
 import FullPage from '../components/FullPage';
 import Loading from '../components/Loading';
 
-function FullLoadingPage() {
+function LoadingIndicator() {
   return (
     <FullPage>
       <Loading />
@@ -14,4 +14,4 @@ function FullLoadingPage() {
   );
 }
 
-export default FullLoadingPage;
+export default LoadingIndicator;

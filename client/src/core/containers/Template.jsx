@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 
 /* Custom imports */
 import getTemplate from '../../custom/config/templates';
+import LoadingIndicator from './LoadingIndicator';
 
-function Template({ template, pageTitle }) {
+function Template({ template, pageTitle, loading }) {
   const T = getTemplate(template);
   return (
     <>
@@ -17,6 +18,9 @@ function Template({ template, pageTitle }) {
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
+
+      {/* Display loading indicator */}
+      {loading && <LoadingIndicator />}
 
       {/* Render template */}
       <T />
@@ -27,17 +31,20 @@ function Template({ template, pageTitle }) {
 Template.propTypes = {
   template: PropTypes.string,
   pageTitle: PropTypes.string,
+  loading: PropTypes.bool,
 };
 
 Template.defaultProps = {
   template: null,
   pageTitle: null,
+  loading: true,
 };
 
 function mapStatesToProps(state) {
   return {
     template: state.core.route.view.template.key,
     pageTitle: state.core.route.view.pageTitle,
+    loading: state.core.loading,
   };
 }
 
