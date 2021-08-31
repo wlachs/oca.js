@@ -20,6 +20,26 @@ export async function addApplicationProperty(key, value) {
   return applicationProperty.save();
 }
 
+export async function addOrUpdateApplicationProperty(key, value) {
+  log.info(LOG_PREFIX, 'add or update application property:', key, value);
+
+  const existingApplicationProperty = await ApplicationPropertyModel.findOne({ key });
+  if (existingApplicationProperty) {
+    log.info(LOG_PREFIX, 'application property with key already exists, updating', key, value);
+    existingApplicationProperty.value = value;
+
+    log.verbose(LOG_PREFIX, JSON.stringify(existingApplicationProperty));
+    return existingApplicationProperty.save();
+  }
+
+  const applicationProperty = new ApplicationPropertyModel();
+  applicationProperty.key = key;
+  applicationProperty.value = value;
+
+  log.verbose(LOG_PREFIX, JSON.stringify(applicationProperty));
+  return applicationProperty.save();
+}
+
 export async function updateApplicationProperty(key, newKey, value) {
   log.info(LOG_PREFIX, 'update application property:', key, newKey, value);
 

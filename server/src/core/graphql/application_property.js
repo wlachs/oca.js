@@ -2,7 +2,7 @@ import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 import {
-  addApplicationProperty,
+  addApplicationProperty, addOrUpdateApplicationProperty,
   getApplicationPropertyByKey,
   getApplicationPropertyList, removeApplicationProperty, updateApplicationProperty,
 } from '../dao/application_property';
@@ -56,6 +56,22 @@ export const ApplicationPropertyMutation = {
       },
     },
     resolve: async (_, { key, value }) => addApplicationProperty(key, value),
+  },
+
+  addOrUpdateApplicationProperty: {
+    type: ApplicationProperty,
+    description: 'Add or update application property',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      value: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Value',
+      },
+    },
+    resolve: async (_, { key, value }) => addOrUpdateApplicationProperty(key, value),
   },
 
   updateApplicationProperty: {
