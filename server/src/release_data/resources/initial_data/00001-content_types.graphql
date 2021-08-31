@@ -2,9 +2,11 @@ mutation {
     topBarContentType: addContentType(key: "TOP_BAR_CONTENT_TYPE") {
         key
     }
+
     mainContentType: addContentType(key: "MAIN_CONTENT_TYPE") {
         key
     }
+
     headerContentType: addContentType(key: "HEADER_CONTENT_TYPE") {
         key
     }

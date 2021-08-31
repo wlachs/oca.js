@@ -1,0 +1,17 @@
+mutation {
+    adminHeaderTextContent: addOrUpdateContent(
+        key: "ADMIN_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "Admin Login" },
+            { key: "h2", value: "Enter your credentials below!" }
+        ]
+    )
+    { key }
+
+    adminLoginFormContent: addOrUpdateContent(
+        key: "ADMIN_LOGIN_FORM_CONTENT",
+        type: "MAIN_CONTENT_TYPE"
+    )
+    { key }
+}
