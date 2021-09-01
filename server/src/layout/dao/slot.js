@@ -80,6 +80,16 @@ export async function updateSlot(key, newKey, types) {
   return slot.save();
 }
 
+export async function addOrUpdateSlot(key, types) {
+  log.info(LOG_PREFIX, 'add or update slot:', key, types);
+
+  try {
+    return updateSlot(key, undefined, types);
+  } catch (e) {
+    return addSlot(key, types);
+  }
+}
+
 export async function removeSlot(key) {
   log.info(LOG_PREFIX, 'delete slot:', key);
 
