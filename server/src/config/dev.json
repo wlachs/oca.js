@@ -4,8 +4,7 @@
   "cors": true,
   "log": "verbose",
   "auth": {
-    "enabled": false,
-    "jwtAlgorithm": "HS256",
+    "enabled": true,
     "jwtExpire": "1h",
     "saltRounds": 15
   },

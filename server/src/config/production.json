@@ -5,7 +5,6 @@
   "log": "verbose",
   "auth": {
     "enabled": true,
-    "jwtAlgorithm": "HS256",
     "jwtExpire": "1h",
     "saltRounds": 15
   },
