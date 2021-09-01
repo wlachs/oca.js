@@ -3,7 +3,13 @@ import {
 } from 'graphql';
 import { View } from './view';
 import {
-  addRoute, getRouteByPath, getRouteByView, getRouteList, removeRoute, updateRoute,
+  addOrUpdateRoute,
+  addRoute,
+  getRouteByPath,
+  getRouteByView,
+  getRouteList,
+  removeRoute,
+  updateRoute,
 } from '../dao/route';
 import { getDefaultRoute } from '../services/route';
 
@@ -75,6 +81,22 @@ export const RouteMutation = {
       },
     },
     resolve: async (_, { path, view }) => addRoute(path, view),
+  },
+
+  addOrUpdateRoute: {
+    type: Route,
+    description: 'Add or update route',
+    args: {
+      path: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique path',
+      },
+      view: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'View key',
+      },
+    },
+    resolve: async (_, { path, view }) => addOrUpdateRoute(path, view),
   },
 
   updateRoute: {
