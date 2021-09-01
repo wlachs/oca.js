@@ -1,6 +1,7 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
+import jwt from 'express-jwt';
 
 /* Queries and mutations */
 import { ApplicationPropertyMutation, ApplicationPropertyQuery } from './core/graphql/application_property';
@@ -12,10 +13,12 @@ import { ViewMutation, ViewQuery } from './layout/graphql/view';
 import { RouteMutation, RouteQuery } from './layout/graphql/route';
 import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
 import { UserMutation, UserQuery } from './auth/graphql/user';
+import { TokenQuery } from './auth/graphql/token';
 
 /* Misc */
 import { conditionalMW } from './utils/express-utils';
 import getConfig from './config';
+import { JWT_ALGORITHM, JWT_SECRET } from './config/secrets';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -24,6 +27,7 @@ const GuestQueryType = new GraphQLObjectType({
     ...ViewQuery,
     ...RouteQuery,
     ...ProjectQuery,
+    ...TokenQuery,
   },
 });
 
@@ -72,12 +76,16 @@ export const adminSchema = new GraphQLSchema({
 });
 
 router.use('/admin',
-  /* TODO: fix this in #12 with proper authentication */
-  conditionalMW(!auth.enabled,
-    graphqlHTTP({
-      graphiql,
-      schema: adminSchema,
-    })));
+  conditionalMW(auth.enabled,
+    jwt({
+      secret: JWT_SECRET,
+      algorithms: [JWT_ALGORITHM],
+    })),
+
+  graphqlHTTP({
+    graphiql,
+    schema: adminSchema,
+  }));
 
 router.use('/',
   graphqlHTTP({
