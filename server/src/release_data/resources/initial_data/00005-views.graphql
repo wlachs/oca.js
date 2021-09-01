@@ -80,4 +80,25 @@ mutation {
         pageTitle: "Laszlo Borbely | Admin Login",
     )
     { key }
+
+    adminDashboardView: addView(
+        key: "ADMIN_DASHBOARD_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "ADMIN_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "HOME_IMAGE_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | Admin Dashboard",
+    )
+    { key }
 }

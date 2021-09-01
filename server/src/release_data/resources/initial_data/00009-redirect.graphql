@@ -1,0 +1,7 @@
+mutation {
+    adminLoginRedirect: addRedirect(
+        referer: "/adminlogin",
+        redirect: "/admindashboard"
+    )
+    { referer }
+}

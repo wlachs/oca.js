@@ -14,4 +14,8 @@ mutation {
     adminLoginRoute: addRoute(path: "/adminlogin", view: "ADMIN_LOGIN_VIEW") {
         path
     }
+
+    adminDashboardRoute: addRoute(path: "/admindashboard", view: "ADMIN_DASHBOARD_VIEW") {
+        path
+    }
 }
