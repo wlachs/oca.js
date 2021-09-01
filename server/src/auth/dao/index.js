@@ -1,6 +1,11 @@
+/* Logging */
 import log from 'npmlog';
-import { removeAllUsers } from './user';
 
+/* DAO references */
+import { removeAllUsers } from './user';
+import { removeAllRedirects } from './redirect';
+
+/* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -9,5 +14,6 @@ export async function clearDB() {
 
   return Promise.all([
     removeAllUsers(),
+    removeAllRedirects(),
   ]);
 }

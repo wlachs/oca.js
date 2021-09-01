@@ -91,7 +91,7 @@ export async function removeUser(userID) {
   /* If the user is not found, an exception is thrown */
   await getUserById(userID);
 
-  const deleted = await UserModel.findOneAndDelete(userID);
+  const deleted = await UserModel.findOneAndDelete({ userID });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted));
   return deleted;
 }
