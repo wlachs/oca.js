@@ -5,7 +5,6 @@
   "log": "verbose",
   "auth": {
     "enabled": true,
-    "jwtExpire": "1h",
     "saltRounds": 15
   },
   "db": {
