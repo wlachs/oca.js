@@ -24,7 +24,7 @@ async function getContentTypeByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get content type with key or null', key);
 
   try {
-    return getContentTypeByKey(key);
+    return await getContentTypeByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'content type with key not found, returning with null', key);
     return null;
@@ -72,7 +72,7 @@ export async function addOrIgnoreContentType(key) {
   log.info(LOG_PREFIX, 'add or ignore content type:', key);
 
   try {
-    return getContentTypeByKey(key);
+    return await getContentTypeByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'content type not found, creating', key);
     return addContentType(key);

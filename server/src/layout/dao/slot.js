@@ -30,7 +30,7 @@ async function getSlotByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get slot by key or null:', key);
 
   try {
-    return getSlotByKey(key);
+    return await getSlotByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'slot with key not found, returning with null', key);
     return null;
@@ -84,7 +84,7 @@ export async function addOrUpdateSlot(key, types) {
   log.info(LOG_PREFIX, 'add or update slot:', key, types);
 
   try {
-    return updateSlot(key, undefined, types);
+    return await updateSlot(key, undefined, types);
   } catch (e) {
     return addSlot(key, types);
   }

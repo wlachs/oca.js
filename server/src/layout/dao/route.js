@@ -35,7 +35,7 @@ async function getRouteByPathOrNull(path) {
   log.info(LOG_PREFIX, 'get route by path or null:', path);
 
   try {
-    return getRouteByPath(path);
+    return await getRouteByPath(path);
   } catch (e) {
     log.info(LOG_PREFIX, 'route with path not found, returning with null', path);
     return null;
@@ -92,7 +92,7 @@ export async function addOrUpdateRoute(path, view) {
   log.info(LOG_PREFIX, 'add or update route:', path, view);
 
   try {
-    return updateRoute(path, undefined, view);
+    return await updateRoute(path, undefined, view);
   } catch (e) {
     return addRoute(path, view);
   }

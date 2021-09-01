@@ -33,7 +33,7 @@ async function getTemplateByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get template by key or null:', key);
 
   try {
-    return getTemplateByKey(key);
+    return await getTemplateByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'template with key not found, returning with null', key);
     return null;
@@ -89,7 +89,7 @@ export async function addOrUpdateTemplate(key, slots) {
   log.info(LOG_PREFIX, 'add or update template:', key, slots);
 
   try {
-    return updateTemplate(key, undefined, slots);
+    return await updateTemplate(key, undefined, slots);
   } catch (e) {
     return addTemplate(key, slots);
   }

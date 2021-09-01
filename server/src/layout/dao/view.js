@@ -35,7 +35,7 @@ async function getViewByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get view by key or null:', key);
 
   try {
-    return getTemplateByKey(key);
+    return await getTemplateByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'view with key not found, returning with null', key);
     return null;
@@ -98,7 +98,7 @@ export async function addOrUpdateView(key, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'add or update view:', key, template, JSON.stringify(content));
 
   try {
-    return updateView(key, undefined, template, content, pageTitle);
+    return await updateView(key, undefined, template, content, pageTitle);
   } catch (e) {
     return addView(key, template, content, pageTitle);
   }

@@ -30,7 +30,7 @@ async function getContentByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get content by key or null:', key);
 
   try {
-    return getContentByKey(key);
+    return await getContentByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'content with key not found, returning with null', key);
     return null;
@@ -38,7 +38,7 @@ async function getContentByKeyOrNull(key) {
 }
 
 export async function addContent(key, type, attributes) {
-  log.info(LOG_PREFIX, 'add content:', key, type, attributes);
+  log.info(LOG_PREFIX, 'add content:', key, type, JSON.stringify(attributes));
 
   const existingContent = await getContentByKeyOrNull(key);
   if (existingContent) {
@@ -59,7 +59,7 @@ export async function addContent(key, type, attributes) {
 }
 
 export async function updateContent(key, newKey, type, attributes) {
-  log.info(LOG_PREFIX, 'update content:', key, newKey, type, attributes);
+  log.info(LOG_PREFIX, 'update content:', key, newKey, type, JSON.stringify(attributes));
 
   /* If the content is not found, an exception is thrown */
   const content = await getContentByKey(key);
@@ -84,10 +84,10 @@ export async function updateContent(key, newKey, type, attributes) {
 }
 
 export async function addOrUpdateContent(key, type, attributes) {
-  log.info(LOG_PREFIX, 'add or update content:', key, type, attributes);
+  log.info(LOG_PREFIX, 'add or update content:', key, type, JSON.stringify(attributes));
 
   try {
-    return updateContent(key, undefined, type, attributes);
+    return await updateContent(key, undefined, type, attributes);
   } catch (e) {
     return addContent(key, type, attributes);
   }
