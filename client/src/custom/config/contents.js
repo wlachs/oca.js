@@ -52,7 +52,7 @@ function getContent(key, type) {
     return contentTypeAssociation.content;
   }
 
-  return MissingContent;
+  return () => MissingContent({ what: `${key} of type ${type}` });
 }
 
 export default getContent;
