@@ -1,8 +1,14 @@
+/* Logging */
 import log from 'npmlog';
-import SlotModel from '../../db/slot';
+
+/* Populate */
 import { POPULATE_ALLOWED_CONTENT_TYPES, POPULATE_TYPE } from '../../db/populators';
+
+/* Data models */
+import SlotModel from '../../db/slot';
 import ContentModel from '../../db/content';
 
+/* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_UTILS_SLOT_CONTENT_MAPPING_RESOLVER';
 
 async function resolveSlotContentMapping(mapping) {
