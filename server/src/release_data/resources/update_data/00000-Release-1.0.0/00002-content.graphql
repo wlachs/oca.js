@@ -11,7 +11,7 @@ mutation {
 
     adminLoginFormContent: addOrUpdateContent(
         key: "ADMIN_LOGIN_FORM_CONTENT",
-        type: "MAIN_CONTENT_TYPE"
+        type: "LOGIN_FORM_CONTENT_TYPE"
     )
     { key }
 }

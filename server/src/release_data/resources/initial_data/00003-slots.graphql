@@ -7,7 +7,7 @@ mutation {
         key
     }
 
-    mainContentSlot: addSlot(key: "MAIN_CONTENT_SLOT", contentTypes: ["MAIN_CONTENT_TYPE"]) {
+    mainContentSlot: addSlot(key: "MAIN_CONTENT_SLOT", contentTypes: ["MAIN_CONTENT_TYPE", "LOGIN_FORM_CONTENT_TYPE"]) {
         key
     }
 }
