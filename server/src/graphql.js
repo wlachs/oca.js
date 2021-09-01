@@ -1,7 +1,6 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import getConfig from './config';
 
 /* Queries and mutations */
 import { ApplicationPropertyMutation, ApplicationPropertyQuery } from './core/graphql/application_property';
@@ -12,7 +11,11 @@ import { TemplateMutation, TemplateQuery } from './layout/graphql/template';
 import { ViewMutation, ViewQuery } from './layout/graphql/view';
 import { RouteMutation, RouteQuery } from './layout/graphql/route';
 import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
+import { UserMutation, UserQuery } from './auth/graphql/user';
+
+/* Misc */
 import { conditionalMW } from './utils/express-utils';
+import getConfig from './config';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -36,6 +39,7 @@ const AdminQueryType = new GraphQLObjectType({
     ...ViewQuery,
     ...RouteQuery,
     ...ProjectQuery,
+    ...UserQuery,
   },
 });
 
@@ -51,6 +55,7 @@ const AdminMutationType = new GraphQLObjectType({
     ...ViewMutation,
     ...RouteMutation,
     ...ProjectMutation,
+    ...UserMutation,
   },
 });
 
