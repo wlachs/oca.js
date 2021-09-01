@@ -11,7 +11,7 @@ mutation {
         path
     }
 
-    adminLoginRoute: addRoute(path: "/admin-login", view: "ADMIN_LOGIN_VIEW") {
+    adminLoginRoute: addRoute(path: "/adminlogin", view: "ADMIN_LOGIN_VIEW") {
         path
     }
 }

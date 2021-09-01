@@ -1,5 +1,5 @@
 mutation {
-    adminLoginRoute: addOrUpdateRoute(path: "/admin-login", view: "ADMIN_LOGIN_VIEW") {
+    adminLoginRoute: addOrUpdateRoute(path: "/adminlogin", view: "ADMIN_LOGIN_VIEW") {
         path
     }
 }
