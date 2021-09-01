@@ -8,11 +8,11 @@ import { NavLink } from 'react-router-dom';
 import { SafeAnchor } from 'react-bootstrap';
 
 function PureButton({
-  to, children, onClick, link,
+  to, children, onClick, link, className,
 }) {
   if (to) {
     return (
-      <NavLink to={to} className="button-link link" onClick={onClick}>
+      <NavLink to={to} className={`${className} button-link link`} onClick={onClick}>
         {children}
       </NavLink>
     );
@@ -20,14 +20,14 @@ function PureButton({
 
   if (link) {
     return (
-      <SafeAnchor type="button" className="button-link link" href={link}>
+      <SafeAnchor type="button" className={`${className} button-link link`} href={link}>
         {children}
       </SafeAnchor>
     );
   }
 
   return (
-    <button type="button" className="button-link link" onClick={onClick}>
+    <button type="button" className={`${className} button-link link`} onClick={onClick}>
       {children}
     </button>
   );
@@ -40,12 +40,14 @@ PureButton.propTypes = {
     [PropTypes.string, PropTypes.object, PropTypes.element],
   ).isRequired,
   onClick: PropTypes.func,
+  className: PropTypes.string,
 };
 
 PureButton.defaultProps = {
   to: null,
   link: null,
   onClick: null,
+  className: '',
 };
 
 export default PureButton;

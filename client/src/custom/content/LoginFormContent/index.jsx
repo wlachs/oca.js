@@ -1,28 +1,70 @@
 /* React imports */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 /* Custom imports */
-import { Col } from 'react-bootstrap';
+import './index.css';
+import { Button, Col, Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { login } from '../../../core/redux/actions';
 
-function LoginFormContent({ attributes }) {
-  /* TODO: implement login form with the corresponding action that sends the API call */
+const initialFormData = Object.freeze({
+  username: '',
+  password: '',
+});
+
+function LoginFormContent({ login_ }) {
+  const [formData, updateFormData] = useState(initialFormData);
+
+  const handleChange = (e) => {
+    updateFormData({
+      ...formData,
+
+      // Trimming any whitespace
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login_(formData.username, formData.password);
+  };
+
   return (
-    <Col xs={12} className="d-flex flex-column align-items-center">
-      {`login form ${attributes}`}
+    <Col xs={11} md={6} lg={4} xxl={3} className="d-flex flex-column align-items-baseline mx-auto">
+      <Form className="w-100" onSubmit={handleSubmit}>
+
+        {/* Username */}
+        <Form.Group className="mb-3" onChange={handleChange}>
+          <Form.Label>Username</Form.Label>
+          <Form.Control name="username" type="text" />
+        </Form.Group>
+
+        {/* Password */}
+        <Form.Group className="mb-3" onChange={handleChange}>
+          <Form.Label>Password</Form.Label>
+          <Form.Control name="password" type="password" />
+        </Form.Group>
+
+        {/* Submit */}
+        <Button type="submit" className="w-100 button-link link mx-0 my-3">
+          Log In
+        </Button>
+      </Form>
     </Col>
   );
 }
 
 LoginFormContent.propTypes = {
-  attributes: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    value: PropTypes.string,
-  })),
+  login_: PropTypes.func,
 };
 
 LoginFormContent.defaultProps = {
-  attributes: [],
+  login_: null,
 };
 
-export default LoginFormContent;
+const mapDispatchToProps = {
+  login_: login,
+};
+
+export default connect(null, mapDispatchToProps)(LoginFormContent);

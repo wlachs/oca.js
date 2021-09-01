@@ -21,4 +21,5 @@
 .button-link:hover {
     color: var(--background-color);
     background-color: var(--primary-color);
+    border: .15rem solid var(--primary-color);
 }
