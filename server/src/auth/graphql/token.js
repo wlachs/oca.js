@@ -1,13 +1,18 @@
 import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
-import { authenticateUser } from '../services/user';
+import { authenticateUser } from '../services/auth';
+import { Redirect } from './redirect';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',
   description: 'Authentication token.',
   fields: {
-    value: {
+    bearer: {
       type: GraphQLNonNull(GraphQLString),
       description: 'User authentication token',
+    },
+    redirect: {
+      type: GraphQLNonNull(Redirect),
+      description: 'Route to redirect to after authentication success',
     },
   },
 });
@@ -25,7 +30,13 @@ export const TokenQuery = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Plaintext password',
       },
+      referer: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Referer route key',
+      },
     },
-    resolve: async (_, { userID, password }) => authenticateUser(userID, password),
+    resolve: async (_, {
+      userID, password, referer,
+    }) => authenticateUser(userID, password, referer),
   },
 };
