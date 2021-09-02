@@ -1,6 +1,7 @@
 /* React imports */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 /* Custom imports */
 import './index.css';
@@ -15,6 +16,7 @@ const initialFormData = Object.freeze({
 
 function LoginFormContent({ login_ }) {
   const [formData, updateFormData] = useState(initialFormData);
+  const history = useHistory();
 
   const handleChange = (e) => {
     updateFormData({
@@ -27,7 +29,7 @@ function LoginFormContent({ login_ }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login_(formData.username, formData.password);
+    login_(formData.username, formData.password, history);
   };
 
   return (

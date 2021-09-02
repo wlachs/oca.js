@@ -65,7 +65,7 @@ export function getRoute(path) {
   };
 }
 
-export function login(userID, password) {
+export function login(userID, password, history) {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -76,10 +76,15 @@ export function login(userID, password) {
 
     authentication(userID, password, state.core.route.path)
       /* Login successful */
-      .then((value) => dispatch({
-        type: LOGIN_SUCCESS,
-        value,
-      }))
+      .then((value) => {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          value,
+        });
+
+        /* Redirect after login */
+        history.push(value.redirect.redirect.path);
+      })
 
       /* Login failed */
       .catch((value) => {
