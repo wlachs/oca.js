@@ -12,7 +12,6 @@ import {
 } from './action_types';
 import defaultRouteQuery from '../network/default_route_query';
 import routeQuery from '../network/route_query';
-
 import authentication from '../network/authentication';
 
 export function setLoadingState(state) {

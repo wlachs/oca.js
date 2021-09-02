@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   error: null,
   route: null,
   bearer: null,
+  navigationTrigger: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -44,6 +45,7 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         route: action.value,
+        navigationTrigger: null,
       };
 
     case DEFAULT_ROUTE_QUERY_ERROR:
@@ -63,8 +65,8 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
-        loading: false,
         bearer: action.value.bearer,
+        navigationTrigger: action.value.redirect.redirect.path,
       };
 
     case LOGIN_ERROR:
