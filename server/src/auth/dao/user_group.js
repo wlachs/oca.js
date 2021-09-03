@@ -7,8 +7,6 @@ import { POPULATE_USER_GROUP_KEY } from '../db/populators';
 /* Data models */
 import UserGroupModel from '../db/user_group';
 
-/* Utils */
-
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO_USER_GROUP';
 
@@ -52,6 +50,17 @@ export async function getUserGroupChain(key) {
 
   log.verbose(LOG_PREFIX, 'root', JSON.stringify(userGroup));
   return [userGroup];
+}
+
+export async function getUserGroupsByKeys(keys) {
+  log.info(LOG_PREFIX, 'get user groups by keys:', keys);
+
+  const userGroups = await UserGroupModel
+    .find({ key: { $in: keys } })
+    .populate(POPULATE_USER_GROUP_KEY);
+
+  log.verbose(LOG_PREFIX, JSON.stringify(userGroups));
+  return userGroups;
 }
 
 export async function addUserGroup(key, parentKey) {

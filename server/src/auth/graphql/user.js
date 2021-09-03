@@ -4,6 +4,7 @@ import {
 import {
   addOrUpdateUser, addUser, getUserById, getUserList, removeUser, updateUser,
 } from '../dao/user';
+import { UserGroup } from './user_group';
 
 export const User = new GraphQLObjectType({
   name: 'User',
@@ -16,6 +17,10 @@ export const User = new GraphQLObjectType({
     passwordHash: {
       type: GraphQLNonNull(GraphQLString),
       description: 'Password hash',
+    },
+    groups: {
+      type: GraphQLList(UserGroup),
+      description: 'Access groups',
     },
   },
 });
@@ -53,8 +58,12 @@ export const UserMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Raw plaintext password',
       },
+      groups: {
+        type: GraphQLList(GraphQLString),
+        description: 'User group list',
+      },
     },
-    resolve: async (_, { userID, password }) => addUser(userID, password),
+    resolve: async (_, { userID, password, groups }) => addUser(userID, password, groups),
   },
 
   addOrUpdateUser: {
@@ -69,8 +78,12 @@ export const UserMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Raw plaintext password',
       },
+      groups: {
+        type: GraphQLList(GraphQLString),
+        description: 'User group list',
+      },
     },
-    resolve: async (_, { userID, password }) => addOrUpdateUser(userID, password),
+    resolve: async (_, { userID, password, groups }) => addOrUpdateUser(userID, password, groups),
   },
 
   updateUser: {
@@ -89,8 +102,14 @@ export const UserMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Raw plaintext password',
       },
+      groups: {
+        type: GraphQLList(GraphQLString),
+        description: 'User group list',
+      },
     },
-    resolve: async (_, { userID, newUserID, password }) => updateUser(userID, newUserID, password),
+    resolve: async (_, {
+      userID, newUserID, password, groups,
+    }) => updateUser(userID, newUserID, password, groups),
   },
 
   removeUser: {
