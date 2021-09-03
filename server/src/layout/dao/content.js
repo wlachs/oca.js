@@ -22,7 +22,7 @@ export async function getContentByKey(key) {
     throw new Error(`can't get content, no content found with key: ${key}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(content));
+  log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content;
 }
 
@@ -38,7 +38,7 @@ async function getContentByKeyOrNull(key) {
 }
 
 export async function addContent(key, type, attributes) {
-  log.info(LOG_PREFIX, 'add content:', key, type, JSON.stringify(attributes));
+  log.info(LOG_PREFIX, 'add content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   const existingContent = await getContentByKeyOrNull(key);
   if (existingContent) {
@@ -54,12 +54,12 @@ export async function addContent(key, type, attributes) {
   content.type = contentType;
   content.attributes = attributes;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(content));
+  log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
 export async function updateContent(key, newKey, type, attributes) {
-  log.info(LOG_PREFIX, 'update content:', key, newKey, type, JSON.stringify(attributes));
+  log.info(LOG_PREFIX, 'update content:', key, newKey, type, JSON.stringify(attributes, undefined, 4));
 
   /* If the content is not found, an exception is thrown */
   const content = await getContentByKey(key);
@@ -79,12 +79,12 @@ export async function updateContent(key, newKey, type, attributes) {
   content.type = contentType;
   content.attributes = attributes;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(content));
+  log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
 export async function addOrUpdateContent(key, type, attributes) {
-  log.info(LOG_PREFIX, 'add or update content:', key, type, JSON.stringify(attributes));
+  log.info(LOG_PREFIX, 'add or update content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   try {
     return await updateContent(key, undefined, type, attributes);
@@ -100,7 +100,7 @@ export async function removeContent(key) {
   await getContentByKey(key);
 
   const deleted = await ContentModel.findOneAndDelete({ key }).populate(POPULATE_TYPE);
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -108,7 +108,7 @@ export async function getContentList() {
   log.info(LOG_PREFIX, 'get content list');
 
   const contents = await ContentModel.find().populate(POPULATE_TYPE);
-  log.verbose(LOG_PREFIX, JSON.stringify(contents));
+  log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
 
@@ -119,7 +119,7 @@ export async function getContentByType(key) {
   const type = await getContentTypeByKey(key);
 
   const contents = await ContentModel.find({ type }).populate(POPULATE_TYPE);
-  log.verbose(LOG_PREFIX, JSON.stringify(contents));
+  log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
 
@@ -127,6 +127,6 @@ export async function removeAllContent() {
   log.info(LOG_PREFIX, 'remove all content');
 
   const deleted = await ContentModel.deleteMany().populate(POPULATE_TYPE);
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

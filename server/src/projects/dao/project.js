@@ -16,7 +16,7 @@ export async function getProjectById(_id) {
     throw new Error(`can't get project, no project found with _id: ${_id}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(project));
+  log.verbose(LOG_PREFIX, JSON.stringify(project, undefined, 4));
   return project;
 }
 
@@ -29,7 +29,7 @@ export async function addProject(name, description, imageUrl, link) {
   project.imageUrl = imageUrl;
   project.link = link;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(project));
+  log.verbose(LOG_PREFIX, JSON.stringify(project, undefined, 4));
   return project.save();
 }
 
@@ -44,7 +44,7 @@ export async function updateProject(_id, name, description, imageUrl, link) {
   project.imageUrl = imageUrl;
   project.link = link;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(project));
+  log.verbose(LOG_PREFIX, JSON.stringify(project, undefined, 4));
   return project.save();
 }
 
@@ -55,7 +55,7 @@ export async function removeProject(_id) {
   await getProjectById(_id);
 
   const deleted = await ProjectModel.findByIdAndDelete(_id);
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -63,7 +63,7 @@ export async function getProjectList() {
   log.info(LOG_PREFIX, 'get project list');
 
   const projects = await ProjectModel.find();
-  log.verbose(LOG_PREFIX, JSON.stringify(projects));
+  log.verbose(LOG_PREFIX, JSON.stringify(projects, undefined, 4));
   return projects;
 }
 
@@ -71,6 +71,6 @@ export async function removeAllProjects() {
   log.info(LOG_PREFIX, 'remove all projects');
 
   const deleted = await ProjectModel.deleteMany();
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

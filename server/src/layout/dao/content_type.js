@@ -16,7 +16,7 @@ export async function getContentTypeByKey(key) {
     throw new Error(`can't get content type, no content type found with key: ${key}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(contentType));
+  log.verbose(LOG_PREFIX, JSON.stringify(contentType, undefined, 4));
   return contentType;
 }
 
@@ -86,7 +86,7 @@ export async function removeContentType(key) {
   await getContentTypeByKey(key);
 
   const deleted = await ContentTypeModel.findOneAndDelete({ key });
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -94,7 +94,7 @@ export async function getContentTypeList() {
   log.info(LOG_PREFIX, 'get content type list');
 
   const contentTypes = await ContentTypeModel.find();
-  log.verbose(LOG_PREFIX, JSON.stringify(contentTypes));
+  log.verbose(LOG_PREFIX, JSON.stringify(contentTypes, undefined, 4));
   return contentTypes;
 }
 
@@ -107,7 +107,7 @@ export async function getContentTypeListByKeys(keys) {
     throw new Error(`invalid content type in key set: ${keys}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(contentTypes));
+  log.verbose(LOG_PREFIX, JSON.stringify(contentTypes, undefined, 4));
   return contentTypes;
 }
 
@@ -115,6 +115,6 @@ export async function removeContentTypes() {
   log.info(LOG_PREFIX, 'remove content types');
 
   const deleted = await ContentTypeModel.deleteMany();
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

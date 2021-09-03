@@ -59,7 +59,7 @@ export async function addRoute(path, view) {
   route.view = existingView;
 
   validate(route);
-  log.verbose(LOG_PREFIX, JSON.stringify(route));
+  log.verbose(LOG_PREFIX, JSON.stringify(route, undefined, 4));
   return route.save();
 }
 
@@ -84,7 +84,7 @@ export async function updateRoute(path, newPath, view) {
   route.view = existingView;
 
   validate(route);
-  log.verbose(LOG_PREFIX, JSON.stringify(route));
+  log.verbose(LOG_PREFIX, JSON.stringify(route, undefined, 4));
   return route.save();
 }
 
@@ -108,7 +108,7 @@ export async function removeRoute(path) {
     .findOneAndDelete({ path })
     .populate(POPULATE_ROUTE_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -119,7 +119,7 @@ export async function getRouteList() {
     .find()
     .populate(POPULATE_ROUTE_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(routes));
+  log.verbose(LOG_PREFIX, JSON.stringify(routes, undefined, 4));
   return routes;
 }
 
@@ -133,7 +133,7 @@ export async function getRouteByView(key) {
     .find({ view })
     .populate(POPULATE_ROUTE_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(routes));
+  log.verbose(LOG_PREFIX, JSON.stringify(routes, undefined, 4));
   return routes;
 }
 
@@ -144,6 +144,6 @@ export async function removeRoutes() {
     .deleteMany()
     .populate(POPULATE_ROUTE_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

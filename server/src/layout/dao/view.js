@@ -43,7 +43,7 @@ async function getViewByKeyOrNull(key) {
 }
 
 export async function addView(key, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'add view:', key, template, JSON.stringify(content));
+  log.info(LOG_PREFIX, 'add view:', key, template, JSON.stringify(content, undefined, 4));
 
   const existingView = await getViewByKeyOrNull(key);
   if (existingView) {
@@ -61,12 +61,12 @@ export async function addView(key, template, content, pageTitle) {
   view.pageTitle = pageTitle;
 
   validate(view);
-  log.verbose(LOG_PREFIX, JSON.stringify(view));
+  log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view.save();
 }
 
 export async function updateView(key, newKey, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'update view:', key, newKey, template, JSON.stringify(content));
+  log.info(LOG_PREFIX, 'update view:', key, newKey, template, JSON.stringify(content, undefined, 4));
 
   /* If the view is not found, an exception is thrown */
   const view = await getViewByKey(key);
@@ -90,12 +90,12 @@ export async function updateView(key, newKey, template, content, pageTitle) {
   view.pageTitle = pageTitle;
 
   validate(view);
-  log.verbose(LOG_PREFIX, JSON.stringify(view));
+  log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view.save();
 }
 
 export async function addOrUpdateView(key, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'add or update view:', key, template, JSON.stringify(content));
+  log.info(LOG_PREFIX, 'add or update view:', key, template, JSON.stringify(content, undefined, 4));
 
   try {
     return await updateView(key, undefined, template, content, pageTitle);
@@ -114,7 +114,7 @@ export async function removeView(key) {
     .findOneAndDelete({ key })
     .populate(POPULATE_VIEW_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -125,7 +125,7 @@ export async function getViewList() {
     .find()
     .populate(POPULATE_VIEW_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(views));
+  log.verbose(LOG_PREFIX, JSON.stringify(views, undefined, 4));
   return views;
 }
 
@@ -139,7 +139,7 @@ export async function getViewByTemplate(key) {
     .find({ template })
     .populate(POPULATE_VIEW_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(view));
+  log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view;
 }
 
@@ -150,6 +150,6 @@ export async function removeViews() {
     .deleteMany()
     .populate(POPULATE_VIEW_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

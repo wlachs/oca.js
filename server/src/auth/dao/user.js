@@ -28,7 +28,7 @@ export async function getUserById(userID) {
     throw new Error(`can't get user, no user found with id: ${userID}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(user));
+  log.verbose(LOG_PREFIX, JSON.stringify(user, undefined, 4));
   return user;
 }
 
@@ -57,7 +57,7 @@ export async function addUser(userID, password, groups) {
   user.passwordHash = await hashUserPassword(password);
   user.groups = await getUserGroupsByKeys(groups);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(user));
+  log.verbose(LOG_PREFIX, JSON.stringify(user, undefined, 4));
   return user.save();
 }
 
@@ -81,7 +81,7 @@ export async function updateUser(userID, newUserID, password, groups) {
   user.passwordHash = await hashUserPassword(password);
   user.groups = await getUserGroupsByKeys(groups);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(user));
+  log.verbose(LOG_PREFIX, JSON.stringify(user, undefined, 4));
   return user.save();
 }
 
@@ -106,7 +106,7 @@ export async function removeUser(userID) {
     .findOneAndDelete({ userID })
     .populate(POPULATE_USER);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -117,7 +117,7 @@ export async function getUserList() {
     .find()
     .populate(POPULATE_USER);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(users));
+  log.verbose(LOG_PREFIX, JSON.stringify(users, undefined, 4));
   return users;
 }
 
@@ -128,6 +128,6 @@ export async function removeAllUsers() {
     .deleteMany()
     .populate(POPULATE_USER);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

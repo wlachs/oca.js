@@ -22,7 +22,7 @@ export async function getUserGroupByKey(key) {
     throw new Error(`can't get user group, no user group found with key: ${key}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(userGroup));
+  log.verbose(LOG_PREFIX, JSON.stringify(userGroup, undefined, 4));
   return userGroup;
 }
 
@@ -44,11 +44,11 @@ export async function getUserGroupChain(key) {
 
   if (userGroup.parent) {
     const parentChain = await getUserGroupChain(userGroup.parent.key);
-    log.verbose(LOG_PREFIX, JSON.stringify([userGroup, ...parentChain]));
+    log.verbose(LOG_PREFIX, JSON.stringify([userGroup, ...parentChain], undefined, 4));
     return [userGroup, ...parentChain];
   }
 
-  log.verbose(LOG_PREFIX, 'root', JSON.stringify(userGroup));
+  log.verbose(LOG_PREFIX, 'root', JSON.stringify(userGroup, undefined, 4));
   return [userGroup];
 }
 
@@ -59,7 +59,7 @@ export async function getUserGroupsByKeys(keys) {
     .find({ key: { $in: keys } })
     .populate(POPULATE_USER_GROUP_KEY);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(userGroups));
+  log.verbose(LOG_PREFIX, JSON.stringify(userGroups, undefined, 4));
   return userGroups;
 }
 
@@ -76,7 +76,7 @@ export async function addUserGroup(key, parentKey) {
   userGroup.key = key;
   userGroup.parent = await getUserGroupByKeyOrNull(parentKey);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(userGroup));
+  log.verbose(LOG_PREFIX, JSON.stringify(userGroup, undefined, 4));
   return userGroup.save();
 }
 
@@ -99,7 +99,7 @@ export async function updateUserGroup(key, newKey, parentKey) {
 
   userGroup.parent = await getUserGroupByKeyOrNull(parentKey);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(userGroup));
+  log.verbose(LOG_PREFIX, JSON.stringify(userGroup, undefined, 4));
   return userGroup.save();
 }
 
@@ -124,7 +124,7 @@ export async function removeUserGroup(key) {
     .findOneAndDelete({ key })
     .populate(POPULATE_USER_GROUP_KEY);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -135,7 +135,7 @@ export async function getUserGroupList() {
     .find()
     .populate(POPULATE_USER_GROUP_KEY);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(users));
+  log.verbose(LOG_PREFIX, JSON.stringify(users, undefined, 4));
   return users;
 }
 
@@ -143,6 +143,6 @@ export async function removeAllUserGroups() {
   log.info(LOG_PREFIX, 'remove all user groups');
 
   const deleted = await UserGroupModel.deleteMany();
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

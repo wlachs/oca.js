@@ -26,7 +26,7 @@ export async function getRedirectByReferer(referer) {
     throw new Error(`can't get redirect, no redirect found with referer: ${referer}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(redirect));
+  log.verbose(LOG_PREFIX, JSON.stringify(redirect, undefined, 4));
   return redirect;
 }
 
@@ -54,7 +54,7 @@ export async function addRedirect(referer, redirect) {
   redirectModel.referer = await getRouteByPath(referer);
   redirectModel.redirect = await getRouteByPath(redirect);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(redirectModel));
+  log.verbose(LOG_PREFIX, JSON.stringify(redirectModel, undefined, 4));
   return redirectModel.save();
 }
 
@@ -77,7 +77,7 @@ export async function updateRedirect(referer, newReferer, redirect) {
 
   redirectModel.redirect = await getRouteByPath(redirect);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(redirectModel));
+  log.verbose(LOG_PREFIX, JSON.stringify(redirectModel, undefined, 4));
   return redirectModel.save();
 }
 
@@ -99,7 +99,7 @@ export async function removeRedirect(referer) {
   await getRedirectByReferer(referer);
 
   const deleted = await RedirectModel.findOneAndDelete({ referer });
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -107,7 +107,7 @@ export async function getRedirectList() {
   log.info(LOG_PREFIX, 'get redirect list');
 
   const redirects = await RedirectModel.find();
-  log.verbose(LOG_PREFIX, JSON.stringify(redirects));
+  log.verbose(LOG_PREFIX, JSON.stringify(redirects, undefined, 4));
   return redirects;
 }
 
@@ -115,6 +115,6 @@ export async function removeAllRedirects() {
   log.info(LOG_PREFIX, 'remove all redirects');
 
   const deleted = await RedirectModel.deleteMany();
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

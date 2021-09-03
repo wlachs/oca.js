@@ -12,7 +12,7 @@ import ContentModel from '../../db/content';
 const LOG_PREFIX = 'LAYOUT_DAO_UTILS_SLOT_CONTENT_MAPPING_RESOLVER';
 
 async function resolveSlotContentMapping(mapping) {
-  log.info(LOG_PREFIX, 'resolve slot -> content mapping for:', JSON.stringify(mapping));
+  log.info(LOG_PREFIX, 'resolve slot -> content mapping for:', JSON.stringify(mapping, undefined, 4));
 
   const slotKeys = mapping.map((pair) => pair.slot);
   const slots = await Promise.all(slotKeys.map(
@@ -43,7 +43,7 @@ async function resolveSlotContentMapping(mapping) {
     content: content[id],
   }));
 
-  log.verbose(LOG_PREFIX, JSON.stringify(mappedContent));
+  log.verbose(LOG_PREFIX, JSON.stringify(mappedContent, undefined, 4));
   return mappedContent;
 }
 

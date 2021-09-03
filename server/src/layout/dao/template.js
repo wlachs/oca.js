@@ -25,7 +25,7 @@ export async function getTemplateByKey(key) {
     throw new Error(`can't get template, no template found with key: ${key}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(template));
+  log.verbose(LOG_PREFIX, JSON.stringify(template, undefined, 4));
   return template;
 }
 
@@ -56,7 +56,7 @@ export async function addTemplate(key, slots) {
   template.key = key;
   template.slots = slotList;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template)));
+  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template, undefined, 4)));
   return template.save();
 }
 
@@ -81,7 +81,7 @@ export async function updateTemplate(key, newKey, slots) {
 
   template.slots = slotList;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template)));
+  log.verbose(LOG_PREFIX, JSON.stringify(JSON.stringify(template, undefined, 4)));
   return template.save();
 }
 
@@ -102,7 +102,7 @@ export async function removeTemplate(key) {
   await getTemplateByKey(key);
 
   const deleted = await TemplateModel.findOneAndDelete({ key }).populate(POPULATE_SLOTS_FULL);
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -113,7 +113,7 @@ export async function getTemplateList() {
     .find()
     .populate(POPULATE_SLOTS_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(templates));
+  log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
 
@@ -127,7 +127,7 @@ export async function getTemplateBySlot(key) {
     .find({ slots: { $in: [slot] } })
     .populate(POPULATE_SLOTS_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(templates));
+  log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
 
@@ -138,6 +138,6 @@ export async function removeTemplates() {
     .deleteMany()
     .populate(POPULATE_SLOTS_FULL);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

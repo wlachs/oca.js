@@ -22,7 +22,7 @@ export async function getSlotByKey(key) {
     throw new Error(`can't get slot, no slot found with key: ${key}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(slot));
+  log.verbose(LOG_PREFIX, JSON.stringify(slot, undefined, 4));
   return slot;
 }
 
@@ -53,7 +53,7 @@ export async function addSlot(key, types) {
   slot.key = key;
   slot.allowedContentTypes = contentTypes;
 
-  log.verbose(LOG_PREFIX, JSON.stringify(slot));
+  log.verbose(LOG_PREFIX, JSON.stringify(slot, undefined, 4));
   return slot.save();
 }
 
@@ -76,7 +76,7 @@ export async function updateSlot(key, newKey, types) {
   /* If the content type list is not valid, an exception is thrown */
   slot.allowedContentTypes = await getContentTypeListByKeys(types);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(slot));
+  log.verbose(LOG_PREFIX, JSON.stringify(slot, undefined, 4));
   return slot.save();
 }
 
@@ -100,7 +100,7 @@ export async function removeSlot(key) {
     .findOneAndDelete({ key })
     .populate(POPULATE_ALLOWED_CONTENT_TYPES);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
 
@@ -108,7 +108,7 @@ export async function getSlotList() {
   log.info(LOG_PREFIX, 'get slot list');
 
   const slots = await SlotModel.find().populate(POPULATE_ALLOWED_CONTENT_TYPES);
-  log.verbose(LOG_PREFIX, JSON.stringify(slots));
+  log.verbose(LOG_PREFIX, JSON.stringify(slots, undefined, 4));
   return slots;
 }
 
@@ -124,7 +124,7 @@ export async function getSlotListByKeys(keys) {
     throw new Error(`invalid slot key in list: ${keys}`);
   }
 
-  log.verbose(LOG_PREFIX, JSON.stringify(slotList));
+  log.verbose(LOG_PREFIX, JSON.stringify(slotList, undefined, 4));
   return slotList;
 }
 
@@ -138,7 +138,7 @@ export async function getSlotListForContentType(key) {
     .find({ allowedContentTypes: { $in: [contentType] } })
     .populate(POPULATE_ALLOWED_CONTENT_TYPES);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(slots));
+  log.verbose(LOG_PREFIX, JSON.stringify(slots, undefined, 4));
   return slots;
 }
 
@@ -149,6 +149,6 @@ export async function removeSlots() {
     .deleteMany()
     .populate(POPULATE_ALLOWED_CONTENT_TYPES);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(deleted));
+  log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
