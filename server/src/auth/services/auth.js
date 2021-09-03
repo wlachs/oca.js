@@ -7,7 +7,7 @@ import { JWT_ALGORITHM, JWT_EXPIRE, JWT_SECRET } from '../../config/secrets';
 
 /* User service */
 import { verifyUserPassword } from './user';
-import { getRedirectByReferer } from '../dao/redirect';
+import { getRedirectByReferer } from '../../layout/dao/redirect';
 
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_SERVICES_USER';

@@ -14,7 +14,7 @@ import { RouteMutation, RouteQuery } from './layout/graphql/route';
 import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
 import { UserMutation, UserQuery } from './auth/graphql/user';
 import { TokenQuery } from './auth/graphql/token';
-import { RedirectMutation, RedirectQuery } from './auth/graphql/redirect';
+import { RedirectMutation, RedirectQuery } from './layout/graphql/redirect';
 
 /* Misc */
 import { conditionalMW } from './utils/express-utils';

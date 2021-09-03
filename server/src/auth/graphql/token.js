@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 import { authenticateUser } from '../services/auth';
-import { Redirect } from './redirect';
+import { Redirect } from '../../layout/graphql/redirect';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',

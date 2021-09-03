@@ -6,7 +6,7 @@ import { POPULATE_REDIRECT_FULL } from '../db/populators';
 
 /* Data models */
 import RedirectModel from '../db/redirect';
-import { getRouteByPath } from '../../layout/dao/route';
+import { getRouteByPath } from './route';
 
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO_REDIRECT';

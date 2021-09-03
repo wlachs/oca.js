@@ -9,7 +9,7 @@ import {
   removeRedirect,
   updateRedirect,
 } from '../dao/redirect';
-import { Route } from '../../layout/graphql/route';
+import { Route } from './route';
 
 export const Redirect = new GraphQLObjectType({
   name: 'Redirect',
