@@ -13,6 +13,7 @@ import { ViewMutation, ViewQuery } from './layout/graphql/view';
 import { RouteMutation, RouteQuery } from './layout/graphql/route';
 import { ProjectMutation, ProjectQuery } from './projects/graphql/project';
 import { UserMutation, UserQuery } from './auth/graphql/user';
+import { UserGroupMutation, UserGroupQuery } from './auth/graphql/user_group';
 import { TokenQuery } from './auth/graphql/token';
 import { RedirectMutation, RedirectQuery } from './layout/graphql/redirect';
 
@@ -45,6 +46,7 @@ const AdminQueryType = new GraphQLObjectType({
     ...RouteQuery,
     ...ProjectQuery,
     ...UserQuery,
+    ...UserGroupQuery,
     ...RedirectQuery,
   },
 });
@@ -62,6 +64,7 @@ const AdminMutationType = new GraphQLObjectType({
     ...RouteMutation,
     ...ProjectMutation,
     ...UserMutation,
+    ...UserGroupMutation,
     ...RedirectMutation,
   },
 });

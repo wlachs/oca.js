@@ -1,0 +1,6 @@
+mutation {
+    adminGroup: addUserGroup(
+        key: "ADMIN_USER_GROUP"
+    )
+    { key }
+}
