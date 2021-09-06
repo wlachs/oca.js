@@ -1,7 +1,7 @@
 import log from 'npmlog';
 import express from 'express';
 import path from 'path';
-import api from './graphql';
+import api from './express';
 
 const LOG_PREFIX = 'CORE_ROUTES';
 

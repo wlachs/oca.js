@@ -1,2 +1,4 @@
 export const ADMIN_USER_KEY = 'admin';
+export const ADMIN_USER_GROUP = 'ADMIN_USER_GROUP';
+export const STANDARD_USER_GROUP = 'STANDARD_USER_GROUP';
 export const GUEST_USER_GROUP = 'GUEST_USER_GROUP';
