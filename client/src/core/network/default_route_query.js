@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
-import { apiEndpoint } from '../config/api_config';
+import apiEndpoint from '../config/api_config';
 
 async function defaultRouteQuery() {
   const response = await axios.post(apiEndpoint(), query({

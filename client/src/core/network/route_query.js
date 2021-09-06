@@ -1,15 +1,14 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
-import { apiEndpoint, apiRestrictedEndpoint } from '../config/api_config';
+import apiEndpoint from '../config/api_config';
 import { DEVELOPMENT } from '../config/environment';
 import returnAfter from '../utils/delayed_execution';
 
 async function routeQuery(path, bearer) {
-  let endpoint = apiEndpoint();
+  const endpoint = apiEndpoint();
   let headers = null;
 
   if (bearer) {
-    endpoint = apiRestrictedEndpoint();
     headers = { Authorization: `Bearer ${bearer}` };
   }
 

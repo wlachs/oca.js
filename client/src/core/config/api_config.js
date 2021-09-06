@@ -3,9 +3,6 @@ import * as prodConfiguration from './production.json';
 import { DEVELOPMENT, PRODUCTION, STAGE } from './environment';
 
 const guestApi = '/api';
-const restrictedApi = '/api/restricted';
-
-// export const authEndpoint = '/auth';
 
 function getEndpoint() {
   switch (process.env.NODE_ENV) {
@@ -19,10 +16,8 @@ function getEndpoint() {
   }
 }
 
-export function apiEndpoint() {
+function apiEndpoint() {
   return getEndpoint() + guestApi;
 }
 
-export function apiRestrictedEndpoint() {
-  return getEndpoint() + restrictedApi;
-}
+export default apiEndpoint;
