@@ -1,4 +1,8 @@
 export function jsonifyRouteList(routes) {
+  if (!routes || routes.length === 0) {
+    return '';
+  }
+
   return JSON.stringify(
     routes.map((r) => ({ path: r.path })),
     undefined,
@@ -7,6 +11,10 @@ export function jsonifyRouteList(routes) {
 }
 
 export function jsonifyRoute(route) {
+  if (!route || !route.path || !route.view || !route.accessGroups) {
+    return '';
+  }
+
   return JSON.stringify({
     path: route.path,
     view: route.view.key,
