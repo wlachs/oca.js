@@ -2,6 +2,7 @@ import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 import { View } from './view';
+import { UserGroup } from '../../auth/graphql/user_group';
 import {
   addOrUpdateRoute,
   addRoute,
@@ -25,6 +26,10 @@ export const Route = new GraphQLObjectType({
       type: GraphQLNonNull(View),
       description: 'View associated with the route',
     },
+    accessGroups: {
+      type: GraphQLList(UserGroup),
+      description: 'Access groups required for accessing the route',
+    },
   },
 });
 
@@ -32,7 +37,7 @@ export const RouteQuery = {
   routes: {
     type: GraphQLList(Route),
     description: 'List of available routes',
-    resolve: async () => getRouteList(),
+    resolve: async (_, __, { user }) => getRouteList(user),
   },
 
   route: {
@@ -44,7 +49,7 @@ export const RouteQuery = {
         description: 'Unique path',
       },
     },
-    resolve: async (_, { path }) => getRouteByPath(path),
+    resolve: async (_, { path }, { user }) => getRouteByPath(path, user),
   },
 
   routeByView: {
@@ -56,13 +61,13 @@ export const RouteQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getRouteByView(key),
+    resolve: async (_, { key }, { user }) => getRouteByView(key, user),
   },
 
   defaultRoute: {
     type: GraphQLNonNull(Route),
     description: 'Get default application route',
-    resolve: async () => getDefaultRoute(),
+    resolve: async (_, __, { user }) => getDefaultRoute(user),
   },
 };
 
@@ -79,8 +84,12 @@ export const RouteMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'View key',
       },
+      accessGroups: {
+        type: GraphQLList(GraphQLString),
+        description: 'Access groups required for accessing the route',
+      },
     },
-    resolve: async (_, { path, view }) => addRoute(path, view),
+    resolve: async (_, { path, view, accessGroups }) => addRoute(path, view, accessGroups),
   },
 
   addOrUpdateRoute: {
@@ -95,8 +104,12 @@ export const RouteMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'View key',
       },
+      accessGroups: {
+        type: GraphQLList(GraphQLString),
+        description: 'Access groups required for accessing the route',
+      },
     },
-    resolve: async (_, { path, view }) => addOrUpdateRoute(path, view),
+    resolve: async (_, { path, view, accessGroups }) => addOrUpdateRoute(path, view, accessGroups),
   },
 
   updateRoute: {
@@ -115,8 +128,14 @@ export const RouteMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'View key',
       },
+      accessGroups: {
+        type: GraphQLList(GraphQLString),
+        description: 'Access groups required for accessing the route',
+      },
     },
-    resolve: async (_, { path, newPath, view }) => updateRoute(path, newPath, view),
+    resolve: async (_, {
+      path, newPath, view, accessGroup,
+    }) => updateRoute(path, newPath, view, accessGroup),
   },
 
   removeRoute: {
