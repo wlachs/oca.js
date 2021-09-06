@@ -6,7 +6,6 @@ import { Slot } from './slot';
 import { Content } from './content';
 import {
   addOrUpdateView,
-  addView,
   getViewByKey,
   getViewByTemplate,
   getViewList,
@@ -100,32 +99,6 @@ export const ViewQuery = {
 };
 
 export const ViewMutation = {
-  addView: {
-    type: View,
-    description: 'Add new view',
-    args: {
-      key: {
-        type: GraphQLNonNull(GraphQLString),
-        description: 'Unique key',
-      },
-      template: {
-        type: GraphQLNonNull(GraphQLString),
-        description: 'Template key',
-      },
-      content: {
-        type: GraphQLList(SlotContentInputPair),
-        description: 'Slot->Content key associations',
-      },
-      pageTitle: {
-        type: GraphQLNonNull(GraphQLString),
-        description: 'Page title to show in the client',
-      },
-    },
-    resolve: async (_, {
-      key, template, content, pageTitle,
-    }) => addView(key, template, content, pageTitle),
-  },
-
   addOrUpdateView: {
     type: View,
     description: 'Add or update view',
@@ -135,7 +108,7 @@ export const ViewMutation = {
         description: 'Unique key',
       },
       template: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'Template key',
       },
       content: {
@@ -143,7 +116,7 @@ export const ViewMutation = {
         description: 'Slot->Content key associations',
       },
       pageTitle: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'Page title to show in the client',
       },
     },

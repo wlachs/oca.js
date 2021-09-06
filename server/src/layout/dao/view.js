@@ -42,37 +42,20 @@ async function getViewByKeyOrNull(key) {
   }
 }
 
-export async function addView(key, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'add view:', key, template, JSON.stringify(content, undefined, 4));
-
-  const existingView = await getViewByKeyOrNull(key);
-  if (existingView) {
-    log.error(LOG_PREFIX, 'view with key already exists', key);
-    throw new Error(`can't create view, view with key already exists: ${key}`);
-  }
-
-  /* If the template is not found, an exception is thrown */
-  const existingTemplate = await getTemplateByKey(template);
-
-  const view = new ViewModel();
-  view.key = key;
-  view.template = existingTemplate;
-  view.content = await resolveSlotContentMapping(content);
-  view.pageTitle = pageTitle;
-
-  validate(view);
-  log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
-  return view.save();
-}
-
 export async function updateView(key, newKey, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'update view:', key, newKey, template, JSON.stringify(content, undefined, 4));
 
-  /* If the view is not found, an exception is thrown */
-  const view = await getViewByKey(key);
+  let view;
+  try {
+    view = await getViewByKey(key);
+  } catch (e) {
+    view = new ViewModel();
+    view.key = key;
+  }
 
-  /* If the template is not found, an exception is thrown */
-  const existingTemplate = await getTemplateByKey(template);
+  if (template) {
+    view.template = await getTemplateByKey(template);
+  }
 
   if (newKey) {
     const viewWithNewKey = await getViewByKeyOrNull(newKey);
@@ -85,9 +68,13 @@ export async function updateView(key, newKey, template, content, pageTitle) {
     view.key = newKey;
   }
 
-  view.template = existingTemplate;
-  view.content = await resolveSlotContentMapping(content);
-  view.pageTitle = pageTitle;
+  if (content) {
+    view.content = await resolveSlotContentMapping(content);
+  }
+
+  if (pageTitle) {
+    view.pageTitle = pageTitle;
+  }
 
   validate(view);
   log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
@@ -96,12 +83,7 @@ export async function updateView(key, newKey, template, content, pageTitle) {
 
 export async function addOrUpdateView(key, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'add or update view:', key, template, JSON.stringify(content, undefined, 4));
-
-  try {
-    return await updateView(key, undefined, template, content, pageTitle);
-  } catch (e) {
-    return addView(key, template, content, pageTitle);
-  }
+  return updateView(key, undefined, template, content, pageTitle);
 }
 
 export async function removeView(key) {
