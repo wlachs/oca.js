@@ -42,8 +42,15 @@ async function getViewByKeyOrNull(key) {
   }
 }
 
-export async function updateView(key, newKey, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'update view:', key, newKey, template, JSON.stringify(content, undefined, 4));
+export async function addOrUpdateView(key, newKey, template, content, pageTitle) {
+  log.info(
+    LOG_PREFIX,
+    'add or update view:',
+    key,
+    newKey,
+    template,
+    JSON.stringify(content, undefined, 4),
+  );
 
   let view;
   try {
@@ -79,11 +86,6 @@ export async function updateView(key, newKey, template, content, pageTitle) {
   validate(view);
   log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view.save();
-}
-
-export async function addOrUpdateView(key, template, content, pageTitle) {
-  log.info(LOG_PREFIX, 'add or update view:', key, template, JSON.stringify(content, undefined, 4));
-  return updateView(key, undefined, template, content, pageTitle);
 }
 
 export async function removeView(key) {
