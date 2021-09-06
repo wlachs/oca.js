@@ -1,5 +1,5 @@
 mutation {
-    homeView: addView(
+    homeView: addOrUpdateView(
         key: "HOME_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -19,7 +19,7 @@ mutation {
         pageTitle: "Laszlo Borbely | Welcome",
     ) { key }
 
-    projectView: addView(
+    projectView: addOrUpdateView(
         key: "PROJECT_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -39,7 +39,7 @@ mutation {
         pageTitle: "Laszlo Borbely | Projects",
     ) { key }
 
-    contactView: addView(
+    contactView: addOrUpdateView(
         key: "CONTACT_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -60,7 +60,7 @@ mutation {
     )
     { key }
 
-    adminLoginView: addView(
+    adminLoginView: addOrUpdateView(
         key: "ADMIN_LOGIN_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -81,7 +81,7 @@ mutation {
     )
     { key }
 
-    adminDashboardView: addView(
+    adminDashboardView: addOrUpdateView(
         key: "ADMIN_DASHBOARD_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -102,7 +102,7 @@ mutation {
     )
     { key }
 
-    notFoundView: addView(
+    notFoundView: addOrUpdateView(
         key: "NOT_FOUND_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
@@ -123,7 +123,7 @@ mutation {
     )
     { key }
 
-    notAuthorizedView: addView(
+    notAuthorizedView: addOrUpdateView(
         key: "NOT_AUTHORIZED_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
         content: [
