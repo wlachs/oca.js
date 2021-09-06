@@ -1,0 +1,18 @@
+mutation {
+    adminGroup: addUserGroup(
+        key: "ADMIN_USER_GROUP"
+    )
+    { key }
+
+    standardGroup: addUserGroup(
+        key: "STANDARD_USER_GROUP"
+        parent: "ADMIN_USER_GROUP"
+    )
+    { key }
+
+    guestGroup: addUserGroup(
+        key: "GUEST_USER_GROUP",
+        parent: "STANDARD_USER_GROUP"
+    )
+    { key }
+}

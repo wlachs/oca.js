@@ -1,0 +1,36 @@
+mutation {
+    homeRoute: addOrUpdateRoute(
+        path: "/",
+        view: "HOME_VIEW",
+        accessGroups: ["GUEST_USER_GROUP"]
+    )
+    { path }
+
+    projectRoute: addOrUpdateRoute(
+        path: "/projects",
+        view: "PROJECT_VIEW",
+        accessGroups: ["GUEST_USER_GROUP"]
+    )
+    { path }
+
+    contactRoute: addOrUpdateRoute(
+        path: "/contact",
+        view: "CONTACT_VIEW",
+        accessGroups: ["GUEST_USER_GROUP"]
+    )
+    { path }
+
+    adminLoginRoute: addOrUpdateRoute(
+        path: "/adminlogin",
+        view: "ADMIN_LOGIN_VIEW",
+        accessGroups: ["GUEST_USER_GROUP"]
+    )
+    { path }
+
+    adminDashboardRoute: addOrUpdateRoute(
+        path: "/admindashboard",
+        view: "ADMIN_DASHBOARD_VIEW",
+        accessGroups: ["ADMIN_USER_GROUP"]
+    )
+    { path }
+}
