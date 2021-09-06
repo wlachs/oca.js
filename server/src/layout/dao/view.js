@@ -35,7 +35,7 @@ async function getViewByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get view by key or null:', key);
 
   try {
-    return await getTemplateByKey(key);
+    return await getViewByKey(key);
   } catch (e) {
     log.info(LOG_PREFIX, 'view with key not found, returning with null', key);
     return null;

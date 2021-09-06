@@ -71,4 +71,24 @@ mutation {
         type: "LOGIN_FORM_CONTENT_TYPE"
     )
     { key }
+
+    notFoundHeaderTextContent: addContent(
+        key: "NOT_FOUND_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "404" },
+            { key: "h2", value: "Not found!" }
+        ]
+    )
+    { key }
+
+    notAuthorizedHeaderTextContent: addContent(
+        key: "NOT_AUTHORIZED_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "401" },
+            { key: "h2", value: "Unauthorized!" }
+        ]
+    )
+    { key }
 }

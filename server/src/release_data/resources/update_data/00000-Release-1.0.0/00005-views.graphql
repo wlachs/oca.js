@@ -40,4 +40,46 @@ mutation {
         pageTitle: "Laszlo Borbely | Admin Dashboard",
     )
     { key }
+
+    notFoundView: addOrUpdateView(
+        key: "NOT_FOUND_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "NOT_FOUND_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "HOME_IMAGE_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | 404",
+    )
+    { key }
+
+    notAuthorizedView: addOrUpdateView(
+        key: "NOT_AUTHORIZED_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "NOT_AUTHORIZED_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "HOME_IMAGE_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | 401",
+    )
+    { key }
 }

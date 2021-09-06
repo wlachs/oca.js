@@ -6,7 +6,7 @@ import { UserGroup } from '../../auth/graphql/user_group';
 import {
   addOrUpdateRoute,
   addRoute,
-  getRouteByPath,
+  getRouteByPathOrDefault,
   getRouteByView,
   getRouteList,
   removeRoute,
@@ -49,7 +49,7 @@ export const RouteQuery = {
         description: 'Unique path',
       },
     },
-    resolve: async (_, { path }, { user }) => getRouteByPath(path, user),
+    resolve: async (_, { path }, { user }) => getRouteByPathOrDefault(path, user),
   },
 
   routeByView: {
