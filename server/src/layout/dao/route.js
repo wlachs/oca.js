@@ -165,9 +165,7 @@ export async function getRouteByView(key, user) {
 export async function removeRoutes() {
   log.info(LOG_PREFIX, 'delete routes');
 
-  const deleted = await RouteModel
-    .deleteMany()
-    .populate(POPULATE_ROUTE_FULL);
+  const deleted = await RouteModel.deleteMany();
 
   log.verbose(LOG_PREFIX, jsonifyRoute(deleted));
   return deleted;
