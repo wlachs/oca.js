@@ -9,7 +9,8 @@ const { auth } = getConfig();
 
 router.use('/',
   [
-    /* Conditional middleware, if authentication is enabled,
+    /*
+     * Conditional middleware, if authentication is enabled,
      * verify access, otherwise use fake admin token
      */
     conditionalMW(auth.enabled,

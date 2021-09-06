@@ -13,7 +13,7 @@ export async function clearDB() {
   log.info(LOG_PREFIX, 'clear db');
 
   return Promise.all([
-    removeAllUsers(),
-    removeAllUserGroups(),
+    await removeAllUsers(),
+    await removeAllUserGroups(),
   ]);
 }

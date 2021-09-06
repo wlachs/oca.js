@@ -11,6 +11,7 @@ async function executeFile(content) {
 }
 
 async function loadFiles(path, recursive) {
+  log.info(LOG_PREFIX, 'load files', path, recursive);
   const cleanPath = path.replace(/\/$/, '');
   const files = fs.readdirSync(path);
 

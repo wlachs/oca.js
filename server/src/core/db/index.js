@@ -7,8 +7,12 @@ const LOG_PREFIX = 'CORE_DB';
 async function connect() {
   log.info(LOG_PREFIX, 'connecting to DB');
 
-  const { db } = getConfig();
-  const connectionString = `mongodb://${db.host}:${db.port}/${db.dbName}`;
+  const config = getConfig();
+
+  /* Set loglevel */
+  log.level = config.log || 'info';
+
+  const connectionString = `mongodb://${config.db.host}:${config.db.port}/${config.db.dbName}`;
   log.info(LOG_PREFIX, 'db connection string:', connectionString);
 
   return mongoose.connect(connectionString,
