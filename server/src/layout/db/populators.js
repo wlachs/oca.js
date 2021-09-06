@@ -38,11 +38,21 @@ export const POPULATE_VIEW_FULL = [
   POPULATE_CONTENT_CONTENT_FULL,
 ];
 
-export const POPULATE_ROUTE_FULL = {
+const POPULATE_VIEW_OF_ROUTE = {
   path: 'view',
   model: 'View',
   populate: POPULATE_VIEW_FULL,
 };
+
+const POPULATE_USER_GROUPS_OF_ROUTE = {
+  path: 'accessGroups',
+  model: 'UserGroup',
+};
+
+export const POPULATE_ROUTE_FULL = [
+  POPULATE_VIEW_OF_ROUTE,
+  POPULATE_USER_GROUPS_OF_ROUTE,
+];
 
 export const POPULATE_REDIRECT_ROUTE = {
   path: 'redirect',
