@@ -85,7 +85,7 @@ export const adminSchema = new GraphQLSchema({
   mutation: AdminMutationType,
 });
 
-router.use('/admin',
+router.use('/restricted',
   [
     conditionalMW(auth.enabled,
       jwt({

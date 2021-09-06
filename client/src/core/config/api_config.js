@@ -3,7 +3,7 @@ import * as prodConfiguration from './production.json';
 import { DEVELOPMENT, PRODUCTION, STAGE } from './environment';
 
 const guestApi = '/api';
-const adminApi = '/api/admin';
+const restrictedApi = '/api/restricted';
 
 // export const authEndpoint = '/auth';
 
@@ -23,6 +23,6 @@ export function apiEndpoint() {
   return getEndpoint() + guestApi;
 }
 
-export function apiAdminEndpoint() {
-  return getEndpoint() + adminApi;
+export function apiRestrictedEndpoint() {
+  return getEndpoint() + restrictedApi;
 }

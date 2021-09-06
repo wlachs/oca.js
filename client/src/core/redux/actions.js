@@ -44,13 +44,16 @@ export function getDefaultRoute() {
 }
 
 export function getRoute(path) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    /* Get current state for auth header */
+    const { core } = getState();
+
     /* Start route query */
     dispatch({
       type: ROUTE_QUERY_START,
     });
 
-    routeQuery(path)
+    routeQuery(path, core.bearer)
       /* Route query successful */
       .then((value) => dispatch({
         type: ROUTE_QUERY_SUCCESS,
