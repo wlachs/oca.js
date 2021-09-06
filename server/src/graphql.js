@@ -18,9 +18,12 @@ import { TokenQuery } from './auth/graphql/token';
 import { RedirectMutation, RedirectQuery } from './layout/graphql/redirect';
 
 /* Misc */
-import { conditionalMW } from './utils/express-utils';
+import { asyncMW, conditionalMW } from './utils/express-utils';
 import getConfig from './config';
 import { JWT_ALGORITHM, JWT_SECRET } from './config/secrets';
+
+/* Middleware */
+import { populateUserGroupsMW, fakePopulateAdminUserMW } from './auth/middleware/populateUserGroupsMW';
 
 const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -48,6 +51,7 @@ const AdminQueryType = new GraphQLObjectType({
     ...UserQuery,
     ...UserGroupQuery,
     ...RedirectQuery,
+    ...TokenQuery,
   },
 });
 
@@ -82,21 +86,31 @@ export const adminSchema = new GraphQLSchema({
 });
 
 router.use('/admin',
-  conditionalMW(auth.enabled,
-    jwt({
-      secret: JWT_SECRET,
-      algorithms: [JWT_ALGORITHM],
-    })),
+  [
+    conditionalMW(auth.enabled,
+      jwt({
+        secret: JWT_SECRET,
+        algorithms: [JWT_ALGORITHM],
+      }),
+      /* If authentication is turned off, inject admin user into the request */
+      asyncMW(fakePopulateAdminUserMW)),
 
-  graphqlHTTP({
-    graphiql,
-    schema: adminSchema,
-  }));
+    asyncMW(populateUserGroupsMW),
+
+    graphqlHTTP({
+      graphiql,
+      schema: adminSchema,
+    }),
+  ]);
 
 router.use('/',
-  graphqlHTTP({
-    graphiql,
-    schema: querySchema,
-  }));
+  [
+    asyncMW(populateUserGroupsMW),
+
+    graphqlHTTP({
+      graphiql,
+      schema: querySchema,
+    }),
+  ]);
 
 export default router;
