@@ -15,7 +15,7 @@ const IMPORT_DIR = `${__dirname}/resources/initial_data/`;
 
 log.info(LOG_PREFIX, 'start initialisation');
 initDB()
-  .then(wipeDB)
+  .then(() => wipeDB())
   .then(() => loadFiles(IMPORT_DIR, false))
   .then(() => {
     log.info(LOG_PREFIX, 'initialisation successful');

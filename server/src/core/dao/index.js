@@ -6,5 +6,8 @@ const LOG_PREFIX = 'CORE_DAO';
 // eslint-disable-next-line import/prefer-default-export
 export async function clearDB() {
   log.info(LOG_PREFIX, 'clear db');
-  await removeApplicationProperties();
+
+  return Promise.all([
+    await removeApplicationProperties(),
+  ]);
 }

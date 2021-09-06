@@ -14,10 +14,10 @@ async function wipeDB() {
   log.info(LOG_PREFIX, 'wipe db');
 
   return Promise.all([
-    clearCore(),
-    clearLayout(),
-    clearProjects(),
-    clearAuth(),
+    await clearProjects(),
+    await clearLayout(),
+    await clearCore(),
+    await clearAuth(),
   ]);
 }
 
