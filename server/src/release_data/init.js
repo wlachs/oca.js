@@ -22,6 +22,6 @@ initDB()
     process.exit();
   })
   .catch((err) => {
-    log.error(LOG_PREFIX, JSON.stringify(err));
+    log.error(LOG_PREFIX, JSON.stringify(err, undefined, 4));
     process.exit(1);
   });

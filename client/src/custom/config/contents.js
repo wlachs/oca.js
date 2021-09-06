@@ -5,6 +5,7 @@ import HomeImageContent from '../content/HomeImageContent';
 import ContactEmailContent from '../content/ContactEmailContent';
 import ProjectListContent from '../content/ProjectListContent';
 import HeaderTextContent from '../content/HeaderTextContent';
+import LoginFormContent from '../content/LoginFormContent';
 
 const CONTENT_MAP = [
   /*
@@ -17,6 +18,10 @@ const CONTENT_MAP = [
   {
     key: 'TOP_BAR_CONTENT_TYPE',
     content: TopBarContent,
+  },
+  {
+    key: 'LOGIN_FORM_CONTENT_TYPE',
+    content: LoginFormContent,
   },
   /*
    * Key-based component associations
@@ -52,7 +57,7 @@ function getContent(key, type) {
     return contentTypeAssociation.content;
   }
 
-  return MissingContent;
+  return () => MissingContent({ what: `${key} of type ${type}` });
 }
 
 export default getContent;

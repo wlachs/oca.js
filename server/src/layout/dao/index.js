@@ -5,6 +5,7 @@ import { removeRoutes } from './route';
 import { removeSlots } from './slot';
 import { removeTemplates } from './template';
 import { removeViews } from './view';
+import { removeAllRedirects } from './redirect';
 
 const LOG_PREFIX = 'LAYOUT_DAO';
 
@@ -19,5 +20,6 @@ export async function clearDB() {
     removeSlots(),
     removeTemplates(),
     removeViews(),
+    removeAllRedirects(),
   ]);
 }

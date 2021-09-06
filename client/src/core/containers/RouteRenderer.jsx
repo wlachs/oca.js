@@ -39,7 +39,6 @@ RouteRenderer.defaultProps = {
 function mapStateToProps(state) {
   return {
     route: state.core.route,
-    path: state.core.path,
   };
 }
 

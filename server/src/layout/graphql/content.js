@@ -3,7 +3,13 @@ import {
 } from 'graphql';
 import { ContentType } from './content_type';
 import {
-  addContent, getContentByKey, getContentByType, getContentList, removeContent, updateContent,
+  addContent,
+  addOrUpdateContent,
+  getContentByKey,
+  getContentByType,
+  getContentList,
+  removeContent,
+  updateContent,
 } from '../dao/content';
 
 const KeyValueInputPair = new GraphQLInputObjectType({
@@ -106,6 +112,26 @@ export const ContentMutation = {
       },
     },
     resolve: async (_, { key, type, attributes }) => addContent(key, type, attributes),
+  },
+
+  addOrUpdateContent: {
+    type: Content,
+    description: 'Add or update content',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      type: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Content type key',
+      },
+      attributes: {
+        type: GraphQLList(KeyValueInputPair),
+        description: 'Optional attributes',
+      },
+    },
+    resolve: async (_, { key, type, attributes }) => addOrUpdateContent(key, type, attributes),
   },
 
   updateContent: {

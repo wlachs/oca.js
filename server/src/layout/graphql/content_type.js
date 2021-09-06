@@ -2,7 +2,11 @@ import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 import {
-  addContentType, getContentTypeList, removeContentType, updateContentType,
+  addContentType,
+  addOrIgnoreContentType,
+  getContentTypeList,
+  removeContentType,
+  updateContentType,
 } from '../dao/content_type';
 
 export const ContentType = new GraphQLObjectType({
@@ -35,6 +39,18 @@ export const ContentTypeMutation = {
       },
     },
     resolve: async (_, { key }) => addContentType(key),
+  },
+
+  addOrIgnoreContentType: {
+    type: ContentType,
+    description: 'Add new content type or do nothing',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+    },
+    resolve: async (_, { key }) => addOrIgnoreContentType(key),
   },
 
   updateContentType: {

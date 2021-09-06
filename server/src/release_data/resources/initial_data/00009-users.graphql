@@ -1,0 +1,8 @@
+mutation {
+    admin: addUser(
+        userID: "admin",
+        password: "nimda",
+        groups: ["ADMIN_USER_GROUP"]
+    )
+    { userID }
+}

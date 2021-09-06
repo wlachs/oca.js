@@ -3,7 +3,13 @@ import {
 } from 'graphql';
 import { ContentType } from './content_type';
 import {
-  addSlot, getSlotByKey, getSlotList, getSlotListForContentType, removeSlot, updateSlot,
+  addOrUpdateSlot,
+  addSlot,
+  getSlotByKey,
+  getSlotList,
+  getSlotListForContentType,
+  removeSlot,
+  updateSlot,
 } from '../dao/slot';
 
 export const Slot = new GraphQLObjectType({
@@ -68,6 +74,22 @@ export const SlotMutation = {
       },
     },
     resolve: async (_, { key, contentTypes }) => addSlot(key, contentTypes),
+  },
+
+  addOrUpdateSlot: {
+    type: Slot,
+    description: 'Add or update slot',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      contentTypes: {
+        type: GraphQLList(GraphQLString),
+        description: 'Allowed content types',
+      },
+    },
+    resolve: async (_, { key, contentTypes }) => addOrUpdateSlot(key, contentTypes),
   },
 
   updateSlot: {

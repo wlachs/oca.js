@@ -3,6 +3,7 @@ import {
 } from 'graphql';
 import { Slot } from './slot';
 import {
+  addOrUpdateTemplate,
   addTemplate,
   getTemplateByKey,
   getTemplateBySlot,
@@ -73,6 +74,22 @@ export const TemplateMutation = {
       },
     },
     resolve: async (_, { key, slots }) => addTemplate(key, slots),
+  },
+
+  addOrUpdateTemplate: {
+    type: Template,
+    description: 'Add or update template',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      slots: {
+        type: GraphQLList(GraphQLString),
+        description: 'List of template slots',
+      },
+    },
+    resolve: async (_, { key, slots }) => addOrUpdateTemplate(key, slots),
   },
 
   updateTemplate: {

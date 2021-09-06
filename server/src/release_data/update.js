@@ -18,4 +18,4 @@ initDB()
     log.info(LOG_PREFIX, 'update successful');
     process.exit();
   })
-  .catch((err) => log.error(LOG_PREFIX, JSON.stringify(err)));
+  .catch((err) => log.error(LOG_PREFIX, JSON.stringify(err, undefined, 4)));

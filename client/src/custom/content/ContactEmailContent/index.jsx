@@ -13,7 +13,7 @@ const EMAIL_ENTRY_KEY = 'email';
 function ContactEmailContent({ attributes }) {
   const emailEntry = attributes.find((entry) => entry.key === EMAIL_ENTRY_KEY);
   if (!emailEntry) {
-    return MissingContent;
+    return <MissingContent what="no e-mail address found" />;
   }
 
   return (

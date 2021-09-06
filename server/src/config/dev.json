@@ -4,9 +4,8 @@
   "cors": true,
   "log": "verbose",
   "auth": {
-    "enabled": false,
-    "jwtAlgorithm": "HS256",
-    "jwtExpire": "1h"
+    "enabled": true,
+    "saltRounds": 15
   },
   "db": {
     "host": "admin:admin@localhost",

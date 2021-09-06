@@ -6,10 +6,13 @@ import {
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
   SET_LOADING_STATE,
-  SET_PATH,
+  LOGIN_ERROR,
+  LOGIN_START,
+  LOGIN_SUCCESS,
 } from './action_types';
 import defaultRouteQuery from '../network/default_route_query';
 import routeQuery from '../network/route_query';
+import authentication from '../network/authentication';
 
 export function setLoadingState(state) {
   return (dispatch) => dispatch({
@@ -41,13 +44,16 @@ export function getDefaultRoute() {
 }
 
 export function getRoute(path) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    /* Get current state for auth header */
+    const { core } = getState();
+
     /* Start route query */
     dispatch({
       type: ROUTE_QUERY_START,
     });
 
-    routeQuery(path)
+    routeQuery(path, core.bearer)
       /* Route query successful */
       .then((value) => dispatch({
         type: ROUTE_QUERY_SUCCESS,
@@ -62,9 +68,33 @@ export function getRoute(path) {
   };
 }
 
-export function setPath(value) {
-  return (dispatch) => dispatch({
-    SET_PATH,
-    value,
-  });
+export function login(userID, password, history) {
+  return (dispatch, getState) => {
+    const state = getState();
+
+    /* Start login request */
+    dispatch({
+      type: LOGIN_START,
+    });
+
+    authentication(userID, password, state.core.route.path)
+      /* Login successful */
+      .then((value) => {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          value,
+        });
+
+        /* Redirect after login */
+        history.push(value.redirect.redirect.path);
+      })
+
+      /* Login failed */
+      .catch((value) => {
+        dispatch({
+          type: LOGIN_ERROR,
+          value,
+        });
+      });
+  };
 }

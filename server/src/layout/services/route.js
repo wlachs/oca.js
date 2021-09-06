@@ -12,6 +12,6 @@ export async function getDefaultRoute() {
   const { value } = await getApplicationPropertyByKey(DEFAULT_ROUTE_KEY);
   const route = await getRouteByPath(value);
 
-  log.verbose(LOG_PREFIX, JSON.stringify(route));
+  log.verbose(LOG_PREFIX, JSON.stringify(route, undefined, 4));
   return route;
 }
