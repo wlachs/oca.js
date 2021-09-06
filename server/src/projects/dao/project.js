@@ -20,10 +20,16 @@ export async function getProjectById(_id) {
   return project;
 }
 
-export async function addProject(name, description, imageUrl, link) {
-  log.info(LOG_PREFIX, 'add project:', name, description, imageUrl);
+export async function updateProject(_id, name, description, imageUrl, link) {
+  log.info(LOG_PREFIX, 'update project:', _id, name, description, imageUrl);
 
-  const project = new ProjectModel();
+  let project;
+  if (_id) {
+    project = getProjectById(_id);
+  } else {
+    project = new ProjectModel();
+  }
+
   project.name = name;
   project.description = description;
   project.imageUrl = imageUrl;
@@ -33,19 +39,9 @@ export async function addProject(name, description, imageUrl, link) {
   return project.save();
 }
 
-export async function updateProject(_id, name, description, imageUrl, link) {
-  log.info(LOG_PREFIX, 'update project:', _id, name, description, imageUrl);
-
-  /* If the project is not found, an exception is thrown */
-  const project = await getProjectById(_id);
-
-  project.name = name;
-  project.description = description;
-  project.imageUrl = imageUrl;
-  project.link = link;
-
-  log.verbose(LOG_PREFIX, JSON.stringify(project, undefined, 4));
-  return project.save();
+export async function addProject(name, description, imageUrl, link) {
+  log.info(LOG_PREFIX, 'add project:', name, description, imageUrl);
+  return updateProject(null, name, description, imageUrl, link);
 }
 
 export async function removeProject(_id) {
