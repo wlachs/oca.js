@@ -9,7 +9,7 @@ import {
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
-  SET_LOADING_STATE,
+  SET_LOADING_STATE, SHOW_ALERT,
 } from './action_types';
 import { ERROR_ALERT_TYPE } from '../components/AlertMessage';
 
@@ -83,6 +83,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         alert: populateAlert(action.value.message, ERROR_ALERT_TYPE),
+      };
+
+    case SHOW_ALERT:
+      return {
+        ...state,
+        alert: populateAlert(action.message, action.alertType),
       };
 
     case CLEAR_ALERT:

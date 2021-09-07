@@ -12,4 +12,5 @@ export const LOGIN_START = 'CORE/LOGIN_START';
 export const LOGIN_SUCCESS = 'CORE/LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'CORE/LOGIN_ERROR';
 
+export const SHOW_ALERT = 'CORE/SHOW_ALERT';
 export const CLEAR_ALERT = 'CORE/CLEAR_ALERT';
