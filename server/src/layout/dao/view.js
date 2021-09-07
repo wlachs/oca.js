@@ -42,22 +42,43 @@ async function getViewByKeyOrNull(key) {
   }
 }
 
-export async function addOrUpdateView(key, newKey, template, content, pageTitle) {
+async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
   log.info(
     LOG_PREFIX,
-    'add or update view:',
-    key,
-    newKey,
-    template,
-    JSON.stringify(content, undefined, 4),
+    'add or update view - internal',
+    JSON.stringify(args.key, undefined, 4),
+    failOnCollision,
+    shouldCreate,
   );
 
-  let view;
-  try {
-    view = await getViewByKey(key);
-  } catch (e) {
-    view = new ViewModel();
-    view.key = key;
+  const {
+    key, newKey, template, content, pageTitle,
+  } = args;
+
+  /* Get view by key */
+  let view = await getViewByKeyOrNull(key);
+  if (!view) {
+    /* If the view with the given key does not exist, there are two options:
+     * Option #1: a new view is created (if the corresponding variable is set)
+     * Option #2: an error is thrown
+     */
+    if (shouldCreate) {
+      /* Option #1 */
+      view = new ViewModel();
+      view.key = key;
+    } else {
+      /* Option #2 */
+      log.error(LOG_PREFIX, 'no view found with key:', key);
+      throw new Error(`can't update view, no view found with key: ${key}`);
+    }
+  } else if (failOnCollision) {
+    /*
+     * If a view with the given key does exist, there are again two options:
+     * Option #1: the found view is updated using the function arguments - do nothing
+     * Option #2: an error is thrown (if the corresponding variable is set)
+     */
+    log.error(LOG_PREFIX, 'view with key already exists:', key);
+    throw new Error(`can't add view, view with key already exists: ${key}`);
   }
 
   if (template) {
@@ -86,6 +107,27 @@ export async function addOrUpdateView(key, newKey, template, content, pageTitle)
   validate(view);
   log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view.save();
+}
+
+export async function addOrUpdateView(key, template, content, pageTitle) {
+  log.info(LOG_PREFIX, 'add or update view', key);
+  return addOrUpdateViewInternal({
+    key, template, content, pageTitle,
+  }, false, true);
+}
+
+export async function addView(key, template, content, pageTitle) {
+  log.info(LOG_PREFIX, 'add view', key);
+  return addOrUpdateViewInternal({
+    key, template, content, pageTitle,
+  }, true, true);
+}
+
+export async function updateView(key, newKey, template, content, pageTitle) {
+  log.info(LOG_PREFIX, 'update view', key);
+  return addOrUpdateViewInternal({
+    key, newKey, template, content, pageTitle,
+  }, false, false);
 }
 
 export async function removeView(key) {

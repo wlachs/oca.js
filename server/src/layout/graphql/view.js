@@ -6,10 +6,12 @@ import { Slot } from './slot';
 import { Content } from './content';
 import {
   addOrUpdateView,
+  addView,
   getViewByKey,
   getViewByTemplate,
   getViewList,
   removeView,
+  updateView,
 } from '../dao/view';
 
 const SlotContentInputPair = new GraphQLInputObjectType({
@@ -98,6 +100,62 @@ export const ViewQuery = {
 };
 
 export const ViewMutation = {
+  addView: {
+    type: View,
+    description: 'Add view',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      template: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Template key',
+      },
+      content: {
+        type: GraphQLList(SlotContentInputPair),
+        description: 'Slot->Content key associations',
+      },
+      pageTitle: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Page title to show in the client',
+      },
+    },
+    resolve: async (_, {
+      key, template, content, pageTitle,
+    }) => addView(key, template, content, pageTitle),
+  },
+
+  updateView: {
+    type: View,
+    description: 'Update update view',
+    args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique key',
+      },
+      newKey: {
+        type: GraphQLString,
+        description: 'New key',
+      },
+      template: {
+        type: GraphQLString,
+        description: 'Template key',
+      },
+      content: {
+        type: GraphQLList(SlotContentInputPair),
+        description: 'Slot->Content key associations',
+      },
+      pageTitle: {
+        type: GraphQLString,
+        description: 'Page title to show in the client',
+      },
+    },
+    resolve: async (_, {
+      key, newKey, template, content, pageTitle,
+    }) => updateView(key, newKey, template, content, pageTitle),
+  },
+
   addOrUpdateView: {
     type: View,
     description: 'Add or update view',
