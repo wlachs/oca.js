@@ -9,6 +9,7 @@ import {
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
+  CLEAR_ALERT,
 } from './action_types';
 import defaultRouteQuery from '../network/default_route_query';
 import routeQuery from '../network/route_query';
@@ -97,4 +98,10 @@ export function login(userID, password, history) {
         });
       });
   };
+}
+
+export function clearAlert() {
+  return (dispatch) => dispatch({
+    type: CLEAR_ALERT,
+  });
 }
