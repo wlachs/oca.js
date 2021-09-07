@@ -9,7 +9,8 @@ import {
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
-  CLEAR_ALERT, SHOW_ALERT,
+  CLEAR_ALERT,
+  SHOW_ALERT,
 } from './action_types';
 import defaultRouteQuery from '../network/default_route_query';
 import routeQuery from '../network/route_query';
