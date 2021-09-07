@@ -9,7 +9,8 @@ import {
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
-  SET_LOADING_STATE, SHOW_ALERT,
+  SET_LOADING_STATE,
+  SHOW_ALERT,
 } from './action_types';
 import { ERROR_ALERT_TYPE } from '../components/AlertMessage';
 
