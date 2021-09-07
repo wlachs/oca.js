@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 /* Custom imports */
 import getTemplate from '../../custom/config/templates';
 import LoadingIndicator from './LoadingIndicator';
+import AlertContainer from './AlertContainer';
 
 function Template({ template, pageTitle, loading }) {
   const T = getTemplate(template);
@@ -21,6 +22,9 @@ function Template({ template, pageTitle, loading }) {
 
       {/* Display loading indicator */}
       {loading && <LoadingIndicator />}
+
+      {/* Alert */}
+      <AlertContainer />
 
       {/* Render template */}
       <T />
