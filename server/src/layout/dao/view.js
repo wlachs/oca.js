@@ -57,7 +57,7 @@ async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
 
   /* Get view by key */
   let view = await getViewByKeyOrNull(key);
-  if (view === null) {
+  if (!view) {
     /* If the view with the given key does not exist, there are two options:
      * Option #1: a new view is created (if the corresponding variable is set)
      * Option #2: an error is thrown
