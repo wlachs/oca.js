@@ -1,19 +1,32 @@
 import {
+  CLEAR_ALERT,
   DEFAULT_ROUTE_QUERY_ERROR,
   DEFAULT_ROUTE_QUERY_START,
-  DEFAULT_ROUTE_QUERY_SUCCESS, LOGIN_ERROR, LOGIN_START, LOGIN_SUCCESS,
+  DEFAULT_ROUTE_QUERY_SUCCESS,
+  LOGIN_ERROR,
+  LOGIN_START,
+  LOGIN_SUCCESS,
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
   SET_LOADING_STATE,
+  SHOW_ALERT,
 } from './action_types';
+import { ERROR_ALERT_TYPE } from '../components/AlertMessage';
 
 const INITIAL_STATE = {
   loading: null,
-  error: null,
+  alert: null,
   route: null,
   bearer: null,
 };
+
+function populateAlert(message, type) {
+  return {
+    message,
+    type,
+  };
+}
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -28,7 +41,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
-        error: null,
+        alert: null,
       };
 
     case DEFAULT_ROUTE_QUERY_SUCCESS:
@@ -51,7 +64,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        error: action.value,
+        alert: populateAlert(action.value.message, ERROR_ALERT_TYPE),
       };
 
     case LOGIN_START:
@@ -70,7 +83,19 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        error: action.value,
+        alert: populateAlert(action.value.message, ERROR_ALERT_TYPE),
+      };
+
+    case SHOW_ALERT:
+      return {
+        ...state,
+        alert: populateAlert(action.message, action.alertType),
+      };
+
+    case CLEAR_ALERT:
+      return {
+        ...state,
+        alert: null,
       };
 
     default:
