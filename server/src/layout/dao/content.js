@@ -10,6 +10,10 @@ import ContentModel from '../db/content';
 /* DAO references */
 import { getContentTypeByKey } from './content_type';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_CONTENT';
 
@@ -19,7 +23,7 @@ export async function getContentByKey(key) {
   const content = await ContentModel.findOne({ key }).populate(POPULATE_TYPE);
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
-    throw new Error(`can't get content, no content found with key: ${key}`);
+    throw new NotFoundError(`can't get content, no content found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
@@ -43,7 +47,7 @@ export async function addContent(key, type, attributes) {
   const existingContent = await getContentByKeyOrNull(key);
   if (existingContent) {
     log.error(LOG_PREFIX, 'content with key already exists', key);
-    throw new Error(`can't create content, content with key already exists: ${key}`);
+    throw new Conflict(`can't create content, content with key already exists: ${key}`);
   }
 
   /* If the content type is not found, an exception is thrown */
@@ -71,7 +75,7 @@ export async function updateContent(key, newKey, type, attributes) {
     const contentWithNewKey = await getContentByKeyOrNull(newKey);
     if (contentWithNewKey) {
       log.error(LOG_PREFIX, 'content with key already exists:', newKey);
-      throw new Error(`can't update content, content with key already exists: ${newKey}`);
+      throw new Conflict(`can't update content, content with key already exists: ${newKey}`);
     }
     content.key = newKey;
   }

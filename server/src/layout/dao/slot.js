@@ -10,6 +10,11 @@ import SlotModel from '../db/slot';
 /* DAO references */
 import { getContentTypeByKey, getContentTypeListByKeys } from './content_type';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+import UnprocessableEntity from '../../core/errors/unprocessable_entity';
+
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_SLOT';
 
@@ -19,7 +24,7 @@ export async function getSlotByKey(key) {
   const slot = await SlotModel.findOne({ key }).populate(POPULATE_ALLOWED_CONTENT_TYPES);
   if (!slot) {
     log.error(LOG_PREFIX, 'no slot found with key:', key);
-    throw new Error(`can't get slot, no slot found with key: ${key}`);
+    throw new NotFoundError(`can't get slot, no slot found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(slot, undefined, 4));
@@ -43,7 +48,7 @@ export async function addSlot(key, types) {
   const existingSlot = await getSlotByKeyOrNull(key);
   if (existingSlot) {
     log.error(LOG_PREFIX, 'slot with key already exists', key);
-    throw new Error(`can't create slot, slot with key already exists: ${key}`);
+    throw new Conflict(`can't create slot, slot with key already exists: ${key}`);
   }
 
   /* If the content type list is not valid, an exception is thrown */
@@ -67,7 +72,7 @@ export async function updateSlot(key, newKey, types) {
     const slotWithNewKey = await getSlotByKeyOrNull(newKey);
     if (slotWithNewKey) {
       log.error(LOG_PREFIX, 'slot with key already exists:', newKey);
-      throw new Error(`can't update slot, slot with key already exists: ${newKey}`);
+      throw new Conflict(`can't update slot, slot with key already exists: ${newKey}`);
     }
 
     slot.key = newKey;
@@ -121,7 +126,7 @@ export async function getSlotListByKeys(keys) {
 
   if (slotList.length !== keys.length) {
     log.error(LOG_PREFIX, 'invalid slot key in list:', keys);
-    throw new Error(`invalid slot key in list: ${keys}`);
+    throw new UnprocessableEntity(`invalid slot key in list: ${keys}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(slotList, undefined, 4));

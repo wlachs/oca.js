@@ -16,6 +16,10 @@ import { getTemplateByKey } from './template';
 /* Utils */
 import resolveSlotContentMapping from './utils/slot_content_mapping_resolver';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_VIEW';
 
@@ -25,7 +29,7 @@ export async function getViewByKey(key) {
   const view = await ViewModel.findOne({ key });
   if (!view) {
     log.error(LOG_PREFIX, 'no view found with key:', key);
-    throw new Error(`can't get view, no view found with key: ${key}`);
+    throw new NotFoundError(`can't get view, no view found with key: ${key}`);
   }
 
   return view;
@@ -69,7 +73,7 @@ async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
     } else {
       /* Option #2 */
       log.error(LOG_PREFIX, 'no view found with key:', key);
-      throw new Error(`can't update view, no view found with key: ${key}`);
+      throw new NotFoundError(`can't update view, no view found with key: ${key}`);
     }
   } else if (failOnCollision) {
     /*
@@ -78,7 +82,7 @@ async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
      * Option #2: an error is thrown (if the corresponding variable is set)
      */
     log.error(LOG_PREFIX, 'view with key already exists:', key);
-    throw new Error(`can't add view, view with key already exists: ${key}`);
+    throw new Conflict(`can't add view, view with key already exists: ${key}`);
   }
 
   if (template) {
@@ -90,7 +94,7 @@ async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
 
     if (viewWithNewKey) {
       log.error(LOG_PREFIX, 'view with key already exists:', newKey);
-      throw new Error(`can't update view, view with key already exists: ${newKey}`);
+      throw new Conflict(`can't update view, view with key already exists: ${newKey}`);
     }
 
     view.key = newKey;

@@ -4,6 +4,11 @@ import log from 'npmlog';
 /* Data models */
 import ContentTypeModel from '../db/content_type';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+import UnprocessableEntity from '../../core/errors/unprocessable_entity';
+
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_CONTENT_TYPE';
 
@@ -13,7 +18,7 @@ export async function getContentTypeByKey(key) {
   const contentType = await ContentTypeModel.findOne({ key });
   if (!contentType) {
     log.error(LOG_PREFIX, 'no content type found with key:', key);
-    throw new Error(`can't get content type, no content type found with key: ${key}`);
+    throw new NotFoundError(`can't get content type, no content type found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(contentType, undefined, 4));
@@ -37,7 +42,7 @@ export async function addContentType(key) {
   const existingContentType = await getContentTypeByKeyOrNull(key);
   if (existingContentType) {
     log.error(LOG_PREFIX, 'content type with key already exists:', key);
-    throw new Error(`can't create content type, content type with key already exists: ${key}`);
+    throw new Conflict(`can't create content type, content type with key already exists: ${key}`);
   }
 
   const contentType = new ContentTypeModel();
@@ -54,13 +59,13 @@ export async function updateContentType(key, newKey) {
 
   if (!newKey) {
     log.error(LOG_PREFIX, 'invalid new key:', newKey);
-    throw new Error(`can't update content type, invalid new key: ${newKey}`);
+    throw new UnprocessableEntity(`can't update content type, invalid new key: ${newKey}`);
   }
 
   const contentTypeWithNewKey = await getContentTypeByKeyOrNull(newKey);
   if (contentTypeWithNewKey) {
     log.error(LOG_PREFIX, 'content type with key already exists:', newKey);
-    throw new Error(`can't update content type, content type with key already exists: ${newKey}`);
+    throw new Conflict(`can't update content type, content type with key already exists: ${newKey}`);
   }
 
   contentType.key = newKey;
@@ -104,7 +109,7 @@ export async function getContentTypeListByKeys(keys) {
   const contentTypes = await ContentTypeModel.find({ key: { $in: keys } });
   if (contentTypes.length !== keys.length) {
     log.error(LOG_PREFIX, 'invalid content type in key set', keys);
-    throw new Error(`invalid content type in key set: ${keys}`);
+    throw new UnprocessableEntity(`invalid content type in key set: ${keys}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(contentTypes, undefined, 4));

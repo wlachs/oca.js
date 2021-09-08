@@ -10,6 +10,10 @@ import TemplateModel from '../db/template';
 /* DAO references */
 import { getSlotByKey, getSlotListByKeys } from './slot';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_TEMPLATE';
 
@@ -22,7 +26,7 @@ export async function getTemplateByKey(key) {
 
   if (!template) {
     log.error(LOG_PREFIX, 'no template found with key:', key);
-    throw new Error(`can't get template, no template found with key: ${key}`);
+    throw new NotFoundError(`can't get template, no template found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(template, undefined, 4));
@@ -46,7 +50,7 @@ export async function addTemplate(key, slots) {
   const existingTemplate = await getTemplateByKeyOrNull(key);
   if (existingTemplate) {
     log.error(LOG_PREFIX, 'template with key already exists', key);
-    throw new Error(`can't create template, template with key already exists: ${key}`);
+    throw new Conflict(`can't create template, template with key already exists: ${key}`);
   }
 
   /* If the slot list is not valid, an exception is thrown */
@@ -73,7 +77,7 @@ export async function updateTemplate(key, newKey, slots) {
     const templateWithNewKey = await getTemplateByKeyOrNull(newKey);
     if (templateWithNewKey) {
       log.error(LOG_PREFIX, 'template with key already exists:', newKey);
-      throw new Error(`can't update template, template with key already exists: ${newKey}`);
+      throw new Conflict(`can't update template, template with key already exists: ${newKey}`);
     }
 
     template.key = newKey;

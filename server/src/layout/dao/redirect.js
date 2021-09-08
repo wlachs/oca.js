@@ -8,6 +8,10 @@ import { POPULATE_REDIRECT_FULL } from '../db/populators';
 import RedirectModel from '../db/redirect';
 import { getRouteByPath } from './route';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO_REDIRECT';
 
@@ -23,7 +27,7 @@ export async function getRedirectByReferer(referer) {
 
   if (!redirect) {
     log.error(LOG_PREFIX, 'no redirect found with referer:', referer);
-    throw new Error(`can't get redirect, no redirect found with referer: ${referer}`);
+    throw new NotFoundError(`can't get redirect, no redirect found with referer: ${referer}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(redirect, undefined, 4));
@@ -47,7 +51,7 @@ export async function addRedirect(referer, redirect) {
   const existingRedirect = await getRedirectByRefererOrNull(referer);
   if (existingRedirect) {
     log.error(LOG_PREFIX, 'redirect with referer already exists', referer);
-    throw new Error(`can't create redirect, redirect with referer already exists: ${referer}`);
+    throw new Conflict(`can't create redirect, redirect with referer already exists: ${referer}`);
   }
 
   const redirectModel = new RedirectModel();
@@ -69,7 +73,7 @@ export async function updateRedirect(referer, newReferer, redirect) {
 
     if (redirectWithNewReferer) {
       log.error(LOG_PREFIX, 'redirect with referer already exists:', newReferer);
-      throw new Error(`can't update redirect, redirect with referer already exists: ${newReferer}`);
+      throw new Conflict(`can't update redirect, redirect with referer already exists: ${newReferer}`);
     }
 
     redirectModel.referer = await getRouteByPath(newReferer);
