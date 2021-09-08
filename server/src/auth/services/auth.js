@@ -9,6 +9,9 @@ import { JWT_ALGORITHM, JWT_EXPIRE, JWT_SECRET } from '../../config/secrets';
 import { verifyUserPassword } from './user';
 import { getRedirectByReferer } from '../../layout/dao/redirect';
 
+/* Error */
+import NotAuthorizedError from '../errors/not_authorized';
+
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_SERVICES_USER';
 
@@ -17,7 +20,7 @@ export async function authenticateUser(userID, password, referer) {
   const passwordIsValid = await verifyUserPassword(userID, password);
 
   if (!passwordIsValid) {
-    throw new Error('Authentication failed: incorrect userID or password!');
+    throw new NotAuthorizedError('Authentication failed: incorrect userID or password!');
   }
 
   const redirect = await getRedirectByReferer(referer);
