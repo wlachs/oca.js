@@ -1,10 +1,21 @@
+/* Logging */
+import log from 'npmlog';
+
+/* Express */
 import { graphqlHTTP } from 'express-graphql';
-import jwt from 'express-jwt';
-import { ADMIN_USER_GROUP, STANDARD_USER_GROUP } from '../auth/constants';
-import getConfig from '../config';
-import { adminSchema, guestSchema, restrictedSchema } from './index';
-import { JWT_ALGORITHM, JWT_SECRET } from '../config/secrets';
+import jwt, { UnauthorizedError } from 'express-jwt';
 import { emptyMW } from '../utils/express-utils';
+
+/* Constants and configuration */
+import { ADMIN_USER_GROUP, STANDARD_USER_GROUP } from '../auth/constants';
+import { JWT_ALGORITHM, JWT_SECRET } from '../config/secrets';
+import getConfig from '../config';
+
+/* GraphQL */
+import { adminSchema, guestSchema, restrictedSchema } from './index';
+
+/* Logging prefix */
+const LOG_PREFIX = 'GRAPHQL_MIDDLEWARE';
 
 export function applyGraphqlSchemaMW(request, response, next) {
   const { graphiql } = getConfig();
@@ -42,4 +53,14 @@ export function applyTokenIfPresentMW(request, response, next) {
   }
 
   return emptyMW(request, response, next);
+}
+
+export function genericErrorHandlerMW(error, request, response, next) {
+  log.error(LOG_PREFIX, 'generic error handler', error.message);
+
+  if (error instanceof UnauthorizedError) {
+    return response.status(401).send(error.message);
+  }
+
+  return next(error);
 }
