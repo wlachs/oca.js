@@ -13,7 +13,7 @@ import { authenticateUser } from '../services/auth';
 import { Redirect } from '../../layout/graphql/redirect';
 
 /* Wrapper */
-import graphqlWrapper from './wrapper';
+import graphqlWrapper from '../../core/graphql/wrapper';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',

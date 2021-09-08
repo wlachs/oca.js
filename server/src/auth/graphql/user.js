@@ -19,7 +19,7 @@ import {
 
 /* GraphQL schema references */
 import { UserGroup } from './user_group';
-import graphqlWrapper from './wrapper';
+import graphqlWrapper from '../../core/graphql/wrapper';
 
 export const User = new GraphQLObjectType({
   name: 'User',

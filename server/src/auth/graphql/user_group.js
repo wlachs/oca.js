@@ -19,7 +19,7 @@ import {
 } from '../dao/user_group';
 
 /* Wrapper */
-import graphqlWrapper from './wrapper';
+import graphqlWrapper from '../../core/graphql/wrapper';
 
 const ParentUserGroup = new GraphQLObjectType({
   name: 'ParentUserGroup',
