@@ -80,7 +80,7 @@ const UserResponseList = new GraphQLObjectType({
 
 export const UserQuery = {
   users: {
-    type: UserResponseList,
+    type: GraphQLNonNull(UserResponseList),
     description: 'List of users',
     resolve: async () => graphqlWrapper(getUserList()),
   },
@@ -100,7 +100,7 @@ export const UserQuery = {
 
 export const UserMutation = {
   addUser: {
-    type: UserResponse,
+    type: GraphQLNonNull(UserResponse),
     description: 'Add new user',
     args: {
       userID: {
@@ -122,7 +122,7 @@ export const UserMutation = {
   },
 
   addOrUpdateUser: {
-    type: UserResponse,
+    type: GraphQLNonNull(UserResponse),
     description: 'Add or update user',
     args: {
       userID: {
@@ -144,7 +144,7 @@ export const UserMutation = {
   },
 
   updateUser: {
-    type: UserResponse,
+    type: GraphQLNonNull(UserResponse),
     description: 'Update user',
     args: {
       userID: {
@@ -170,7 +170,7 @@ export const UserMutation = {
   },
 
   removeUser: {
-    type: UserResponse,
+    type: GraphQLNonNull(UserResponse),
     description: 'Remove user by ID',
     args: {
       userID: {

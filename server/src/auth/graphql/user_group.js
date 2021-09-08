@@ -1,6 +1,13 @@
+/* GraphQL imports */
 import {
-  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt,
 } from 'graphql';
+
+/* DAO references */
 import {
   addOrUpdateUserGroup,
   addUserGroup,
@@ -10,6 +17,9 @@ import {
   removeUserGroup,
   updateUserGroup,
 } from '../dao/user_group';
+
+/* Wrapper */
+import graphqlWrapper from './wrapper';
 
 const ParentUserGroup = new GraphQLObjectType({
   name: 'ParentUserGroup',
@@ -37,15 +47,53 @@ export const UserGroup = new GraphQLObjectType({
   },
 });
 
+const UserGroupResponse = new GraphQLObjectType({
+  name: 'UserGroupResponse',
+  description: 'User Group response object',
+  fields: {
+    message: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'Response status',
+    },
+    statusCode: {
+      type: GraphQLNonNull(GraphQLInt),
+      description: 'Response status',
+    },
+    node: {
+      type: UserGroup,
+      description: 'User group',
+    },
+  },
+});
+
+const UserGroupResponseList = new GraphQLObjectType({
+  name: 'UserGroupResponseList',
+  description: 'User Group list response object',
+  fields: {
+    message: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'Response status',
+    },
+    statusCode: {
+      type: GraphQLNonNull(GraphQLInt),
+      description: 'Response status',
+    },
+    node: {
+      type: GraphQLList(UserGroup),
+      description: 'User group list',
+    },
+  },
+});
+
 export const UserGroupQuery = {
   userGroups: {
-    type: GraphQLList(UserGroup),
+    type: GraphQLNonNull(UserGroupResponseList),
     description: 'List of user groups',
-    resolve: async () => getUserGroupList(),
+    resolve: async () => graphqlWrapper(getUserGroupList()),
   },
 
   userGroup: {
-    type: GraphQLNonNull(UserGroup),
+    type: GraphQLNonNull(UserGroupResponse),
     description: 'Get user group by key',
     args: {
       key: {
@@ -53,11 +101,11 @@ export const UserGroupQuery = {
         description: 'Unique user group key',
       },
     },
-    resolve: async (_, { key }) => getUserGroupByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getUserGroupByKey(key)),
   },
 
   userGroupChain: {
-    type: GraphQLList(UserGroup),
+    type: GraphQLNonNull(UserGroupResponseList),
     description: 'Get user group chain to root by key',
     args: {
       key: {
@@ -65,13 +113,13 @@ export const UserGroupQuery = {
         description: 'Unique user group key',
       },
     },
-    resolve: async (_, { key }) => getUserGroupChain(key),
+    resolve: async (_, { key }) => graphqlWrapper(getUserGroupChain(key)),
   },
 };
 
 export const UserGroupMutation = {
   addUserGroup: {
-    type: UserGroup,
+    type: GraphQLNonNull(UserGroupResponse),
     description: 'Add new user group',
     args: {
       key: {
@@ -83,11 +131,11 @@ export const UserGroupMutation = {
         description: 'Parent user group key',
       },
     },
-    resolve: async (_, { key, parent }) => addUserGroup(key, parent),
+    resolve: async (_, { key, parent }) => graphqlWrapper(addUserGroup(key, parent), 201),
   },
 
   addOrUpdateUserGroup: {
-    type: UserGroup,
+    type: GraphQLNonNull(UserGroupResponse),
     description: 'Add or update user group',
     args: {
       key: {
@@ -99,11 +147,11 @@ export const UserGroupMutation = {
         description: 'Parent user group key',
       },
     },
-    resolve: async (_, { key, parent }) => addOrUpdateUserGroup(key, parent),
+    resolve: async (_, { key, parent }) => graphqlWrapper(addOrUpdateUserGroup(key, parent)),
   },
 
   updateUserGroup: {
-    type: UserGroup,
+    type: GraphQLNonNull(UserGroupResponse),
     description: 'Update user group',
     args: {
       key: {
@@ -119,11 +167,13 @@ export const UserGroupMutation = {
         description: 'Parent user group key',
       },
     },
-    resolve: async (_, { key, newKey, parent }) => updateUserGroup(key, newKey, parent),
+    resolve: async (_, {
+      key, newKey, parent,
+    }) => graphqlWrapper(updateUserGroup(key, newKey, parent)),
   },
 
   removeUserGroup: {
-    type: UserGroup,
+    type: GraphQLNonNull(UserGroupResponse),
     description: 'Remove user group by key',
     args: {
       key: {
@@ -131,6 +181,6 @@ export const UserGroupMutation = {
         description: 'Unique user group key',
       },
     },
-    resolve: async (_, { key }) => removeUserGroup(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeUserGroup(key)),
   },
 };
