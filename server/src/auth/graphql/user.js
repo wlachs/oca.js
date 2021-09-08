@@ -46,7 +46,7 @@ const UserResponse = new GraphQLObjectType({
   fields: {
     message: {
       type: GraphQLNonNull(GraphQLString),
-      description: 'Response status',
+      description: 'Response message',
     },
     statusCode: {
       type: GraphQLNonNull(GraphQLInt),
@@ -65,7 +65,7 @@ const UserResponseList = new GraphQLObjectType({
   fields: {
     message: {
       type: GraphQLNonNull(GraphQLString),
-      description: 'Response status',
+      description: 'Response message',
     },
     statusCode: {
       type: GraphQLNonNull(GraphQLInt),
