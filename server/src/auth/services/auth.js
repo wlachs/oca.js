@@ -10,7 +10,7 @@ import { verifyUserPassword } from './user';
 import { getRedirectByReferer } from '../../layout/dao/redirect';
 
 /* Error */
-import NotAuthorizedError from '../errors/not_authorized';
+import NotAuthorizedError from '../../core/errors/not_authorized';
 
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_SERVICES_USER';

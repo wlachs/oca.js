@@ -13,6 +13,10 @@ import hashUserPassword from './utils/hash_user_password';
 /* DAO references */
 import { getUserGroupsByKeys } from './user_group';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO_USER';
 
@@ -25,7 +29,7 @@ export async function getUserById(userID) {
 
   if (!user) {
     log.error(LOG_PREFIX, 'no user found with id:', userID);
-    throw new Error(`can't get user, no user found with id: ${userID}`);
+    throw new NotFoundError(`can't get user, no user found with id: ${userID}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(user, undefined, 4));
@@ -49,7 +53,7 @@ export async function addUser(userID, password, groups) {
   const existingUser = await getUserByIdOrNull(userID);
   if (existingUser) {
     log.error(LOG_PREFIX, 'user with id already exists', userID);
-    throw new Error(`can't create user, user with id already exists: ${userID}`);
+    throw new Conflict(`can't create user, user with id already exists: ${userID}`);
   }
 
   const user = new UserModel();
@@ -72,7 +76,7 @@ export async function updateUser(userID, newUserID, password, groups) {
 
     if (userWithNewID) {
       log.error(LOG_PREFIX, 'user with id already exists:', newUserID);
-      throw new Error(`can't update user, user with id already exists: ${newUserID}`);
+      throw new Conflict(`can't update user, user with id already exists: ${newUserID}`);
     }
 
     user.userID = newUserID;

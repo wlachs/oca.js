@@ -1,6 +1,19 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
+/* GraphQL imports */
+import {
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLInt,
+} from 'graphql';
+
+/* Authentication service */
 import { authenticateUser } from '../services/auth';
+
+/* GraphQL schema references */
 import { Redirect } from '../../layout/graphql/redirect';
+
+/* Wrapper */
+import graphqlWrapper from './wrapper';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',
@@ -17,9 +30,28 @@ export const Token = new GraphQLObjectType({
   },
 });
 
+const TokenResponse = new GraphQLObjectType({
+  name: 'TokenResponse',
+  description: 'Authentication token response object',
+  fields: {
+    message: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'Response status',
+    },
+    statusCode: {
+      type: GraphQLNonNull(GraphQLInt),
+      description: 'Response status',
+    },
+    node: {
+      type: Token,
+      description: 'Token',
+    },
+  },
+});
+
 export const TokenQuery = {
   authenticate: {
-    type: GraphQLNonNull(Token),
+    type: GraphQLNonNull(TokenResponse),
     description: 'Authenticate user',
     args: {
       userID: {
@@ -37,6 +69,6 @@ export const TokenQuery = {
     },
     resolve: async (_, {
       userID, password, referer,
-    }) => authenticateUser(userID, password, referer),
+    }) => graphqlWrapper(authenticateUser(userID, password, referer)),
   },
 };

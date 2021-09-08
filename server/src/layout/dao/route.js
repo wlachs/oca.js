@@ -23,8 +23,8 @@ import filterAccessibleRoutes from './utils/filter_accessible_routes';
 import { NOT_AUTHORIZED_ROUTE_PATH, NOT_FOUND_ROUTE_PATH } from '../constants';
 
 /* Errors */
-import NotFoundError from '../errors/not_found';
-import NotAuthorizedError from '../../auth/errors/not_authorized';
+import NotFoundError from '../../core/errors/not_found';
+import NotAuthorizedError from '../../core/errors/not_authorized';
 import RouteAlreadyExistsError from '../errors/route_already_exists';
 
 /* Logging prefix */
