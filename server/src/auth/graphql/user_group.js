@@ -1,10 +1,6 @@
 /* GraphQL imports */
 import {
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
+  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
 /* DAO references */
@@ -19,7 +15,7 @@ import {
 } from '../dao/user_group';
 
 /* Wrapper */
-import { graphqlWrapper } from '../../core/graphql/wrapper';
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 const ParentUserGroup = new GraphQLObjectType({
   name: 'ParentUserGroup',
@@ -47,53 +43,18 @@ export const UserGroup = new GraphQLObjectType({
   },
 });
 
-const UserGroupResponse = new GraphQLObjectType({
-  name: 'UserGroupResponse',
-  description: 'User Group response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: UserGroup,
-      description: 'User group',
-    },
-  },
-});
-
-const UserGroupResponseList = new GraphQLObjectType({
-  name: 'UserGroupResponseList',
-  description: 'User Group list response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: GraphQLList(UserGroup),
-      description: 'User group list',
-    },
-  },
-});
+const UserGroupResponse = generateTemplateResponse(UserGroup);
+const UserGroupResponseList = generateTemplateResponse(GraphQLList(UserGroup));
 
 export const UserGroupQuery = {
   userGroups: {
-    type: GraphQLNonNull(UserGroupResponseList),
+    type: UserGroupResponseList,
     description: 'List of user groups',
     resolve: async () => graphqlWrapper(getUserGroupList()),
   },
 
   userGroup: {
-    type: GraphQLNonNull(UserGroupResponse),
+    type: UserGroupResponse,
     description: 'Get user group by key',
     args: {
       key: {
@@ -105,7 +66,7 @@ export const UserGroupQuery = {
   },
 
   userGroupChain: {
-    type: GraphQLNonNull(UserGroupResponseList),
+    type: UserGroupResponseList,
     description: 'Get user group chain to root by key',
     args: {
       key: {
@@ -119,7 +80,7 @@ export const UserGroupQuery = {
 
 export const UserGroupMutation = {
   addUserGroup: {
-    type: GraphQLNonNull(UserGroupResponse),
+    type: UserGroupResponse,
     description: 'Add new user group',
     args: {
       key: {
@@ -135,7 +96,7 @@ export const UserGroupMutation = {
   },
 
   addOrUpdateUserGroup: {
-    type: GraphQLNonNull(UserGroupResponse),
+    type: UserGroupResponse,
     description: 'Add or update user group',
     args: {
       key: {
@@ -151,7 +112,7 @@ export const UserGroupMutation = {
   },
 
   updateUserGroup: {
-    type: GraphQLNonNull(UserGroupResponse),
+    type: UserGroupResponse,
     description: 'Update user group',
     args: {
       key: {
@@ -173,7 +134,7 @@ export const UserGroupMutation = {
   },
 
   removeUserGroup: {
-    type: GraphQLNonNull(UserGroupResponse),
+    type: UserGroupResponse,
     description: 'Remove user group by key',
     args: {
       key: {

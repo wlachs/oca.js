@@ -1,10 +1,5 @@
 /* GraphQL imports */
-import {
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-  GraphQLInt,
-} from 'graphql';
+import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 /* Authentication service */
 import { authenticateUser } from '../services/auth';
@@ -13,7 +8,7 @@ import { authenticateUser } from '../services/auth';
 import { Redirect } from '../../layout/graphql/redirect';
 
 /* Wrapper */
-import { graphqlWrapper } from '../../core/graphql/wrapper';
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',
@@ -30,28 +25,11 @@ export const Token = new GraphQLObjectType({
   },
 });
 
-const TokenResponse = new GraphQLObjectType({
-  name: 'TokenResponse',
-  description: 'Authentication token response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: Token,
-      description: 'Token',
-    },
-  },
-});
+const TokenResponse = generateTemplateResponse(Token);
 
 export const TokenQuery = {
   authenticate: {
-    type: GraphQLNonNull(TokenResponse),
+    type: TokenResponse,
     description: 'Authenticate user',
     args: {
       userID: {

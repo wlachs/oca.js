@@ -1,10 +1,6 @@
 /* GraphQL imports */
 import {
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
+  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
 /* DAO references */
@@ -19,7 +15,9 @@ import {
 
 /* GraphQL schema references */
 import { UserGroup } from './user_group';
-import { graphqlWrapper } from '../../core/graphql/wrapper';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const User = new GraphQLObjectType({
   name: 'User',
@@ -40,47 +38,12 @@ export const User = new GraphQLObjectType({
   },
 });
 
-const UserResponse = new GraphQLObjectType({
-  name: 'UserResponse',
-  description: 'User response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: User,
-      description: 'User',
-    },
-  },
-});
-
-const UserResponseList = new GraphQLObjectType({
-  name: 'UserResponseList',
-  description: 'User list response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: GraphQLList(User),
-      description: 'User list',
-    },
-  },
-});
+const UserResponse = generateTemplateResponse(User);
+const UserResponseList = generateTemplateResponse(GraphQLList(User));
 
 export const UserQuery = {
   users: {
-    type: GraphQLNonNull(UserResponseList),
+    type: UserResponseList,
     description: 'List of users',
     resolve: async () => graphqlWrapper(getUserList()),
   },
@@ -100,7 +63,7 @@ export const UserQuery = {
 
 export const UserMutation = {
   addUser: {
-    type: GraphQLNonNull(UserResponse),
+    type: UserResponse,
     description: 'Add new user',
     args: {
       userID: {
@@ -122,7 +85,7 @@ export const UserMutation = {
   },
 
   addOrUpdateUser: {
-    type: GraphQLNonNull(UserResponse),
+    type: UserResponse,
     description: 'Add or update user',
     args: {
       userID: {
@@ -144,7 +107,7 @@ export const UserMutation = {
   },
 
   updateUser: {
-    type: GraphQLNonNull(UserResponse),
+    type: UserResponse,
     description: 'Update user',
     args: {
       userID: {
@@ -170,7 +133,7 @@ export const UserMutation = {
   },
 
   removeUser: {
-    type: GraphQLNonNull(UserResponse),
+    type: UserResponse,
     description: 'Remove user by ID',
     args: {
       userID: {
