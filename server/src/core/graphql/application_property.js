@@ -15,7 +15,7 @@ import {
 } from '../dao/application_property';
 
 /* Wrapper */
-import graphqlWrapper from './wrapper';
+import { graphqlWrapper } from './wrapper';
 
 export const ApplicationProperty = new GraphQLObjectType({
   name: 'ApplicationProperty',

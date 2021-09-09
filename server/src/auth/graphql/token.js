@@ -13,7 +13,7 @@ import { authenticateUser } from '../services/auth';
 import { Redirect } from '../../layout/graphql/redirect';
 
 /* Wrapper */
-import graphqlWrapper from '../../core/graphql/wrapper';
+import { graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',
@@ -24,7 +24,7 @@ export const Token = new GraphQLObjectType({
       description: 'User authentication token',
     },
     redirect: {
-      type: GraphQLNonNull(Redirect),
+      type: Redirect,
       description: 'Route to redirect to after authentication success',
     },
   },
@@ -63,7 +63,7 @@ export const TokenQuery = {
         description: 'Plaintext password',
       },
       referer: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'Referer route key',
       },
     },
