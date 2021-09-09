@@ -36,7 +36,7 @@ const ApplicationPropertyResponseList = generateTemplateResponse(GraphQLList(App
 
 export const ApplicationPropertyQuery = {
   applicationProperty: {
-    type: GraphQLNonNull(ApplicationPropertyResponse),
+    type: ApplicationPropertyResponse,
     description: 'Get application property by key',
     args: {
       key: {
@@ -56,7 +56,7 @@ export const ApplicationPropertyQuery = {
 
 export const ApplicationPropertyMutation = {
   addApplicationProperty: {
-    type: GraphQLNonNull(ApplicationPropertyResponse),
+    type: ApplicationPropertyResponse,
     description: 'Add new application property',
     args: {
       key: {
@@ -72,7 +72,7 @@ export const ApplicationPropertyMutation = {
   },
 
   addOrUpdateApplicationProperty: {
-    type: GraphQLNonNull(ApplicationPropertyResponse),
+    type: ApplicationPropertyResponse,
     description: 'Add or update application property',
     args: {
       key: {
@@ -90,7 +90,7 @@ export const ApplicationPropertyMutation = {
   },
 
   updateApplicationProperty: {
-    type: GraphQLNonNull(ApplicationPropertyResponse),
+    type: ApplicationPropertyResponse,
     description: 'Update existing application property',
     args: {
       key: {
@@ -112,7 +112,7 @@ export const ApplicationPropertyMutation = {
   },
 
   removeApplicationProperty: {
-    type: GraphQLNonNull(ApplicationPropertyResponse),
+    type: ApplicationPropertyResponse,
     description: 'Remove application property by key',
     args: {
       key: {
