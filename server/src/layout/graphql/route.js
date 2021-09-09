@@ -48,13 +48,13 @@ const RouteResponseList = generateTemplateResponse(GraphQLList(Route));
 
 export const RouteQuery = {
   routes: {
-    type: GraphQLNonNull(RouteResponseList),
+    type: RouteResponseList,
     description: 'List of available routes',
     resolve: async (_, __, { user }) => graphqlWrapper(getRouteList(user)),
   },
 
   route: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Get route by path',
     args: {
       path: {
@@ -66,7 +66,7 @@ export const RouteQuery = {
   },
 
   routeByView: {
-    type: GraphQLNonNull(RouteResponseList),
+    type: RouteResponseList,
     description: 'Get route by view',
     args: {
       key: {
@@ -78,7 +78,7 @@ export const RouteQuery = {
   },
 
   defaultRoute: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Get default application route',
     resolve: async (_, __, { user }) => graphqlWrapper(getDefaultRoute(user)),
   },
@@ -86,7 +86,7 @@ export const RouteQuery = {
 
 export const RouteMutation = {
   addRoute: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Add new route',
     args: {
       path: {
@@ -108,7 +108,7 @@ export const RouteMutation = {
   },
 
   addOrUpdateRoute: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Add or update route',
     args: {
       path: {
@@ -130,7 +130,7 @@ export const RouteMutation = {
   },
 
   updateRoute: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Update existing route',
     args: {
       path: {
@@ -156,7 +156,7 @@ export const RouteMutation = {
   },
 
   removeRoute: {
-    type: GraphQLNonNull(RouteResponse),
+    type: RouteResponse,
     description: 'Remove route by key',
     args: {
       path: {

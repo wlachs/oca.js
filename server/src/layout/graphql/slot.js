@@ -40,13 +40,13 @@ const SlotResponseList = generateTemplateResponse(GraphQLList(Slot));
 
 export const SlotQuery = {
   slots: {
-    type: GraphQLNonNull(SlotResponseList),
+    type: SlotResponseList,
     description: 'List of slots',
     resolve: async () => graphqlWrapper(getSlotList()),
   },
 
   slot: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Get slot by key',
     args: {
       key: {
@@ -58,7 +58,7 @@ export const SlotQuery = {
   },
 
   slotByContentType: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Get slot by content type',
     args: {
       key: {
@@ -72,7 +72,7 @@ export const SlotQuery = {
 
 export const SlotMutation = {
   addSlot: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Add new slot',
     args: {
       key: {
@@ -88,7 +88,7 @@ export const SlotMutation = {
   },
 
   addOrUpdateSlot: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Add or update slot',
     args: {
       key: {
@@ -104,7 +104,7 @@ export const SlotMutation = {
   },
 
   updateSlot: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Update slot',
     args: {
       key: {
@@ -126,7 +126,7 @@ export const SlotMutation = {
   },
 
   removeSlot: {
-    type: GraphQLNonNull(SlotResponse),
+    type: SlotResponse,
     description: 'Remove slot',
     args: {
       key: {

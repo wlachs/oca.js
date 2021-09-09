@@ -31,7 +31,7 @@ const ContentTypeResponseList = generateTemplateResponse(GraphQLList(ContentType
 
 export const ContentTypeQuery = {
   contentTypes: {
-    type: GraphQLNonNull(ContentTypeResponseList),
+    type: ContentTypeResponseList,
     description: 'List of available content types',
     resolve: async () => graphqlWrapper(getContentTypeList()),
   },
@@ -39,7 +39,7 @@ export const ContentTypeQuery = {
 
 export const ContentTypeMutation = {
   addContentType: {
-    type: GraphQLNonNull(ContentTypeResponse),
+    type: ContentTypeResponse,
     description: 'Add new content type',
     args: {
       key: {
@@ -51,7 +51,7 @@ export const ContentTypeMutation = {
   },
 
   addOrIgnoreContentType: {
-    type: GraphQLNonNull(ContentTypeResponse),
+    type: ContentTypeResponse,
     description: 'Add new content type or do nothing',
     args: {
       key: {
@@ -63,7 +63,7 @@ export const ContentTypeMutation = {
   },
 
   updateContentType: {
-    type: GraphQLNonNull(ContentTypeResponse),
+    type: ContentTypeResponse,
     description: 'Update existing content type',
     args: {
       key: {
@@ -79,7 +79,7 @@ export const ContentTypeMutation = {
   },
 
   removeContentType: {
-    type: GraphQLNonNull(ContentTypeResponse),
+    type: ContentTypeResponse,
     description: 'Remove content type by key',
     args: {
       key: {

@@ -39,13 +39,13 @@ const RedirectResponseList = generateTemplateResponse(GraphQLList(Redirect));
 
 export const RedirectQuery = {
   redirects: {
-    type: GraphQLNonNull(RedirectResponseList),
+    type: RedirectResponseList,
     description: 'List of redirects',
     resolve: async () => graphqlWrapper(getRedirectList()),
   },
 
   redirect: {
-    type: GraphQLNonNull(RedirectResponse),
+    type: RedirectResponse,
     description: 'Get redirect by referer route path',
     args: {
       referer: {
@@ -59,7 +59,7 @@ export const RedirectQuery = {
 
 export const RedirectMutation = {
   addRedirect: {
-    type: GraphQLNonNull(RedirectResponse),
+    type: RedirectResponse,
     description: 'Add new redirect',
     args: {
       referer: {
@@ -77,7 +77,7 @@ export const RedirectMutation = {
   },
 
   addOrUpdateRedirect: {
-    type: GraphQLNonNull(RedirectResponse),
+    type: RedirectResponse,
     description: 'Add or update redirect',
     args: {
       referer: {
@@ -95,7 +95,7 @@ export const RedirectMutation = {
   },
 
   updateRedirect: {
-    type: GraphQLNonNull(RedirectResponse),
+    type: RedirectResponse,
     description: 'Update redirect',
     args: {
       referer: {
@@ -117,7 +117,7 @@ export const RedirectMutation = {
   },
 
   removeRedirect: {
-    type: GraphQLNonNull(RedirectResponse),
+    type: RedirectResponse,
     description: 'Remove redirect by referer',
     args: {
       referer: {

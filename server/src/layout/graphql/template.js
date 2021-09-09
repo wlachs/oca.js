@@ -40,13 +40,13 @@ const TemplateResponseList = generateTemplateResponse(GraphQLList(Template));
 
 export const TemplateQuery = {
   templates: {
-    type: GraphQLNonNull(TemplateResponseList),
+    type: TemplateResponseList,
     description: 'List of templates',
     resolve: async () => graphqlWrapper(getTemplateList()),
   },
 
   template: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Get template by key',
     args: {
       key: {
@@ -58,7 +58,7 @@ export const TemplateQuery = {
   },
 
   templateBySlot: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Get template for slot',
     args: {
       key: {
@@ -72,7 +72,7 @@ export const TemplateQuery = {
 
 export const TemplateMutation = {
   addTemplate: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Add new template',
     args: {
       key: {
@@ -88,7 +88,7 @@ export const TemplateMutation = {
   },
 
   addOrUpdateTemplate: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Add or update template',
     args: {
       key: {
@@ -104,7 +104,7 @@ export const TemplateMutation = {
   },
 
   updateTemplate: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Update existing template',
     args: {
       key: {
@@ -126,7 +126,7 @@ export const TemplateMutation = {
   },
 
   removeTemplate: {
-    type: GraphQLNonNull(TemplateResponse),
+    type: TemplateResponse,
     description: 'Remove template by key',
     args: {
       key: {
