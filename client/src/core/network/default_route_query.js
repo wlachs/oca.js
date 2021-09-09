@@ -1,37 +1,45 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
 import apiEndpoint from '../config/api_config';
+import extractNetworkResponse from '../utils/extract_network_response';
 
 async function defaultRouteQuery() {
   const response = await axios.post(apiEndpoint(), query({
     operation: 'defaultRoute',
     fields: [
-      'path',
+      'statusCode',
+      'message',
       {
-        view: [
+        node: [
+          'path',
           {
-            content: [
-              {
-                slot: ['key'],
-              },
+            view: [
               {
                 content: [
-                  'key',
                   {
-                    attributes: ['key', 'value'],
+                    slot: ['key'],
+                  },
+                  {
+                    content: [
+                      'key',
+                      {
+                        attributes: ['key', 'value'],
+                      },
+                    ],
                   },
                 ],
               },
+              {
+                template: ['key'],
+              },
             ],
           },
-          {
-            template: ['key'],
-          },
         ],
-      }],
+      },
+    ],
   }));
 
-  return response.data.data.defaultRoute;
+  return extractNetworkResponse(response.data.data.defaultRoute);
 }
 
 export default defaultRouteQuery;

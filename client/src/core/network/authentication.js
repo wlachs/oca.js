@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
 import apiEndpoint from '../config/api_config';
+import extractNetworkResponse from '../utils/extract_network_response';
 
 async function authentication(userID, password, referer) {
   const response = await axios.post(apiEndpoint(), query({
@@ -11,18 +12,23 @@ async function authentication(userID, password, referer) {
       referer: { value: referer, required: true },
     },
     fields: [
-      'bearer',
+      'statusCode',
+      'message',
       {
-        redirect: [
+        node: [
+          'bearer',
           {
-            redirect: ['path'],
+            redirect: [
+              {
+                redirect: ['path'],
+              },
+            ],
           },
         ],
       },
     ],
   }));
-
-  return response.data.data.authenticate;
+  return extractNetworkResponse(response.data.data.authenticate);
 }
 
 export default authentication;

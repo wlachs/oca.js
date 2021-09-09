@@ -3,6 +3,7 @@ import { query } from 'gql-query-builder';
 import apiEndpoint from '../config/api_config';
 import { DEVELOPMENT } from '../config/environment';
 import returnAfter from '../utils/delayed_execution';
+import extractNetworkResponse from '../utils/extract_network_response';
 
 async function routeQuery(path, bearer) {
   const endpoint = apiEndpoint();
@@ -16,41 +17,50 @@ async function routeQuery(path, bearer) {
     operation: 'route',
     variables: { path: { value: path, required: true } },
     fields: [
-      'path',
+      'statusCode',
+      'message',
       {
-        view: [
-          'pageTitle',
+        node: [
+          'path',
           {
-            content: [
-              {
-                slot: ['key'],
-              },
+            view: [
+              'pageTitle',
               {
                 content: [
-                  'key',
                   {
-                    type: ['key'],
+                    slot: ['key'],
                   },
                   {
-                    attributes: ['key', 'value'],
+                    content: [
+                      'key',
+                      {
+                        type: ['key'],
+                      },
+                      {
+                        attributes: ['key', 'value'],
+                      },
+                    ],
                   },
                 ],
               },
+              {
+                template: ['key'],
+              },
             ],
           },
-          {
-            template: ['key'],
-          },
         ],
-      }],
+      },
+    ],
   }), { headers });
+
+  const extractedResponse = extractNetworkResponse(response.data.data.route);
 
   /* Introduce delay on dev */
   if (process.env.NODE_ENV === DEVELOPMENT) {
-    return returnAfter(response.data.data.route, 1000);
+    return returnAfter(extractedResponse, 1000);
   }
 
-  return response.data.data.route;
+  return extractedResponse;
 }
 
 export default routeQuery;
