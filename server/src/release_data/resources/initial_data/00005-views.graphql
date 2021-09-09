@@ -17,7 +17,7 @@ mutation {
             }
         ],
         pageTitle: "Laszlo Borbely | Welcome",
-    ) { key }
+    ) { statusCode }
 
     projectView: addOrUpdateView(
         key: "PROJECT_VIEW",
@@ -37,7 +37,7 @@ mutation {
             }
         ],
         pageTitle: "Laszlo Borbely | Projects",
-    ) { key }
+    ) { statusCode }
 
     contactView: addOrUpdateView(
         key: "CONTACT_VIEW",
@@ -58,7 +58,7 @@ mutation {
         ],
         pageTitle: "Laszlo Borbely | Contact",
     )
-    { key }
+    { statusCode }
 
     adminLoginView: addOrUpdateView(
         key: "ADMIN_LOGIN_VIEW",
@@ -79,7 +79,7 @@ mutation {
         ],
         pageTitle: "Laszlo Borbely | Admin Login",
     )
-    { key }
+    { statusCode }
 
     adminDashboardView: addOrUpdateView(
         key: "ADMIN_DASHBOARD_VIEW",
@@ -100,7 +100,7 @@ mutation {
         ],
         pageTitle: "Laszlo Borbely | Admin Dashboard",
     )
-    { key }
+    { statusCode }
 
     notFoundView: addOrUpdateView(
         key: "NOT_FOUND_VIEW",
@@ -121,7 +121,7 @@ mutation {
         ],
         pageTitle: "Laszlo Borbely | 404",
     )
-    { key }
+    { statusCode }
 
     notAuthorizedView: addOrUpdateView(
         key: "NOT_AUTHORIZED_VIEW",
@@ -142,5 +142,5 @@ mutation {
         ],
         pageTitle: "Laszlo Borbely | 401",
     )
-    { key }
+    { statusCode }
 }

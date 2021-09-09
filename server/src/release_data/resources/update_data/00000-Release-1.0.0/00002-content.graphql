@@ -7,13 +7,13 @@ mutation {
             { key: "h2", value: "Enter your credentials below!" }
         ]
     )
-    { key }
+    { statusCode }
 
     adminLoginFormContent: addOrUpdateContent(
         key: "ADMIN_LOGIN_FORM_CONTENT",
         type: "LOGIN_FORM_CONTENT_TYPE"
     )
-    { key }
+    { statusCode }
 
     notFoundHeaderTextContent: addOrUpdateContent(
         key: "NOT_FOUND_HEADER_TEXT_CONTENT",
@@ -23,7 +23,7 @@ mutation {
             { key: "h2", value: "Not found!" }
         ]
     )
-    { key }
+    { statusCode }
 
     notAuthorizedHeaderTextContent: addOrUpdateContent(
         key: "NOT_AUTHORIZED_HEADER_TEXT_CONTENT",
@@ -33,5 +33,5 @@ mutation {
             { key: "h2", value: "Unauthorized!" }
         ]
     )
-    { key }
+    { statusCode }
 }
