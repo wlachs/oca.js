@@ -1,21 +1,20 @@
 /* GraphQL imports */
 import {
-  GraphQLObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
+  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
 /* DAO references */
 import {
-  addApplicationProperty, addOrUpdateApplicationProperty,
+  addApplicationProperty,
+  addOrUpdateApplicationProperty,
   getApplicationPropertyByKey,
-  getApplicationPropertyList, removeApplicationProperty, updateApplicationProperty,
+  getApplicationPropertyList,
+  removeApplicationProperty,
+  updateApplicationProperty,
 } from '../dao/application_property';
 
 /* Wrapper */
-import { graphqlWrapper } from './wrapper';
+import { generateTemplateResponse, graphqlWrapper } from './wrapper';
 
 export const ApplicationProperty = new GraphQLObjectType({
   name: 'ApplicationProperty',
@@ -32,43 +31,8 @@ export const ApplicationProperty = new GraphQLObjectType({
   },
 });
 
-const ApplicationPropertyResponse = new GraphQLObjectType({
-  name: 'ApplicationPropertyResponse',
-  description: 'Application property response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: ApplicationProperty,
-      description: 'Application property',
-    },
-  },
-});
-
-const ApplicationPropertyResponseList = new GraphQLObjectType({
-  name: 'ApplicationPropertyResponseList',
-  description: 'Application property list response object',
-  fields: {
-    message: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Response message',
-    },
-    statusCode: {
-      type: GraphQLNonNull(GraphQLInt),
-      description: 'Response status',
-    },
-    node: {
-      type: GraphQLList(ApplicationProperty),
-      description: 'Application property list',
-    },
-  },
-});
+const ApplicationPropertyResponse = generateTemplateResponse(ApplicationProperty);
+const ApplicationPropertyResponseList = generateTemplateResponse(GraphQLList(ApplicationProperty));
 
 export const ApplicationPropertyQuery = {
   applicationProperty: {
