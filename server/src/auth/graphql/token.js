@@ -1,6 +1,14 @@
+/* GraphQL imports */
 import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
+
+/* Authentication service */
 import { authenticateUser } from '../services/auth';
+
+/* GraphQL schema references */
 import { Redirect } from '../../layout/graphql/redirect';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Token = new GraphQLObjectType({
   name: 'Token',
@@ -11,15 +19,17 @@ export const Token = new GraphQLObjectType({
       description: 'User authentication token',
     },
     redirect: {
-      type: GraphQLNonNull(Redirect),
+      type: Redirect,
       description: 'Route to redirect to after authentication success',
     },
   },
 });
 
+const TokenResponse = generateTemplateResponse(Token);
+
 export const TokenQuery = {
   authenticate: {
-    type: GraphQLNonNull(Token),
+    type: TokenResponse,
     description: 'Authenticate user',
     args: {
       userID: {
@@ -31,12 +41,12 @@ export const TokenQuery = {
         description: 'Plaintext password',
       },
       referer: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'Referer route key',
       },
     },
     resolve: async (_, {
       userID, password, referer,
-    }) => authenticateUser(userID, password, referer),
+    }) => graphqlWrapper(authenticateUser(userID, password, referer)),
   },
 };

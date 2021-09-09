@@ -4,6 +4,10 @@ import log from 'npmlog';
 /* Data models */
 import ApplicationPropertyModel from '../db/application_property';
 
+/* Errors */
+import NotFoundError from '../errors/not_found';
+import Conflict from '../errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'CORE_DAO_APPLICATION_PROPERTY';
 
@@ -13,7 +17,7 @@ export async function getApplicationPropertyByKey(key) {
   const applicationProperty = await ApplicationPropertyModel.findOne({ key });
   if (!applicationProperty) {
     log.error(LOG_PREFIX, 'no application property found with key:', key);
-    throw new Error(`can't get application property, no application property found with key: ${key}`);
+    throw new NotFoundError(`can't get application property, no application property found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(applicationProperty, undefined, 4));
@@ -37,7 +41,7 @@ export async function addApplicationProperty(key, value) {
   const existingApplicationProperty = await getApplicationPropertyByKeyOrNull(key);
   if (existingApplicationProperty) {
     log.error(LOG_PREFIX, 'application property with key already exists', key);
-    throw new Error(`can't create application property, application property with key already exists: ${key}`);
+    throw new Conflict(`can't create application property, application property with key already exists: ${key}`);
   }
 
   const applicationProperty = new ApplicationPropertyModel();
@@ -54,14 +58,14 @@ export async function updateApplicationProperty(key, newKey, value) {
   const applicationProperty = await ApplicationPropertyModel.findOne({ key });
   if (!applicationProperty) {
     log.error(LOG_PREFIX, 'no application property found with key:', key);
-    throw new Error(`can't update application property, no application property found with key: ${key}`);
+    throw new NotFoundError(`can't update application property, no application property found with key: ${key}`);
   }
 
   if (newKey) {
     const applicationPropertyWithNewKey = await ApplicationPropertyModel.findOne({ key: newKey });
     if (applicationPropertyWithNewKey) {
       log.error(LOG_PREFIX, 'application property with key already exists:', newKey);
-      throw new Error(`can't update application property, application property with key already exists: ${newKey}`);
+      throw new Conflict(`can't update application property, application property with key already exists: ${newKey}`);
     }
     applicationProperty.key = newKey;
   }
@@ -104,7 +108,7 @@ export async function getApplicationPropertyValue(key, fallback) {
       return fallback;
     }
     log.error(LOG_PREFIX, 'no application property found with key:', key);
-    throw new Error(`can't get application property, no application property found with key: ${key}`);
+    throw new NotFoundError(`can't get application property, no application property found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(applicationProperty, undefined, 4));

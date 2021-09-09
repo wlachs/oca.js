@@ -1,5 +1,10 @@
+/* Logging */
 import log from 'npmlog';
 
+/* Errors */
+import UnprocessableEntity from '../../../core/errors/unprocessable_entity';
+
+/* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_VALIDATE_VIEW';
 
 function validateSlotContentAssignment(slot, content) {
@@ -32,7 +37,7 @@ function validate(view) {
     log.info(LOG_PREFIX, 'view valid', JSON.stringify(view, undefined, 4));
   } else {
     log.error(LOG_PREFIX, 'view invalid', JSON.stringify(view, undefined, 4));
-    throw new Error('view validation failed, view invalid');
+    throw new UnprocessableEntity('view validation failed, view invalid');
   }
 }
 

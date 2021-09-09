@@ -5,7 +5,7 @@ mutation {
         imageUrl: "https://swofi.net:30000/logo.png",
         link: "https://swofi.net/"
     )
-    { _id }
+    { statusCode }
 
     literature_wizard: addProject(
         name: "Literature Wizard",
@@ -13,5 +13,5 @@ mutation {
         imageUrl: "https://i.postimg.cc/6qcJnB65/image.png",
         link: "https://swofi.net:30012/"
     )
-    { _id }
+    { statusCode }
 }

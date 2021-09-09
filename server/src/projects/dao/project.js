@@ -4,6 +4,9 @@ import log from 'npmlog';
 /* Data models */
 import ProjectModel from '../db/project';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+
 /* Logging prefix */
 const LOG_PREFIX = 'PROJECTS_DAO_PROJECT';
 
@@ -13,7 +16,7 @@ export async function getProjectById(_id) {
   const project = await ProjectModel.findById(_id);
   if (!project) {
     log.error(LOG_PREFIX, 'no project found with _id:', _id);
-    throw new Error(`can't get project, no project found with _id: ${_id}`);
+    throw new NotFoundError(`can't get project, no project found with _id: ${_id}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(project, undefined, 4));

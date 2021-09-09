@@ -1,7 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
-import { ContentType } from './content_type';
+
+/* DAO references */
 import {
   addOrUpdateSlot,
   addSlot,
@@ -11,6 +13,12 @@ import {
   removeSlot,
   updateSlot,
 } from '../dao/slot';
+
+/* GraphQL references */
+import { ContentType } from './content_type';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Slot = new GraphQLObjectType({
   name: 'Slot',
@@ -27,15 +35,18 @@ export const Slot = new GraphQLObjectType({
   },
 });
 
+const SlotResponse = generateTemplateResponse(Slot);
+const SlotResponseList = generateTemplateResponse(GraphQLList(Slot));
+
 export const SlotQuery = {
   slots: {
-    type: GraphQLList(Slot),
+    type: SlotResponseList,
     description: 'List of slots',
-    resolve: async () => getSlotList(),
+    resolve: async () => graphqlWrapper(getSlotList()),
   },
 
   slot: {
-    type: GraphQLNonNull(Slot),
+    type: SlotResponse,
     description: 'Get slot by key',
     args: {
       key: {
@@ -43,11 +54,11 @@ export const SlotQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getSlotByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getSlotByKey(key)),
   },
 
   slotByContentType: {
-    type: GraphQLList(Slot),
+    type: SlotResponse,
     description: 'Get slot by content type',
     args: {
       key: {
@@ -55,13 +66,13 @@ export const SlotQuery = {
         description: 'Content type key',
       },
     },
-    resolve: async (_, { key }) => getSlotListForContentType(key),
+    resolve: async (_, { key }) => graphqlWrapper(getSlotListForContentType(key)),
   },
 };
 
 export const SlotMutation = {
   addSlot: {
-    type: Slot,
+    type: SlotResponse,
     description: 'Add new slot',
     args: {
       key: {
@@ -73,11 +84,11 @@ export const SlotMutation = {
         description: 'Allowed content types',
       },
     },
-    resolve: async (_, { key, contentTypes }) => addSlot(key, contentTypes),
+    resolve: async (_, { key, contentTypes }) => graphqlWrapper(addSlot(key, contentTypes), 201),
   },
 
   addOrUpdateSlot: {
-    type: Slot,
+    type: SlotResponse,
     description: 'Add or update slot',
     args: {
       key: {
@@ -89,11 +100,11 @@ export const SlotMutation = {
         description: 'Allowed content types',
       },
     },
-    resolve: async (_, { key, contentTypes }) => addOrUpdateSlot(key, contentTypes),
+    resolve: async (_, { key, contentTypes }) => graphqlWrapper(addOrUpdateSlot(key, contentTypes)),
   },
 
   updateSlot: {
-    type: Slot,
+    type: SlotResponse,
     description: 'Update slot',
     args: {
       key: {
@@ -109,11 +120,13 @@ export const SlotMutation = {
         description: 'Allowed content types',
       },
     },
-    resolve: async (_, { key, newKey, contentTypes }) => updateSlot(key, newKey, contentTypes),
+    resolve: async (_, {
+      key, newKey, contentTypes,
+    }) => graphqlWrapper(updateSlot(key, newKey, contentTypes)),
   },
 
   removeSlot: {
-    type: Slot,
+    type: SlotResponse,
     description: 'Remove slot',
     args: {
       key: {
@@ -121,6 +134,6 @@ export const SlotMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => removeSlot(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeSlot(key)),
   },
 };

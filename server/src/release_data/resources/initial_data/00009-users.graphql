@@ -4,5 +4,5 @@ mutation {
         password: "nimda",
         groups: ["ADMIN_USER_GROUP"]
     )
-    { userID }
+    { statusCode }
 }

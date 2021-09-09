@@ -6,5 +6,5 @@ mutation {
             "LOGIN_FORM_CONTENT_TYPE"
         ]
     )
-    { key }
+    { statusCode }
 }

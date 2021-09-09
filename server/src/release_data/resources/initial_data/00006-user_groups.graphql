@@ -2,17 +2,17 @@ mutation {
     adminGroup: addUserGroup(
         key: "ADMIN_USER_GROUP"
     )
-    { key }
+    { statusCode }
 
     standardGroup: addUserGroup(
         key: "STANDARD_USER_GROUP"
         parent: "ADMIN_USER_GROUP"
     )
-    { key }
+    { statusCode }
 
     guestGroup: addUserGroup(
         key: "GUEST_USER_GROUP",
         parent: "STANDARD_USER_GROUP"
     )
-    { key }
+    { statusCode }
 }

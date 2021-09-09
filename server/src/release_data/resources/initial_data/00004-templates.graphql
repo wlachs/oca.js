@@ -1,5 +1,4 @@
 mutation {
-    simplePageTemplate: addTemplate(key: "SIMPLE_PAGE_TEMPLATE", slots: ["TOP_BAR_SLOT", "PAGE_HEADER_SLOT", "MAIN_CONTENT_SLOT"]) {
-        key
-    }
+    simplePageTemplate: addTemplate(key: "SIMPLE_PAGE_TEMPLATE", slots: ["TOP_BAR_SLOT", "PAGE_HEADER_SLOT", "MAIN_CONTENT_SLOT"])
+    { statusCode }
 }

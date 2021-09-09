@@ -19,7 +19,6 @@ const GuestQueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'Guest query type',
   fields: {
-    ...ViewQuery,
     ...RouteQuery,
     ...ProjectQuery,
     ...TokenQuery,

@@ -1,6 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
+
+/* DAO references */
 import {
   addOrUpdateRedirect,
   addRedirect,
@@ -9,7 +12,12 @@ import {
   removeRedirect,
   updateRedirect,
 } from '../dao/redirect';
+
+/* GraphQL references */
 import { Route } from './route';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Redirect = new GraphQLObjectType({
   name: 'Redirect',
@@ -26,15 +34,18 @@ export const Redirect = new GraphQLObjectType({
   },
 });
 
+const RedirectResponse = generateTemplateResponse(Redirect);
+const RedirectResponseList = generateTemplateResponse(GraphQLList(Redirect));
+
 export const RedirectQuery = {
   redirects: {
-    type: GraphQLList(Redirect),
+    type: RedirectResponseList,
     description: 'List of redirects',
-    resolve: async () => getRedirectList(),
+    resolve: async () => graphqlWrapper(getRedirectList()),
   },
 
   redirect: {
-    type: GraphQLNonNull(Redirect),
+    type: RedirectResponse,
     description: 'Get redirect by referer route path',
     args: {
       referer: {
@@ -42,13 +53,13 @@ export const RedirectQuery = {
         description: 'Referer route path',
       },
     },
-    resolve: async (_, { referer }) => getRedirectByReferer(referer),
+    resolve: async (_, { referer }) => graphqlWrapper(getRedirectByReferer(referer)),
   },
 };
 
 export const RedirectMutation = {
   addRedirect: {
-    type: Redirect,
+    type: RedirectResponse,
     description: 'Add new redirect',
     args: {
       referer: {
@@ -60,11 +71,13 @@ export const RedirectMutation = {
         description: 'Redirect route path',
       },
     },
-    resolve: async (_, { referer, redirect }) => addRedirect(referer, redirect),
+    resolve: async (_, {
+      referer, redirect,
+    }) => graphqlWrapper(addRedirect(referer, redirect), 201),
   },
 
   addOrUpdateRedirect: {
-    type: Redirect,
+    type: RedirectResponse,
     description: 'Add or update redirect',
     args: {
       referer: {
@@ -76,11 +89,13 @@ export const RedirectMutation = {
         description: 'Redirect route path',
       },
     },
-    resolve: async (_, { referer, redirect }) => addOrUpdateRedirect(referer, redirect),
+    resolve: async (_, {
+      referer, redirect,
+    }) => graphqlWrapper(addOrUpdateRedirect(referer, redirect)),
   },
 
   updateRedirect: {
-    type: Redirect,
+    type: RedirectResponse,
     description: 'Update redirect',
     args: {
       referer: {
@@ -98,11 +113,11 @@ export const RedirectMutation = {
     },
     resolve: async (_, {
       referer, newReferer, redirect,
-    }) => updateRedirect(referer, newReferer, redirect),
+    }) => graphqlWrapper(updateRedirect(referer, newReferer, redirect)),
   },
 
   removeRedirect: {
-    type: Redirect,
+    type: RedirectResponse,
     description: 'Remove redirect by referer',
     args: {
       referer: {
@@ -110,6 +125,6 @@ export const RedirectMutation = {
         description: 'Referer route path',
       },
     },
-    resolve: async (_, { referer }) => removeRedirect(referer),
+    resolve: async (_, { referer }) => graphqlWrapper(removeRedirect(referer)),
   },
 };

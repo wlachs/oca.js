@@ -3,5 +3,5 @@ mutation {
         referer: "/adminlogin",
         redirect: "/admindashboard"
     )
-    { referer }
+    { statusCode }
 }

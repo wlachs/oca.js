@@ -1,10 +1,23 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
+
+/* DAO references */
 import {
-  addOrUpdateUser, addUser, getUserById, getUserList, removeUser, updateUser,
+  addOrUpdateUser,
+  addUser,
+  getUserById,
+  getUserList,
+  removeUser,
+  updateUser,
 } from '../dao/user';
+
+/* GraphQL schema references */
 import { UserGroup } from './user_group';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const User = new GraphQLObjectType({
   name: 'User',
@@ -25,15 +38,18 @@ export const User = new GraphQLObjectType({
   },
 });
 
+const UserResponse = generateTemplateResponse(User);
+const UserResponseList = generateTemplateResponse(GraphQLList(User));
+
 export const UserQuery = {
   users: {
-    type: GraphQLList(User),
+    type: UserResponseList,
     description: 'List of users',
-    resolve: async () => getUserList(),
+    resolve: async () => graphqlWrapper(getUserList()),
   },
 
   user: {
-    type: GraphQLNonNull(User),
+    type: UserResponse,
     description: 'Get user by user ID',
     args: {
       userID: {
@@ -41,13 +57,13 @@ export const UserQuery = {
         description: 'Unique user ID',
       },
     },
-    resolve: async (_, { userID }) => getUserById(userID),
+    resolve: async (_, { userID }) => graphqlWrapper(getUserById(userID)),
   },
 };
 
 export const UserMutation = {
   addUser: {
-    type: User,
+    type: UserResponse,
     description: 'Add new user',
     args: {
       userID: {
@@ -63,11 +79,13 @@ export const UserMutation = {
         description: 'User group list',
       },
     },
-    resolve: async (_, { userID, password, groups }) => addUser(userID, password, groups),
+    resolve: async (_, {
+      userID, password, groups,
+    }) => graphqlWrapper(addUser(userID, password, groups), 201),
   },
 
   addOrUpdateUser: {
-    type: User,
+    type: UserResponse,
     description: 'Add or update user',
     args: {
       userID: {
@@ -83,11 +101,13 @@ export const UserMutation = {
         description: 'User group list',
       },
     },
-    resolve: async (_, { userID, password, groups }) => addOrUpdateUser(userID, password, groups),
+    resolve: async (_, {
+      userID, password, groups,
+    }) => graphqlWrapper(addOrUpdateUser(userID, password, groups)),
   },
 
   updateUser: {
-    type: User,
+    type: UserResponse,
     description: 'Update user',
     args: {
       userID: {
@@ -109,11 +129,11 @@ export const UserMutation = {
     },
     resolve: async (_, {
       userID, newUserID, password, groups,
-    }) => updateUser(userID, newUserID, password, groups),
+    }) => graphqlWrapper(updateUser(userID, newUserID, password, groups)),
   },
 
   removeUser: {
-    type: User,
+    type: UserResponse,
     description: 'Remove user by ID',
     args: {
       userID: {
@@ -121,6 +141,6 @@ export const UserMutation = {
         description: 'Unique user ID',
       },
     },
-    resolve: async (_, { userID }) => removeUser(userID),
+    resolve: async (_, { userID }) => graphqlWrapper(removeUser(userID)),
   },
 };

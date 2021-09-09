@@ -4,47 +4,47 @@ mutation {
         view: "HOME_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     projectRoute: addRoute(
         path: "/projects",
         view: "PROJECT_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     contactRoute: addRoute(
         path: "/contact",
         view: "CONTACT_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     adminLoginRoute: addRoute(
         path: "/adminlogin",
         view: "ADMIN_LOGIN_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     adminDashboardRoute: addRoute(
         path: "/admindashboard",
         view: "ADMIN_DASHBOARD_VIEW",
         accessGroups: ["ADMIN_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     notFoundRoute: addRoute(
         path: "/notfound",
         view: "NOT_FOUND_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 
     notAuthorizedRoute: addRoute(
         path: "/notauthorized",
         view: "NOT_AUTHORIZED_VIEW",
         accessGroups: ["GUEST_USER_GROUP"]
     )
-    { path }
+    { statusCode }
 }

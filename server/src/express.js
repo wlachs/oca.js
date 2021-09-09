@@ -2,7 +2,7 @@ import { Router } from 'express';
 import getConfig from './config';
 import { asyncMW, conditionalMW } from './utils/express-utils';
 import { fakePopulateAdminUserMW, populateUserGroupsMW } from './auth/middleware/populateUserGroupsMW';
-import { applyGraphqlSchemaMW, applyTokenIfPresentMW } from './graphql/middleware';
+import { applyGraphqlSchemaMW, applyTokenIfPresentMW, genericErrorHandlerMW } from './graphql/middleware';
 
 const router = new Router();
 const { auth } = getConfig();
@@ -23,5 +23,7 @@ router.use('/',
     /* Apply GraphQL schema based on access level */
     applyGraphqlSchemaMW,
   ]);
+
+router.use('/', [genericErrorHandlerMW]);
 
 export default router;

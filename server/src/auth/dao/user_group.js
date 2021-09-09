@@ -7,6 +7,10 @@ import { POPULATE_USER_GROUP_KEY } from '../db/populators';
 /* Data models */
 import UserGroupModel from '../db/user_group';
 
+/* Errors */
+import NotFoundError from '../../core/errors/not_found';
+import Conflict from '../../core/errors/conflict';
+
 /* Logging prefix */
 const LOG_PREFIX = 'AUTH_DAO_USER_GROUP';
 
@@ -19,7 +23,7 @@ export async function getUserGroupByKey(key) {
 
   if (!userGroup) {
     log.error(LOG_PREFIX, 'no user group found with key:', key);
-    throw new Error(`can't get user group, no user group found with key: ${key}`);
+    throw new NotFoundError(`can't get user group, no user group found with key: ${key}`);
   }
 
   log.verbose(LOG_PREFIX, JSON.stringify(userGroup, undefined, 4));
@@ -69,7 +73,7 @@ export async function addUserGroup(key, parentKey) {
   const existingUserGroup = await getUserGroupByKeyOrNull(key);
   if (existingUserGroup) {
     log.error(LOG_PREFIX, 'user group with key already exists', key);
-    throw new Error(`can't create user group, user group with key already exists: ${key}`);
+    throw new Conflict(`can't create user group, user group with key already exists: ${key}`);
   }
 
   const userGroup = new UserGroupModel();
@@ -91,7 +95,7 @@ export async function updateUserGroup(key, newKey, parentKey) {
 
     if (userGroupWithNewKey) {
       log.error(LOG_PREFIX, 'user group with key already exists:', newKey);
-      throw new Error(`can't update user group, user group with key already exists: ${newKey}`);
+      throw new Conflict(`can't update user group, user group with key already exists: ${newKey}`);
     }
 
     userGroup.key = newKey;

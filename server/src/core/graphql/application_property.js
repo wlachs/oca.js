@@ -1,11 +1,20 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
+
+/* DAO references */
 import {
-  addApplicationProperty, addOrUpdateApplicationProperty,
+  addApplicationProperty,
+  addOrUpdateApplicationProperty,
   getApplicationPropertyByKey,
-  getApplicationPropertyList, removeApplicationProperty, updateApplicationProperty,
+  getApplicationPropertyList,
+  removeApplicationProperty,
+  updateApplicationProperty,
 } from '../dao/application_property';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from './wrapper';
 
 export const ApplicationProperty = new GraphQLObjectType({
   name: 'ApplicationProperty',
@@ -22,9 +31,12 @@ export const ApplicationProperty = new GraphQLObjectType({
   },
 });
 
+const ApplicationPropertyResponse = generateTemplateResponse(ApplicationProperty);
+const ApplicationPropertyResponseList = generateTemplateResponse(GraphQLList(ApplicationProperty));
+
 export const ApplicationPropertyQuery = {
   applicationProperty: {
-    type: GraphQLNonNull(ApplicationProperty),
+    type: ApplicationPropertyResponse,
     description: 'Get application property by key',
     args: {
       key: {
@@ -32,18 +44,19 @@ export const ApplicationPropertyQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getApplicationPropertyByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getApplicationPropertyByKey(key)),
   },
+
   applicationProperties: {
-    type: GraphQLList(ApplicationProperty),
+    type: ApplicationPropertyResponseList,
     description: 'List of available application properties',
-    resolve: async () => getApplicationPropertyList(),
+    resolve: async () => graphqlWrapper(getApplicationPropertyList()),
   },
 };
 
 export const ApplicationPropertyMutation = {
   addApplicationProperty: {
-    type: ApplicationProperty,
+    type: ApplicationPropertyResponse,
     description: 'Add new application property',
     args: {
       key: {
@@ -55,11 +68,11 @@ export const ApplicationPropertyMutation = {
         description: 'Value',
       },
     },
-    resolve: async (_, { key, value }) => addApplicationProperty(key, value),
+    resolve: async (_, { key, value }) => graphqlWrapper(addApplicationProperty(key, value), 201),
   },
 
   addOrUpdateApplicationProperty: {
-    type: ApplicationProperty,
+    type: ApplicationPropertyResponse,
     description: 'Add or update application property',
     args: {
       key: {
@@ -71,11 +84,13 @@ export const ApplicationPropertyMutation = {
         description: 'Value',
       },
     },
-    resolve: async (_, { key, value }) => addOrUpdateApplicationProperty(key, value),
+    resolve: async (_, {
+      key, value,
+    }) => graphqlWrapper(addOrUpdateApplicationProperty(key, value)),
   },
 
   updateApplicationProperty: {
-    type: ApplicationProperty,
+    type: ApplicationPropertyResponse,
     description: 'Update existing application property',
     args: {
       key: {
@@ -91,11 +106,13 @@ export const ApplicationPropertyMutation = {
         description: 'Value',
       },
     },
-    resolve: async (_, { key, newKey, value }) => updateApplicationProperty(key, newKey, value),
+    resolve: async (_, {
+      key, newKey, value,
+    }) => graphqlWrapper(updateApplicationProperty(key, newKey, value)),
   },
 
   removeApplicationProperty: {
-    type: ApplicationProperty,
+    type: ApplicationPropertyResponse,
     description: 'Remove application property by key',
     args: {
       key: {
@@ -103,6 +120,6 @@ export const ApplicationPropertyMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => removeApplicationProperty(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeApplicationProperty(key)),
   },
 };

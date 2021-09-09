@@ -3,11 +3,11 @@ mutation {
          key: "REQUEST_INITIALIZATION",
          value: "false"
      )
-     { key }
+     { statusCode }
 
     defaultRoute: addApplicationProperty(
         key: "DEFAULT_ROUTE",
         value: "/"
     )
-    { key }
+    { statusCode }
 }
