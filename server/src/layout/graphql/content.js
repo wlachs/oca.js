@@ -1,7 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
-import { ContentType } from './content_type';
+
+/* DAO references */
 import {
   addContent,
   addOrUpdateContent,
@@ -11,6 +13,12 @@ import {
   removeContent,
   updateContent,
 } from '../dao/content';
+
+/* GraphQL references */
+import { ContentType } from './content_type';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 const KeyValueInputPair = new GraphQLInputObjectType({
   name: 'InputStringPair',
@@ -61,15 +69,18 @@ export const Content = new GraphQLObjectType({
   },
 });
 
+const ContentResponse = generateTemplateResponse(Content);
+const ContentResponseList = generateTemplateResponse(GraphQLList(Content));
+
 export const ContentQuery = {
   contents: {
-    type: GraphQLList(Content),
+    type: GraphQLNonNull(ContentResponseList),
     description: 'List of available contents',
-    resolve: async () => getContentList(),
+    resolve: async () => graphqlWrapper(getContentList()),
   },
 
   content: {
-    type: GraphQLNonNull(Content),
+    type: GraphQLNonNull(ContentResponse),
     description: 'Get content by key',
     args: {
       key: {
@@ -77,11 +88,11 @@ export const ContentQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getContentByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getContentByKey(key)),
   },
 
   contentByType: {
-    type: GraphQLList(Content),
+    type: GraphQLNonNull(ContentResponseList),
     description: 'Get content for content type',
     args: {
       key: {
@@ -89,13 +100,13 @@ export const ContentQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getContentByType(key),
+    resolve: async (_, { key }) => graphqlWrapper(getContentByType(key)),
   },
 };
 
 export const ContentMutation = {
   addContent: {
-    type: Content,
+    type: GraphQLNonNull(ContentResponse),
     description: 'Add new content',
     args: {
       key: {
@@ -111,11 +122,13 @@ export const ContentMutation = {
         description: 'Optional attributes',
       },
     },
-    resolve: async (_, { key, type, attributes }) => addContent(key, type, attributes),
+    resolve: async (_, {
+      key, type, attributes,
+    }) => graphqlWrapper(addContent(key, type, attributes), 201),
   },
 
   addOrUpdateContent: {
-    type: Content,
+    type: GraphQLNonNull(ContentResponse),
     description: 'Add or update content',
     args: {
       key: {
@@ -131,11 +144,13 @@ export const ContentMutation = {
         description: 'Optional attributes',
       },
     },
-    resolve: async (_, { key, type, attributes }) => addOrUpdateContent(key, type, attributes),
+    resolve: async (_, {
+      key, type, attributes,
+    }) => graphqlWrapper(addOrUpdateContent(key, type, attributes)),
   },
 
   updateContent: {
-    type: Content,
+    type: GraphQLNonNull(ContentResponse),
     description: 'Update existing content',
     args: {
       key: {
@@ -157,11 +172,11 @@ export const ContentMutation = {
     },
     resolve: async (_, {
       key, newKey, type, attributes,
-    }) => updateContent(key, newKey, type, attributes),
+    }) => graphqlWrapper(updateContent(key, newKey, type, attributes)),
   },
 
   removeContent: {
-    type: Content,
+    type: GraphQLNonNull(ContentResponse),
     description: 'Remove content by key',
     args: {
       key: {
@@ -169,6 +184,6 @@ export const ContentMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => removeContent(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeContent(key)),
   },
 };

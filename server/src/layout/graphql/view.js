@@ -1,9 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
-import { Template } from './template';
-import { Slot } from './slot';
-import { Content } from './content';
+
+/* DAO references */
 import {
   addOrUpdateView,
   addView,
@@ -13,6 +13,14 @@ import {
   removeView,
   updateView,
 } from '../dao/view';
+
+/* GraphQL references */
+import { Template } from './template';
+import { Slot } from './slot';
+import { Content } from './content';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 const SlotContentInputPair = new GraphQLInputObjectType({
   name: 'InputSlotContentPair',
@@ -67,15 +75,18 @@ export const View = new GraphQLObjectType({
   },
 });
 
+const ViewResponse = generateTemplateResponse(View);
+const ViewResponseList = generateTemplateResponse(GraphQLList(View));
+
 export const ViewQuery = {
   views: {
-    type: GraphQLList(View),
+    type: ViewResponseList,
     description: 'List of available views',
-    resolve: async () => getViewList(),
+    resolve: async () => graphqlWrapper(getViewList()),
   },
 
   view: {
-    type: GraphQLNonNull(View),
+    type: ViewResponse,
     description: 'Get view by key',
     args: {
       key: {
@@ -83,11 +94,11 @@ export const ViewQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getViewByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getViewByKey(key)),
   },
 
   viewByTemplate: {
-    type: GraphQLList(View),
+    type: ViewResponseList,
     description: 'Get view by template',
     args: {
       key: {
@@ -95,13 +106,13 @@ export const ViewQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getViewByTemplate(key),
+    resolve: async (_, { key }) => graphqlWrapper(getViewByTemplate(key)),
   },
 };
 
 export const ViewMutation = {
   addView: {
-    type: View,
+    type: ViewResponse,
     description: 'Add view',
     args: {
       key: {
@@ -123,11 +134,11 @@ export const ViewMutation = {
     },
     resolve: async (_, {
       key, template, content, pageTitle,
-    }) => addView(key, template, content, pageTitle),
+    }) => graphqlWrapper(addView(key, template, content, pageTitle), 201),
   },
 
   updateView: {
-    type: View,
+    type: ViewResponse,
     description: 'Update update view',
     args: {
       key: {
@@ -153,11 +164,11 @@ export const ViewMutation = {
     },
     resolve: async (_, {
       key, newKey, template, content, pageTitle,
-    }) => updateView(key, newKey, template, content, pageTitle),
+    }) => graphqlWrapper(updateView(key, newKey, template, content, pageTitle)),
   },
 
   addOrUpdateView: {
-    type: View,
+    type: ViewResponse,
     description: 'Add or update view',
     args: {
       key: {
@@ -183,11 +194,11 @@ export const ViewMutation = {
     },
     resolve: async (_, {
       key, newKey, template, content, pageTitle,
-    }) => addOrUpdateView(key, newKey, template, content, pageTitle),
+    }) => graphqlWrapper(addOrUpdateView(key, newKey, template, content, pageTitle)),
   },
 
   removeView: {
-    type: View,
+    type: ViewResponse,
     description: 'Remove view by key',
     args: {
       key: {
@@ -195,6 +206,6 @@ export const ViewMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => removeView(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeView(key)),
   },
 };

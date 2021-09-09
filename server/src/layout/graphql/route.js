@@ -1,8 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
-import { View } from './view';
-import { UserGroup } from '../../auth/graphql/user_group';
+
+/* DAO references */
 import {
   addOrUpdateRoute,
   addRoute,
@@ -12,7 +13,16 @@ import {
   removeRoute,
   updateRoute,
 } from '../dao/route';
+
+/* GraphQL references */
+import { View } from './view';
+import { UserGroup } from '../../auth/graphql/user_group';
+
+/* Services */
 import { getDefaultRoute } from '../services/route';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Route = new GraphQLObjectType({
   name: 'Route',
@@ -33,15 +43,18 @@ export const Route = new GraphQLObjectType({
   },
 });
 
+const RouteResponse = generateTemplateResponse(Route);
+const RouteResponseList = generateTemplateResponse(GraphQLList(Route));
+
 export const RouteQuery = {
   routes: {
-    type: GraphQLList(Route),
+    type: GraphQLNonNull(RouteResponseList),
     description: 'List of available routes',
-    resolve: async (_, __, { user }) => getRouteList(user),
+    resolve: async (_, __, { user }) => graphqlWrapper(getRouteList(user)),
   },
 
   route: {
-    type: GraphQLNonNull(Route),
+    type: GraphQLNonNull(RouteResponse),
     description: 'Get route by path',
     args: {
       path: {
@@ -49,11 +62,11 @@ export const RouteQuery = {
         description: 'Unique path',
       },
     },
-    resolve: async (_, { path }, { user }) => getRouteByPathOrDefault(path, user),
+    resolve: async (_, { path }, { user }) => graphqlWrapper(getRouteByPathOrDefault(path, user)),
   },
 
   routeByView: {
-    type: GraphQLList(Route),
+    type: GraphQLNonNull(RouteResponseList),
     description: 'Get route by view',
     args: {
       key: {
@@ -61,19 +74,19 @@ export const RouteQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }, { user }) => getRouteByView(key, user),
+    resolve: async (_, { key }, { user }) => graphqlWrapper(getRouteByView(key, user)),
   },
 
   defaultRoute: {
-    type: GraphQLNonNull(Route),
+    type: GraphQLNonNull(RouteResponse),
     description: 'Get default application route',
-    resolve: async (_, __, { user }) => getDefaultRoute(user),
+    resolve: async (_, __, { user }) => graphqlWrapper(getDefaultRoute(user)),
   },
 };
 
 export const RouteMutation = {
   addRoute: {
-    type: Route,
+    type: GraphQLNonNull(RouteResponse),
     description: 'Add new route',
     args: {
       path: {
@@ -89,11 +102,13 @@ export const RouteMutation = {
         description: 'Access groups required for accessing the route',
       },
     },
-    resolve: async (_, { path, view, accessGroups }) => addRoute(path, view, accessGroups),
+    resolve: async (_, {
+      path, view, accessGroups,
+    }) => graphqlWrapper(addRoute(path, view, accessGroups), 201),
   },
 
   addOrUpdateRoute: {
-    type: Route,
+    type: GraphQLNonNull(RouteResponse),
     description: 'Add or update route',
     args: {
       path: {
@@ -109,11 +124,13 @@ export const RouteMutation = {
         description: 'Access groups required for accessing the route',
       },
     },
-    resolve: async (_, { path, view, accessGroups }) => addOrUpdateRoute(path, view, accessGroups),
+    resolve: async (_, {
+      path, view, accessGroups,
+    }) => graphqlWrapper(addOrUpdateRoute(path, view, accessGroups)),
   },
 
   updateRoute: {
-    type: Route,
+    type: GraphQLNonNull(RouteResponse),
     description: 'Update existing route',
     args: {
       path: {
@@ -135,11 +152,11 @@ export const RouteMutation = {
     },
     resolve: async (_, {
       path, newPath, view, accessGroup,
-    }) => updateRoute(path, newPath, view, accessGroup),
+    }) => graphqlWrapper(updateRoute(path, newPath, view, accessGroup)),
   },
 
   removeRoute: {
-    type: Route,
+    type: GraphQLNonNull(RouteResponse),
     description: 'Remove route by key',
     args: {
       path: {
@@ -147,6 +164,6 @@ export const RouteMutation = {
         description: 'Unique path',
       },
     },
-    resolve: async (_, { path }) => removeRoute(path),
+    resolve: async (_, { path }) => graphqlWrapper(removeRoute(path)),
   },
 };

@@ -1,7 +1,9 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
-import { Slot } from './slot';
+
+/* DAO references */
 import {
   addOrUpdateTemplate,
   addTemplate,
@@ -11,6 +13,12 @@ import {
   removeTemplate,
   updateTemplate,
 } from '../dao/template';
+
+/* GraphQL references */
+import { Slot } from './slot';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Template = new GraphQLObjectType({
   name: 'Template',
@@ -27,15 +35,18 @@ export const Template = new GraphQLObjectType({
   },
 });
 
+const TemplateResponse = generateTemplateResponse(Template);
+const TemplateResponseList = generateTemplateResponse(GraphQLList(Template));
+
 export const TemplateQuery = {
   templates: {
-    type: GraphQLList(Template),
+    type: GraphQLNonNull(TemplateResponseList),
     description: 'List of templates',
-    resolve: async () => getTemplateList(),
+    resolve: async () => graphqlWrapper(getTemplateList()),
   },
 
   template: {
-    type: GraphQLNonNull(Template),
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Get template by key',
     args: {
       key: {
@@ -43,11 +54,11 @@ export const TemplateQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getTemplateByKey(key),
+    resolve: async (_, { key }) => graphqlWrapper(getTemplateByKey(key)),
   },
 
   templateBySlot: {
-    type: GraphQLList(Template),
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Get template for slot',
     args: {
       key: {
@@ -55,13 +66,13 @@ export const TemplateQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => getTemplateBySlot(key),
+    resolve: async (_, { key }) => graphqlWrapper(getTemplateBySlot(key)),
   },
 };
 
 export const TemplateMutation = {
   addTemplate: {
-    type: Template,
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Add new template',
     args: {
       key: {
@@ -73,11 +84,11 @@ export const TemplateMutation = {
         description: 'List of template slots',
       },
     },
-    resolve: async (_, { key, slots }) => addTemplate(key, slots),
+    resolve: async (_, { key, slots }) => graphqlWrapper(addTemplate(key, slots), 201),
   },
 
   addOrUpdateTemplate: {
-    type: Template,
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Add or update template',
     args: {
       key: {
@@ -89,11 +100,11 @@ export const TemplateMutation = {
         description: 'List of template slots',
       },
     },
-    resolve: async (_, { key, slots }) => addOrUpdateTemplate(key, slots),
+    resolve: async (_, { key, slots }) => graphqlWrapper(addOrUpdateTemplate(key, slots)),
   },
 
   updateTemplate: {
-    type: Template,
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Update existing template',
     args: {
       key: {
@@ -109,11 +120,13 @@ export const TemplateMutation = {
         description: 'List of template slots',
       },
     },
-    resolve: async (_, { key, newKey, slots }) => updateTemplate(key, newKey, slots),
+    resolve: async (_, {
+      key, newKey, slots,
+    }) => graphqlWrapper(updateTemplate(key, newKey, slots)),
   },
 
   removeTemplate: {
-    type: Template,
+    type: GraphQLNonNull(TemplateResponse),
     description: 'Remove template by key',
     args: {
       key: {
@@ -121,6 +134,6 @@ export const TemplateMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => removeTemplate(key),
+    resolve: async (_, { key }) => graphqlWrapper(removeTemplate(key)),
   },
 };
