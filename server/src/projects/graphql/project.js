@@ -1,9 +1,15 @@
+/* GraphQL imports */
 import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
+
+/* DAO references */
 import {
   addProject, getProjectById, getProjectList, removeProject, updateProject,
 } from '../dao/project';
+
+/* Wrapper */
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
 export const Project = new GraphQLObjectType({
   name: 'Project',
@@ -32,15 +38,18 @@ export const Project = new GraphQLObjectType({
   },
 });
 
+const ProjectResponse = generateTemplateResponse(Project);
+const ProjectResponseList = generateTemplateResponse(GraphQLList(Project));
+
 export const ProjectQuery = {
   projects: {
-    type: GraphQLList(Project),
+    type: ProjectResponseList,
     description: 'List of projects',
-    resolve: async () => getProjectList(),
+    resolve: async () => graphqlWrapper(getProjectList()),
   },
 
   project: {
-    type: GraphQLNonNull(Project),
+    type: ProjectResponse,
     description: 'Get project by _id',
     args: {
       _id: {
@@ -48,13 +57,13 @@ export const ProjectQuery = {
         description: 'Unique ID',
       },
     },
-    resolve: async (_, { _id }) => getProjectById(_id),
+    resolve: async (_, { _id }) => graphqlWrapper(getProjectById(_id)),
   },
 };
 
 export const ProjectMutation = {
   addProject: {
-    type: Project,
+    type: ProjectResponse,
     description: 'Add new project',
     args: {
       name: {
@@ -76,11 +85,11 @@ export const ProjectMutation = {
     },
     resolve: async (_, {
       name, description, imageUrl, link,
-    }) => addProject(name, description, imageUrl, link),
+    }) => graphqlWrapper(addProject(name, description, imageUrl, link), 201),
   },
 
   updateProject: {
-    type: Project,
+    type: ProjectResponse,
     description: 'Update existing project',
     args: {
       _id: {
@@ -106,11 +115,11 @@ export const ProjectMutation = {
     },
     resolve: async (_, {
       _id, name, description, imageUrl, link,
-    }) => updateProject(_id, name, description, imageUrl, link),
+    }) => graphqlWrapper(updateProject(_id, name, description, imageUrl, link)),
   },
 
   removeProject: {
-    type: Project,
+    type: ProjectResponse,
     description: 'Remove project by _id',
     args: {
       _id: {
@@ -118,6 +127,6 @@ export const ProjectMutation = {
         description: 'Unique ID',
       },
     },
-    resolve: async (_, { _id }) => removeProject(_id),
+    resolve: async (_, { _id }) => graphqlWrapper(removeProject(_id)),
   },
 };
