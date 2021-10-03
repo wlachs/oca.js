@@ -14,3 +14,5 @@ export const LOGIN_ERROR = 'CORE/LOGIN_ERROR';
 
 export const SHOW_ALERT = 'CORE/SHOW_ALERT';
 export const CLEAR_ALERT = 'CORE/CLEAR_ALERT';
+
+export const HARD_RESET = 'CORE/HARD_RESET';

@@ -8,14 +8,18 @@ import ReactDOM from 'react-dom';
 
 /* Redux imports */
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import redux from './redux';
 
 /* Custom imports */
 import App from './App';
+import LoadingIndicator from './core/containers/LoadingIndicator';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
+  <Provider store={redux.store}>
+    <PersistGate loading={<LoadingIndicator />} persistor={redux.persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById('root'),
 );

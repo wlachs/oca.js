@@ -1,32 +1,51 @@
 // Imports
-import {
-  createStore, applyMiddleware, combineReducers,
-} from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+
+// Persistence
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 // App imports
 import core from '../core/redux/reducer';
 import custom from '../custom/redux/reducer';
+import { HARD_RESET } from '../core/redux/action_types';
+
+// Persistence config
+const persistConfig = {
+  key: 'core',
+  storage,
+  whitelist: ['bearer'],
+};
 
 // App reducer
 const appReducer = combineReducers({
-  core,
+  core: persistReducer(persistConfig, core),
   custom,
 });
 
 // Root reducer
-export const rootReducer = (state, action) => {
-  if (action.type === 'RESET') {
-    return appReducer(undefined, action);
+function rootReducer(state, action) {
+  switch (action.type) {
+    case HARD_RESET:
+      return appReducer(undefined, action);
+    default:
+      return appReducer(state, action);
   }
-  return appReducer(state, action);
-};
+}
 
 // Store
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk),
-  ),
-);
+function generateStore() {
+  const store = createStore(
+    rootReducer,
+    composeWithDevTools(
+      applyMiddleware(thunk),
+    ),
+  );
+
+  const persistor = persistStore(store);
+  return { store, persistor };
+}
+
+export default generateStore();
