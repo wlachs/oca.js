@@ -12,36 +12,47 @@ import AlertMessage from '../components/AlertMessage';
 /* The alert should disappear after this many milliseconds */
 const ALERT_DURATION = 5000;
 
-function AlertContainer({ alert, clearAlert_ }) {
-  useEffect(() => {
-    if (alert) {
-      setTimeout(() => clearAlert_(), ALERT_DURATION);
-    }
-  }, [alert]);
+/* Alert timer ref */
+let alertTimeout = 0;
 
-  if (!alert) {
+function AlertContainer({
+  message, type, uuid, clearAlert_,
+}) {
+  useEffect(() => {
+    if (message && type) {
+      if (alertTimeout) {
+        clearTimeout(alertTimeout);
+      }
+      alertTimeout = setTimeout(() => clearAlert_(), ALERT_DURATION);
+    }
+  }, [uuid]);
+
+  if (!message || !type) {
     return React.Fragment;
   }
 
-  return <AlertMessage type={alert.type} message={alert.message} />;
+  return <AlertMessage type={type} message={message} />;
 }
 
 AlertContainer.propTypes = {
-  alert: PropTypes.objectOf(PropTypes.shape({
-    type: PropTypes.string,
-    message: PropTypes.string,
-  })),
+  message: PropTypes.string,
+  type: PropTypes.string,
+  uuid: PropTypes.string,
   clearAlert_: PropTypes.func,
 };
 
 AlertContainer.defaultProps = {
-  alert: null,
+  message: null,
+  type: null,
   clearAlert_: null,
+  uuid: null,
 };
 
 function mapStateToProps(state) {
   return {
-    alert: state.core.alert,
+    message: state.core.alert.message,
+    type: state.core.alert.type,
+    uuid: state.core.alert.uuid,
   };
 }
 

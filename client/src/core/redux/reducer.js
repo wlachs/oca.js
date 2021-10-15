@@ -1,8 +1,10 @@
+import { v1 } from 'uuid';
 import {
   CLEAR_ALERT,
   DEFAULT_ROUTE_QUERY_ERROR,
   DEFAULT_ROUTE_QUERY_START,
   DEFAULT_ROUTE_QUERY_SUCCESS,
+  LOGIN_CLEAR,
   LOGIN_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS,
@@ -14,19 +16,20 @@ import {
 } from './action_types';
 import { ERROR_ALERT_TYPE } from '../components/AlertMessage';
 
-const INITIAL_STATE = {
-  loading: null,
-  alert: null,
-  route: null,
-  bearer: null,
-};
-
 function populateAlert(message, type) {
   return {
     message,
     type,
+    uuid: v1(),
   };
 }
+
+const INITIAL_STATE = {
+  loading: null,
+  alert: populateAlert(null, null),
+  route: null,
+  bearer: null,
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -41,7 +44,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
-        alert: null,
       };
 
     case DEFAULT_ROUTE_QUERY_SUCCESS:
@@ -86,6 +88,12 @@ export default (state = INITIAL_STATE, action) => {
         alert: populateAlert(action.value.message, ERROR_ALERT_TYPE),
       };
 
+    case LOGIN_CLEAR:
+      return {
+        ...state,
+        bearer: INITIAL_STATE.bearer,
+      };
+
     case SHOW_ALERT:
       return {
         ...state,
@@ -95,7 +103,7 @@ export default (state = INITIAL_STATE, action) => {
     case CLEAR_ALERT:
       return {
         ...state,
-        alert: null,
+        alert: populateAlert(null, null),
       };
 
     default:
