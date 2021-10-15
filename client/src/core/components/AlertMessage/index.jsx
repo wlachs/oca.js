@@ -35,7 +35,7 @@ function AlertMessage({ type, message }) {
   const alertStyle = generateAlertStyle(type);
 
   return (
-    <Row className="position-absolute w-100 m-0 mt-2 p-0">
+    <Row className="alert-row position-absolute w-100 m-0 mt-2 p-0 z-index-1">
       <Col
         xs={11}
         md={6}
