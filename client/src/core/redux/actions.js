@@ -1,7 +1,4 @@
 import {
-  DEFAULT_ROUTE_QUERY_ERROR,
-  DEFAULT_ROUTE_QUERY_START,
-  DEFAULT_ROUTE_QUERY_SUCCESS,
   ROUTE_QUERY_ERROR,
   ROUTE_QUERY_START,
   ROUTE_QUERY_SUCCESS,
@@ -11,8 +8,8 @@ import {
   LOGIN_SUCCESS,
   CLEAR_ALERT,
   SHOW_ALERT,
+  LOGIN_CLEAR,
 } from './action_types';
-import defaultRouteQuery from '../network/default_route_query';
 import routeQuery from '../network/route_query';
 import authentication from '../network/authentication';
 
@@ -23,50 +20,37 @@ export function setLoadingState(state) {
   });
 }
 
-export function getDefaultRoute() {
-  return (dispatch) => {
-    /* Start route query */
-    dispatch({
-      type: DEFAULT_ROUTE_QUERY_START,
-    });
-
-    defaultRouteQuery()
-      /* Route query successful */
-      .then((value) => dispatch({
-        type: DEFAULT_ROUTE_QUERY_SUCCESS,
-        value,
-      }))
-
-      /* Route query failed */
-      .catch((value) => dispatch({
-        type: DEFAULT_ROUTE_QUERY_ERROR,
-        value,
-      }));
-  };
-}
-
 export function getRoute(path) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     /* Get current state for auth header */
     const { core } = getState();
 
     /* Start route query */
-    dispatch({
+    await dispatch({
       type: ROUTE_QUERY_START,
     });
 
-    routeQuery(path, core.bearer)
+    try {
+      const route = await routeQuery(path, core.bearer);
       /* Route query successful */
-      .then((value) => dispatch({
+      await dispatch({
         type: ROUTE_QUERY_SUCCESS,
-        value,
-      }))
-
+        value: route,
+      });
+    } catch (e) {
       /* Route query failed */
-      .catch((value) => dispatch({
+      await dispatch({
         type: ROUTE_QUERY_ERROR,
-        value,
-      }));
+        value: e,
+      });
+
+      /* Clear invalid login data */
+      await dispatch({
+        type: LOGIN_CLEAR,
+      });
+
+      await getRoute(path)(dispatch, getState);
+    }
   };
 }
 
