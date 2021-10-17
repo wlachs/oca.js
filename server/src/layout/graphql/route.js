@@ -80,7 +80,7 @@ export const RouteQuery = {
   defaultRoute: {
     type: RouteResponse,
     description: 'Get default application route',
-    resolve: async (_, __, { user }) => graphqlWrapper(getDefaultRoute(user)),
+    resolve: async () => graphqlWrapper(getDefaultRoute()),
   },
 };
 
