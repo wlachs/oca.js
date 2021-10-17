@@ -113,10 +113,10 @@ async function addOrUpdateViewInternal(args, failOnCollision, shouldCreate) {
   return view.save();
 }
 
-export async function addOrUpdateView(key, template, content, pageTitle) {
+export async function addOrUpdateView(key, newKey, template, content, pageTitle) {
   log.info(LOG_PREFIX, 'add or update view', key);
   return addOrUpdateViewInternal({
-    key, template, content, pageTitle,
+    key, newKey, template, content, pageTitle,
   }, false, true);
 }
 
