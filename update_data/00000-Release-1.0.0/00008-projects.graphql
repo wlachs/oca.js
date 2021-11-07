@@ -1,0 +1,24 @@
+mutation {
+    swofi: addProject(
+        key: "SWOFI",
+        name: "SWOFI",
+        description: "Scientific Workflow Guide",
+        imageUrl: "https://swofi.net:30000/logo.png",
+        link: "https://swofi.net/"
+    )
+    { statusCode }
+
+    literature_wizard: addProject(
+        key: "LITERATURE_WIZARD",
+        name: "Literature Wizard",
+        description: "A lightweight tool for managing scientific publications.",
+        imageUrl: "https://i.postimg.cc/6qcJnB65/image.png",
+        link: "https://swofi.net:30012/"
+    )
+    { statusCode }
+
+    test: removeProjectByKey(
+        key: "TEST_PROJECT"
+    )
+    { statusCode }
+}

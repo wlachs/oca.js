@@ -1,4 +1,65 @@
 mutation {
+    homeView: addOrUpdateView(
+        key: "HOME_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "HOME_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "HOME_IMAGE_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | Welcome",
+    ) { statusCode }
+
+    projectView: addOrUpdateView(
+        key: "PROJECT_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "PROJECT_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "PROJECT_LIST_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | Projects",
+    ) { statusCode }
+
+    contactView: addOrUpdateView(
+        key: "CONTACT_VIEW",
+        template: "SIMPLE_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "TOP_NAV_CONTENT"
+            },
+            {
+                slot: "PAGE_HEADER_SLOT",
+                content: "CONTACT_HEADER_TEXT_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "CONTACT_EMAIL_CONTENT"
+            }
+        ],
+        pageTitle: "Laszlo Borbely | Contact",
+    )
+    { statusCode }
+
     adminLoginView: addOrUpdateView(
         key:"ADMIN_LOGIN_VIEW",
         template: "SIMPLE_PAGE_TEMPLATE",
