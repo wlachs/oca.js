@@ -6,7 +6,7 @@ import loadFiles from './services/graphql_loader';
 
 const LOG_PREFIX = 'RELEASE_DATA';
 const INIT_DIR = `${__dirname}/resources/initial_data/`;
-const UPDATE_DIR = `${__dirname}/resources/update_data/`;
+const UPDATE_DIR = process.env.OCA_IMPORT_FILE_DIR;
 
 async function init() {
   log.info(LOG_PREFIX, 'init release_data module');
@@ -18,8 +18,12 @@ async function init() {
     await loadFiles(INIT_DIR, false);
   }
 
-  log.info(LOG_PREFIX, 'update system');
-  await loadFiles(UPDATE_DIR, true);
+  if (UPDATE_DIR) {
+    log.info(LOG_PREFIX, 'update system');
+    await loadFiles(UPDATE_DIR, true);
+  } else {
+    log.info(LOG_PREFIX, 'skipping system update');
+  }
 }
 
 export default init;

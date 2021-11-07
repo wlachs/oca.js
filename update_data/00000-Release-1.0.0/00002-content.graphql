@@ -1,0 +1,20 @@
+mutation {
+    homeHeaderTextContent: addOrUpdateContent(
+        key: "HOME_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "László Borbély" },
+            { key: "h2", value: "Software Systems Engineering M.Sc." }
+        ]
+    )
+    { statusCode }
+
+    contactEmailContent: addOrUpdateContent(
+        key: "CONTACT_EMAIL_CONTENT",
+        type: "MAIN_CONTENT_TYPE",
+        attributes: [
+            { key: "email", value: "hello@laszloborbely.com" }
+        ]
+    )
+    { statusCode }
+}

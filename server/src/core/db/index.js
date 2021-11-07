@@ -12,7 +12,7 @@ async function connect() {
   /* Set loglevel */
   log.level = config.log || 'info';
 
-  const connectionString = `mongodb://${config.db.host}:${config.db.port}/${config.db.dbName}`;
+  const connectionString = `mongodb://${process.env.OCA_DB_USER}:${process.env.OCA_DB_PASSWORD}@${process.env.OCA_DB_HOST}:${process.env.OCA_DB_PORT}/${process.env.OCA_DB_NAME}`;
   log.info(LOG_PREFIX, 'db connection string:', connectionString);
 
   return mongoose.connect(connectionString,

@@ -15,7 +15,7 @@ mutation {
         key: "CONTACT_EMAIL_CONTENT",
         type: "MAIN_CONTENT_TYPE",
         attributes: [
-            { key: "email", value: "hello@laszloborbely.com" }
+            { key: "email", value: "email@address.com" }
         ]
     )
     { statusCode }
@@ -30,8 +30,8 @@ mutation {
         key: "HOME_HEADER_TEXT_CONTENT",
         type: "HEADER_CONTENT_TYPE",
         attributes: [
-            { key: "h1", value: "László Borbély" },
-            { key: "h2", value: "Software Systems Engineering M.Sc." }
+            { key: "h1", value: "My Name" },
+            { key: "h2", value: "Facts about me" }
         ]
     )
     { statusCode }

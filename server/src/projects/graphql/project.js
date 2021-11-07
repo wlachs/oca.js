@@ -5,7 +5,12 @@ import {
 
 /* DAO references */
 import {
-  addProject, getProjectById, getProjectList, removeProject, updateProject,
+  addOrUpdateProject,
+  addProject,
+  getProjectByKey,
+  getProjectList,
+  removeProjectByKey,
+  updateProject,
 } from '../dao/project';
 
 /* Wrapper */
@@ -15,7 +20,7 @@ export const Project = new GraphQLObjectType({
   name: 'Project',
   description: 'Data type for representing projects and contributions.',
   fields: {
-    _id: {
+    key: {
       type: GraphQLNonNull(GraphQLString),
       description: 'Unique ID',
     },
@@ -50,14 +55,14 @@ export const ProjectQuery = {
 
   project: {
     type: ProjectResponse,
-    description: 'Get project by _id',
+    description: 'Get project by key',
     args: {
-      _id: {
+      key: {
         type: GraphQLNonNull(GraphQLString),
         description: 'Unique ID',
       },
     },
-    resolve: async (_, { _id }) => graphqlWrapper(getProjectById(_id)),
+    resolve: async (_, { key }) => graphqlWrapper(getProjectByKey(key)),
   },
 };
 
@@ -66,6 +71,10 @@ export const ProjectMutation = {
     type: ProjectResponse,
     description: 'Add new project',
     args: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique ID',
+      },
       name: {
         type: GraphQLNonNull(GraphQLString),
         description: 'Project name',
@@ -84,15 +93,49 @@ export const ProjectMutation = {
       },
     },
     resolve: async (_, {
-      name, description, imageUrl, link,
-    }) => graphqlWrapper(addProject(name, description, imageUrl, link), 201),
+      key, name, description, imageUrl, link,
+    }) => graphqlWrapper(addProject(key, name, description, imageUrl, link), 201),
   },
 
   updateProject: {
     type: ProjectResponse,
     description: 'Update existing project',
     args: {
-      _id: {
+      key: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Unique ID',
+      },
+      newKey: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'New unique ID',
+      },
+      name: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project name',
+      },
+      description: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project description',
+      },
+      imageUrl: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project image URL',
+      },
+      link: {
+        type: GraphQLNonNull(GraphQLString),
+        description: 'Project link',
+      },
+    },
+    resolve: async (_, {
+      key, newKey, name, description, imageUrl, link,
+    }) => graphqlWrapper(updateProject(key, newKey, name, description, imageUrl, link)),
+  },
+
+  addOrUpdateProject: {
+    type: ProjectResponse,
+    description: 'Add or update existing project',
+    args: {
+      key: {
         type: GraphQLNonNull(GraphQLString),
         description: 'Unique ID',
       },
@@ -114,19 +157,19 @@ export const ProjectMutation = {
       },
     },
     resolve: async (_, {
-      _id, name, description, imageUrl, link,
-    }) => graphqlWrapper(updateProject(_id, name, description, imageUrl, link)),
+      key, name, description, imageUrl, link,
+    }) => graphqlWrapper(addOrUpdateProject(key, name, description, imageUrl, link)),
   },
 
-  removeProject: {
+  removeProjectByKey: {
     type: ProjectResponse,
-    description: 'Remove project by _id',
+    description: 'Remove project by key',
     args: {
-      _id: {
+      key: {
         type: GraphQLNonNull(GraphQLString),
         description: 'Unique ID',
       },
     },
-    resolve: async (_, { _id }) => graphqlWrapper(removeProject(_id)),
+    resolve: async (_, { key }) => graphqlWrapper(removeProjectByKey(key)),
   },
 };

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './index.css';
 
 /* Custom imports */
-import { Col, Row, SafeAnchor } from 'react-bootstrap';
+import { Col, Row, Anchor } from 'react-bootstrap';
 
 /* Redux imports */
 import { connect } from 'react-redux';
@@ -16,11 +16,11 @@ function ProjectListContent({ projects, getProjectList_ }) {
   }, []);
 
   return projects.map(({
-    _id, name, description, imageUrl, link,
+    key, name, description, imageUrl, link,
   }) => (
-    <Row key={_id}>
+    <Row key={key}>
       <Col xs={12} className="d-flex flex-column justify-content-center align-items-center">
-        <SafeAnchor href={link} className="project-card d-flex flex-row align-items-center p-2 mb-1">
+        <Anchor href={link} className="project-card d-flex flex-row align-items-center p-2 mb-1">
           <div className="project-image-frame d-flex justify-content-center align-items-center">
             <img className="project-image" src={imageUrl} alt="project" />
           </div>
@@ -28,7 +28,7 @@ function ProjectListContent({ projects, getProjectList_ }) {
             <div className="project-name">{name}</div>
             <div className="project-description">{description}</div>
           </div>
-        </SafeAnchor>
+        </Anchor>
       </Col>
     </Row>
   ));
@@ -36,7 +36,7 @@ function ProjectListContent({ projects, getProjectList_ }) {
 
 ProjectListContent.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
+    key: PropTypes.string,
     name: PropTypes.string,
     description: PropTypes.string,
     imageUrl: PropTypes.string,
