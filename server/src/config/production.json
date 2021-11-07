@@ -6,10 +6,5 @@
   "auth": {
     "enabled": true,
     "saltRounds": 10
-  },
-  "db": {
-    "host": "oca.db",
-    "port": 27017,
-    "dbName": "oca"
   }
 }

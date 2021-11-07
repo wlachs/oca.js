@@ -6,7 +6,7 @@ import loadFiles from './services/graphql_loader';
 
 const LOG_PREFIX = 'RELEASE_DATA';
 const INIT_DIR = `${__dirname}/resources/initial_data/`;
-const UPDATE_DIR = process.env.IMPORT_FILE_DIR;
+const UPDATE_DIR = process.env.OCA_IMPORT_FILE_DIR;
 
 async function init() {
   log.info(LOG_PREFIX, 'init release_data module');
