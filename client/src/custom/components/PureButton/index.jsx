@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 /* Custom imports */
 import './index.css';
 import { NavLink } from 'react-router-dom';
-import { SafeAnchor } from 'react-bootstrap';
+import { Anchor } from 'react-bootstrap';
 
 function PureButton({
   to, children, onClick, link, className,
@@ -20,9 +20,9 @@ function PureButton({
 
   if (link) {
     return (
-      <SafeAnchor type="button" className={`${className} button-link link`} href={link}>
+      <Anchor type="button" className={`${className} button-link link`} href={link}>
         {children}
-      </SafeAnchor>
+      </Anchor>
     );
   }
 
