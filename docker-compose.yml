@@ -6,6 +6,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
       - NODE_ENV=production
+      - IMPORT_FILE_DIR
     ports:
       - "4000:4000"
     links:
