@@ -10,7 +10,7 @@ async function projectListQuery() {
       'statusCode',
       'message',
       {
-        node: ['_id', 'name', 'description', 'imageUrl', 'link'],
+        node: ['key', 'name', 'description', 'imageUrl', 'link'],
       },
     ],
   }));
