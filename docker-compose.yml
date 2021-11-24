@@ -8,7 +8,7 @@ services:
       - OCA_IMPORT_FILE_DIR=/update_data
       - OCA_DB_HOST=db
       - OCA_DB_PORT=27017
-      - OCA_DB_NAME=oca
+      - OCA_DB_NAME=test
       - OCA_DB_USER=oca_admin
       - OCA_DB_PASSWORD=oca_password
     ports:
@@ -23,7 +23,6 @@ services:
     image: mongo:latest
     command: mongod --auth
     environment:
-      - MONGO_INITDB_DATABASE=oca
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
