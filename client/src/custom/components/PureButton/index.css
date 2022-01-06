@@ -1,4 +1,4 @@
-@import '../../config/global.css';
+@import '../../../core/config/global.css';
 
 .button-link {
     font-weight: 400;

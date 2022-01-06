@@ -1,3 +1,19 @@
+@import '../../config/global.css';
+
 .Loading-Spinner {
-    margin: 50vh 0 0 50vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Spinner-Frame {
+    padding: 1rem;
+    background-color: var(--primary-color);
+    opacity: 0.8;
+    border-radius: 10%;
+}
+
+.Spinner-Body {
+    color: var(--background-color);
 }
