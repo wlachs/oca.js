@@ -1,5 +1,5 @@
 {
-  "name": "open_course_admin_server",
+  "name": "oca_server",
   "version": "1.0.4",
   "scripts": {
     "start": "node dist/index.js",
