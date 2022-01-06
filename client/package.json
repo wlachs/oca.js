@@ -1,6 +1,6 @@
 {
   "name": "open_course_admin_client",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "private": true,
   "dependencies": {
     "axios": "^0.24.0",
