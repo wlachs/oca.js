@@ -1,4 +1,4 @@
-@import '../../config/global.css';
+@import '../../../core/config/global.css';
 
 h1 {
     color: var(--off-color);
