@@ -1,9 +1,6 @@
 import { v1 } from 'uuid';
 import {
   CLEAR_ALERT,
-  DEFAULT_ROUTE_QUERY_ERROR,
-  DEFAULT_ROUTE_QUERY_START,
-  DEFAULT_ROUTE_QUERY_SUCCESS,
   LOGIN_CLEAR,
   LOGIN_ERROR,
   LOGIN_START,
@@ -39,19 +36,10 @@ export default (state = INITIAL_STATE, action) => {
         loading: action.value,
       };
 
-    case DEFAULT_ROUTE_QUERY_START:
     case ROUTE_QUERY_START:
       return {
         ...state,
         loading: true,
-      };
-
-    case DEFAULT_ROUTE_QUERY_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        route: action.value,
-        path: action.value.path,
       };
 
     case ROUTE_QUERY_SUCCESS:
@@ -61,7 +49,6 @@ export default (state = INITIAL_STATE, action) => {
         route: action.value,
       };
 
-    case DEFAULT_ROUTE_QUERY_ERROR:
     case ROUTE_QUERY_ERROR:
       return {
         ...state,
