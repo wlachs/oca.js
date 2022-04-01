@@ -1,9 +1,6 @@
 /* React imports */
 import React from 'react';
-import {
-  BrowserRouter,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 /* Custom imports */
 import RouteRenderer from './core/containers/RouteRenderer';
@@ -11,9 +8,9 @@ import RouteRenderer from './core/containers/RouteRenderer';
 function Routing() {
   return (
     <BrowserRouter>
-      <Switch>
-        <RouteRenderer />
-      </Switch>
+      <Routes>
+        <Route path="*" element={<RouteRenderer />} />
+      </Routes>
     </BrowserRouter>
   );
 }

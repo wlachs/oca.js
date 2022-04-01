@@ -1,6 +1,7 @@
 version: '3'
 services:
   core:
+    container_name: "oca_core"
     image: wlchs/oca.js:latest
     environment:
       - TZ=Europe/Amsterdam
@@ -15,19 +16,21 @@ services:
       - "4000:4000"
     links:
       - db
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./update_data:/update_data
   db:
-    container_name: "db"
+    container_name: "oca_db"
     image: mongo:latest
     command: mongod --auth
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - "27017:27017"
     volumes:
       - oca.volume:/data/db
       - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    restart: always
+    restart: unless-stopped
 volumes:
   oca.volume:

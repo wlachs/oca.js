@@ -1,6 +1,7 @@
 /* React imports */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 /* Redux imports */
 import { connect } from 'react-redux';
@@ -10,7 +11,8 @@ import { getRoute } from '../redux/actions';
 import LoadingIndicator from './LoadingIndicator';
 import Template from './Template';
 
-function RouteRenderer({ route, getRoute_, location }) {
+function RouteRenderer({ route, getRoute_ }) {
+  const location = useLocation();
   useEffect(() => {
     getRoute_(location.pathname);
   }, [location]);
@@ -25,15 +27,15 @@ function RouteRenderer({ route, getRoute_, location }) {
 }
 
 RouteRenderer.propTypes = {
-  route: PropTypes.objectOf(PropTypes.any),
+  route: {
+    path: PropTypes.string.isRequired,
+  },
   getRoute_: PropTypes.func,
-  location: PropTypes.objectOf(PropTypes.any),
 };
 
 RouteRenderer.defaultProps = {
   route: null,
   getRoute_: null,
-  location: null,
 };
 
 function mapStateToProps(state) {

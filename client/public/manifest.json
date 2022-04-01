@@ -1,6 +1,6 @@
 {
-  "short_name": "OpenCourseAdmin",
-  "name": "Open-source course administration framework",
+  "short_name": "oca.js",
+  "name": "Open-source content administration framework",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
