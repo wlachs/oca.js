@@ -1,2 +1,1 @@
-# OpenCourseAdmin
-Version: 0.1.0
+# oca.js
