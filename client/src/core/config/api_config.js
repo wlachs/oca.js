@@ -1,5 +1,5 @@
-import * as devConfiguration from './dev.json';
-import * as prodConfiguration from './production.json';
+import devConfiguration from './dev.json';
+import prodConfiguration from './production.json';
 import { DEVELOPMENT, PRODUCTION, STAGE } from './environment';
 
 const guestApi = '/api';
