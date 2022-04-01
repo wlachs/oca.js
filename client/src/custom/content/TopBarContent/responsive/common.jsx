@@ -3,7 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 /* Custom imports */
-import { links as MENU_ENTRIES } from '../links.json';
+import linkData from '../links.json';
 
 export function LogoLink() {
   return (
@@ -19,8 +19,8 @@ export function LogoLink() {
 }
 
 export function Links() {
-  return MENU_ENTRIES.map(({ text, link }) => (
-    <NavLink to={link} className="link" activeClassName="link_active" key={link}>
+  return linkData.links.map(({ text, link }) => (
+    <NavLink to={link} key={link} className={({ isActive }) => (isActive ? 'link link_active' : 'link')}>
       {text}
     </NavLink>
   ));

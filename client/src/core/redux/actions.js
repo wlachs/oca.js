@@ -54,7 +54,7 @@ export function getRoute(path) {
   };
 }
 
-export function login(userID, password, history) {
+export function login(userID, password, navigate) {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -72,7 +72,7 @@ export function login(userID, password, history) {
         });
 
         /* Redirect after login */
-        history.push(value.redirect.redirect.path);
+        navigate(value.redirect.redirect.path);
       })
 
       /* Login failed */

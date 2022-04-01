@@ -4,7 +4,7 @@ import 'typeface-roboto';
 
 /* React imports */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOMClient from 'react-dom/client';
 
 /* Redux imports */
 import { Provider } from 'react-redux';
@@ -15,11 +15,13 @@ import redux from './redux';
 import App from './App';
 import LoadingIndicator from './core/containers/LoadingIndicator';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOMClient.createRoot(container);
+
+root.render(
   <Provider store={redux.store}>
     <PersistGate loading={<LoadingIndicator />} persistor={redux.persistor}>
       <App />
     </PersistGate>
   </Provider>,
-  document.getElementById('root'),
 );
