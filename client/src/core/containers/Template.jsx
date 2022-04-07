@@ -39,8 +39,8 @@ Template.propTypes = {
 };
 
 Template.defaultProps = {
-  template: null,
-  pageTitle: null,
+  template: '',
+  pageTitle: '',
   loading: true,
 };
 
