@@ -7,7 +7,8 @@
     "build": "babel src -d dist --copy-files",
     "postinstall": "npm run build",
     "init": "babel src -d dist --copy-files; node dist/release_data/init.js",
-    "update": "babel src -d dist --copy-files; node dist/release_data/update.js"
+    "update": "babel src -d dist --copy-files; node dist/release_data/update.js",
+    "lint": "eslint src/**"
   },
   "license": "MIT",
   "dependencies": {

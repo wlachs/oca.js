@@ -8,8 +8,8 @@
     "saltRounds": 10
   },
   "db": {
-    "host": "admin:admin@localhost",
+    "host": "oca_admin:oca_password@localhost",
     "port": 27017,
-    "dbName": "oca"
+    "dbName": "test"
   }
 }
