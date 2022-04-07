@@ -10,6 +10,7 @@ import { getRoute } from '../redux/actions';
 /* Custom containers */
 import LoadingIndicator from './LoadingIndicator';
 import Template from './Template';
+import Route from '../models/route';
 
 function RouteRenderer({ route, getRoute_ }) {
   const location = useLocation();
@@ -27,9 +28,7 @@ function RouteRenderer({ route, getRoute_ }) {
 }
 
 RouteRenderer.propTypes = {
-  route: {
-    path: PropTypes.string.isRequired,
-  },
+  route: Route,
   getRoute_: PropTypes.func,
 };
 

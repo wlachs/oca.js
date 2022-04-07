@@ -25,6 +25,7 @@ async function routeQuery(path, bearer) {
           {
             view: [
               'pageTitle',
+              'key',
               {
                 content: [
                   {
