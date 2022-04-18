@@ -1,6 +1,6 @@
 /* GraphQL imports */
 import {
-  GraphQLObjectType, GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
+  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
 /* DAO references */
@@ -15,40 +15,11 @@ import {
 } from '../dao/content';
 
 /* GraphQL references */
+import { KeyValueInputPair, KeyValueOutputPair } from '../../core/graphql/utils';
 import { ContentType } from './content_type';
 
 /* Wrapper */
 import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
-
-const KeyValueInputPair = new GraphQLInputObjectType({
-  name: 'InputStringPair',
-  description: 'Key-Value pair of strings',
-  fields: {
-    key: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Key',
-    },
-    value: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Value',
-    },
-  },
-});
-
-const KeyValueOutputPair = new GraphQLObjectType({
-  name: 'OutputStringPair',
-  description: 'Key-Value pair of strings',
-  fields: {
-    key: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Key',
-    },
-    value: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Value',
-    },
-  },
-});
 
 export const Content = new GraphQLObjectType({
   name: 'Content',

@@ -4,7 +4,7 @@ import log from 'npmlog';
 /* Clear DB script for each module */
 import { clearDB as clearCore } from '../../core/dao';
 import { clearDB as clearLayout } from '../../layout/dao';
-import { clearDB as clearProjects } from '../../projects/dao';
+import { clearDB as clearCustom } from '../../custom/dao';
 import { clearDB as clearAuth } from '../../auth/dao';
 
 /* Logging prefix */
@@ -14,7 +14,7 @@ async function wipeDB() {
   log.info(LOG_PREFIX, 'wipe db');
 
   return Promise.all([
-    await clearProjects(),
+    await clearCustom(),
     await clearLayout(),
     await clearCore(),
     await clearAuth(),

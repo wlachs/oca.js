@@ -1,19 +1,25 @@
 mutation {
-    swofi: addProject(
+    swofi: addCustom(
+      	modelKey: "PROJECT"
         key: "SWOFI",
-        name: "SWOFI",
-        description: "Scientific Workflow Guide",
-        imageUrl: "https://swofi.net:30000/logo.png",
-        link: "https://swofi.net/"
+      	params: [
+          { key: "name", value: "SWOFI" },
+          { key: "description", value: "Scientific Workflow Guide" },
+          { key: "imageUrl", value: "https://swofi.net:30000/logo.png" },
+          { key: "link", value: "https://swofi.net/" },
+        ],
     )
     { statusCode }
 
-    literature_wizard: addProject(
+    literature_wizard: addCustom(
+      	modelKey: "PROJECT"
         key: "LITERATURE_WIZARD",
-        name: "Literature Wizard",
-        description: "A lightweight tool for managing scientific publications.",
-        imageUrl: "https://i.postimg.cc/6qcJnB65/image.png",
-        link: "https://swofi.net:30012/"
+        params: [
+            { key: "name", value: "Literature Wizard" },
+            { key: "description", value: "A lightweight tool for managing scientific publications." },
+            { key: "imageUrl", value: "https://i.postimg.cc/6qcJnB65/image.png" },
+            { key: "link", value: "https://swofi.net:30012/" },
+          ],
     )
     { statusCode }
 
