@@ -1,10 +1,13 @@
 mutation {
-    test: addProject(
-        key: "TEST_PROJECT"
-        name: "Test",
-        description: "Test Project",
-        imageUrl: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_dark_color_272x92dp.png",
-        link: "google.com"
+    test: addCustom(
+        modelKey: "PROJECT",
+        key: "TEST_PROJECT",
+        params: [
+            { key: "name", value: "Test" },
+            { key: "description", value: "Test project" },
+            { key: "imageUrl", value: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_dark_color_272x92dp.png" },
+            { key: "link", value: "google.com" },
+          ],
     )
     { statusCode }
 }
