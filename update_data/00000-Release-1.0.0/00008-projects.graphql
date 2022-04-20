@@ -22,9 +22,4 @@ mutation {
           ],
     )
     { statusCode }
-
-    test: removeProjectByKey(
-        key: "TEST_PROJECT"
-    )
-    { statusCode }
 }
