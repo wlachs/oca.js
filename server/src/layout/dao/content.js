@@ -38,7 +38,7 @@ async function getContentByKeyOrNull(key) {
   }
 }
 
-export async function addContent(key, type, attributes) {
+export async function addContent(key, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'add content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   const existingContent = await getContentByKeyOrNull(key);
@@ -54,12 +54,13 @@ export async function addContent(key, type, attributes) {
   content.key = key;
   content.type = contentType;
   content.attributes = attributes;
+  content.componentMapper = componentMapper;
 
   log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
-export async function updateContent(key, newKey, type, attributes) {
+export async function updateContent(key, newKey, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'update content:', key, newKey, type, JSON.stringify(attributes, undefined, 4));
 
   /* If the content is not found, an exception is thrown */
@@ -79,18 +80,19 @@ export async function updateContent(key, newKey, type, attributes) {
 
   content.type = contentType;
   content.attributes = attributes;
+  content.componentMapper = componentMapper;
 
   log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
-export async function addOrUpdateContent(key, type, attributes) {
+export async function addOrUpdateContent(key, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'add or update content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   try {
-    return await updateContent(key, undefined, type, attributes);
+    return await updateContent(key, undefined, type, attributes, componentMapper);
   } catch (e) {
-    return addContent(key, type, attributes);
+    return addContent(key, type, attributes, componentMapper);
   }
 }
 

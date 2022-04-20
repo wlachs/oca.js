@@ -19,7 +19,7 @@ import { KeyValueInputPair, KeyValueOutputPair } from '../../core/graphql/utils'
 import { ContentType } from './content_type';
 
 /* Wrapper */
-import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
+import { generateTemplateResponse, graphqlWrapper, mapToAttributes } from '../../core/graphql/wrapper';
 
 export const Content = new GraphQLObjectType({
   name: 'Content',
@@ -36,6 +36,11 @@ export const Content = new GraphQLObjectType({
     attributes: {
       type: GraphQLList(KeyValueOutputPair),
       description: 'Optional list of content attributes',
+      resolve: mapToAttributes,
+    },
+    componentMapper: {
+      type: GraphQLString,
+      description: 'Optional dynamic component mapper key',
     },
   },
 });
@@ -92,10 +97,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, type, attributes,
-    }) => graphqlWrapper(addContent(key, type, attributes), 201),
+      key, type, attributes, componentMapper,
+    }) => graphqlWrapper(addContent(key, type, attributes, componentMapper), 201),
   },
 
   addOrUpdateContent: {
@@ -114,10 +123,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, type, attributes,
-    }) => graphqlWrapper(addOrUpdateContent(key, type, attributes)),
+      key, type, attributes, componentMapper,
+    }) => graphqlWrapper(addOrUpdateContent(key, type, attributes, componentMapper)),
   },
 
   updateContent: {
@@ -140,10 +153,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, newKey, type, attributes,
-    }) => graphqlWrapper(updateContent(key, newKey, type, attributes)),
+      key, newKey, type, attributes, componentMapper,
+    }) => graphqlWrapper(updateContent(key, newKey, type, attributes, componentMapper)),
   },
 
   removeContent: {
