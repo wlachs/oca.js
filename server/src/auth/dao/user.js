@@ -4,9 +4,6 @@ import log from 'npmlog';
 /* Data models */
 import UserModel from '../db/user';
 
-/* Populate */
-import { POPULATE_USER } from '../db/populators';
-
 /* Utils */
 import hashUserPassword from './utils/hash_user_password';
 
@@ -23,10 +20,7 @@ const LOG_PREFIX = 'AUTH_DAO_USER';
 export async function getUserById(userID) {
   log.info(LOG_PREFIX, 'get user by id:', userID);
 
-  const user = await UserModel
-    .findOne({ userID })
-    .populate(POPULATE_USER);
-
+  const user = await UserModel.findOne({ userID });
   if (!user) {
     log.error(LOG_PREFIX, 'no user found with id:', userID);
     throw new NotFoundError(`can't get user, no user found with id: ${userID}`);
@@ -106,10 +100,7 @@ export async function removeUser(userID) {
   /* If the user is not found, an exception is thrown */
   await getUserById(userID);
 
-  const deleted = await UserModel
-    .findOneAndDelete({ userID })
-    .populate(POPULATE_USER);
-
+  const deleted = await UserModel.findOneAndDelete({ userID });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -117,10 +108,7 @@ export async function removeUser(userID) {
 export async function getUserList() {
   log.info(LOG_PREFIX, 'get user list');
 
-  const users = await UserModel
-    .find()
-    .populate(POPULATE_USER);
-
+  const users = await UserModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(users, undefined, 4));
   return users;
 }
@@ -128,10 +116,7 @@ export async function getUserList() {
 export async function removeAllUsers() {
   log.info(LOG_PREFIX, 'remove all users');
 
-  const deleted = await UserModel
-    .deleteMany()
-    .populate(POPULATE_USER);
-
+  const deleted = await UserModel.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

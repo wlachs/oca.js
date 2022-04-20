@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_ALLOWED_CONTENT_TYPES, POPULATE_TYPE } from '../../db/populators';
-
 /* Data models */
 import SlotModel from '../../db/slot';
 import ContentModel from '../../db/content';
@@ -19,9 +16,7 @@ async function resolveSlotContentMapping(mapping) {
 
   const slotKeys = mapping.map((pair) => pair.slot);
   const slots = await Promise.all(slotKeys.map(
-    (key) => SlotModel
-      .findOne({ key })
-      .populate(POPULATE_ALLOWED_CONTENT_TYPES),
+    (key) => SlotModel.findOne({ key }),
   ));
 
   if (slots.length !== slotKeys.length) {
@@ -32,8 +27,7 @@ async function resolveSlotContentMapping(mapping) {
   const contentKeys = mapping.map((pair) => pair.content);
   const content = await Promise.all(contentKeys.map(
     (key) => ContentModel
-      .findOne({ key })
-      .populate(POPULATE_TYPE),
+      .findOne({ key }),
   ));
 
   if (content.length !== contentKeys.length) {

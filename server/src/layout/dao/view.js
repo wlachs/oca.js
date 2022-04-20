@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_VIEW_FULL } from '../db/populators';
-
 /* Data models */
 import ViewModel from '../db/view';
 
@@ -140,9 +137,7 @@ export async function removeView(key) {
   /* If the view is not found, an exception is thrown */
   await getViewByKey(key);
 
-  const deleted = await ViewModel
-    .findOneAndDelete({ key })
-    .populate(POPULATE_VIEW_FULL);
+  const deleted = await ViewModel.findOneAndDelete({ key });
 
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
@@ -151,9 +146,7 @@ export async function removeView(key) {
 export async function getViewList() {
   log.info(LOG_PREFIX, 'get view list');
 
-  const views = await ViewModel
-    .find()
-    .populate(POPULATE_VIEW_FULL);
+  const views = await ViewModel.find();
 
   log.verbose(LOG_PREFIX, JSON.stringify(views, undefined, 4));
   return views;
@@ -165,9 +158,7 @@ export async function getViewByTemplate(key) {
   /* If the template is not found, an exception is thrown */
   const template = await getTemplateByKey(key);
 
-  const view = await ViewModel
-    .find({ template })
-    .populate(POPULATE_VIEW_FULL);
+  const view = await ViewModel.find({ template });
 
   log.verbose(LOG_PREFIX, JSON.stringify(view, undefined, 4));
   return view;
@@ -176,9 +167,7 @@ export async function getViewByTemplate(key) {
 export async function removeViews() {
   log.info(LOG_PREFIX, 'delete views');
 
-  const deleted = await ViewModel
-    .deleteMany()
-    .populate(POPULATE_VIEW_FULL);
+  const deleted = await ViewModel.deleteMany();
 
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;

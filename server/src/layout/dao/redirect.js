@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_REDIRECT_FULL } from '../db/populators';
-
 /* Data models */
 import RedirectModel from '../db/redirect';
 import { getRouteByPath } from './route';
@@ -20,10 +17,7 @@ export async function getRedirectByReferer(referer) {
 
   /* If the route is not found, an exception is thrown */
   const refererRoute = await getRouteByPath(referer);
-
-  const redirect = await RedirectModel
-    .findOne({ referer: refererRoute })
-    .populate(POPULATE_REDIRECT_FULL);
+  const redirect = await RedirectModel.findOne({ referer: refererRoute })
 
   if (!redirect) {
     log.error(LOG_PREFIX, 'no redirect found with referer:', referer);

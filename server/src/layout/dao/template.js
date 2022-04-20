@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_SLOTS_FULL } from '../db/populators';
-
 /* Data models */
 import TemplateModel from '../db/template';
 
@@ -20,10 +17,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_TEMPLATE';
 export async function getTemplateByKey(key) {
   log.info(LOG_PREFIX, 'get template by key:', key);
 
-  const template = await TemplateModel
-    .findOne({ key })
-    .populate(POPULATE_SLOTS_FULL);
-
+  const template = await TemplateModel.findOne({ key })
   if (!template) {
     log.error(LOG_PREFIX, 'no template found with key:', key);
     throw new NotFoundError(`can't get template, no template found with key: ${key}`);
@@ -105,7 +99,7 @@ export async function removeTemplate(key) {
   /* If the template is not found, an exception is thrown */
   await getTemplateByKey(key);
 
-  const deleted = await TemplateModel.findOneAndDelete({ key }).populate(POPULATE_SLOTS_FULL);
+  const deleted = await TemplateModel.findOneAndDelete({ key });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -113,10 +107,7 @@ export async function removeTemplate(key) {
 export async function getTemplateList() {
   log.info(LOG_PREFIX, 'get template list');
 
-  const templates = await TemplateModel
-    .find()
-    .populate(POPULATE_SLOTS_FULL);
-
+  const templates = await TemplateModel.find()
   log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
@@ -127,10 +118,7 @@ export async function getTemplateBySlot(key) {
   /* If the slot is not found, an exception is thrown */
   const slot = await getSlotByKey(key);
 
-  const templates = await TemplateModel
-    .find({ slots: { $in: [slot] } })
-    .populate(POPULATE_SLOTS_FULL);
-
+  const templates = await TemplateModel.find({ slots: { $in: [slot] } })
   log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
@@ -138,10 +126,7 @@ export async function getTemplateBySlot(key) {
 export async function removeTemplates() {
   log.info(LOG_PREFIX, 'delete templates');
 
-  const deleted = await TemplateModel
-    .deleteMany()
-    .populate(POPULATE_SLOTS_FULL);
-
+  const deleted = await TemplateModel.deleteMany()
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

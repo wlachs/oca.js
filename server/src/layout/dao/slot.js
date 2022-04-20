@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_ALLOWED_CONTENT_TYPES } from '../db/populators';
-
 /* Data models */
 import SlotModel from '../db/slot';
 
@@ -21,7 +18,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_SLOT';
 export async function getSlotByKey(key) {
   log.info(LOG_PREFIX, 'get slot by key:', key);
 
-  const slot = await SlotModel.findOne({ key }).populate(POPULATE_ALLOWED_CONTENT_TYPES);
+  const slot = await SlotModel.findOne({ key });
   if (!slot) {
     log.error(LOG_PREFIX, 'no slot found with key:', key);
     throw new NotFoundError(`can't get slot, no slot found with key: ${key}`);
@@ -101,10 +98,7 @@ export async function removeSlot(key) {
   /* If the slot is not found, an exception is thrown */
   await getSlotByKey(key);
 
-  const deleted = await SlotModel
-    .findOneAndDelete({ key })
-    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
-
+  const deleted = await SlotModel.findOneAndDelete({ key });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -112,7 +106,7 @@ export async function removeSlot(key) {
 export async function getSlotList() {
   log.info(LOG_PREFIX, 'get slot list');
 
-  const slots = await SlotModel.find().populate(POPULATE_ALLOWED_CONTENT_TYPES);
+  const slots = await SlotModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(slots, undefined, 4));
   return slots;
 }
@@ -120,10 +114,7 @@ export async function getSlotList() {
 export async function getSlotListByKeys(keys) {
   log.info(LOG_PREFIX, 'get slots for key set:', keys);
 
-  const slotList = await SlotModel
-    .find({ key: { $in: keys } })
-    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
-
+  const slotList = await SlotModel.find({ key: { $in: keys } });
   if (slotList.length !== keys.length) {
     log.error(LOG_PREFIX, 'invalid slot key in list:', keys);
     throw new UnprocessableEntity(`invalid slot key in list: ${keys}`);
@@ -138,10 +129,7 @@ export async function getSlotListForContentType(key) {
 
   /* If the content type list is not valid, an exception is thrown */
   const contentType = await getContentTypeByKey(key);
-
-  const slots = await SlotModel
-    .find({ allowedContentTypes: { $in: [contentType] } })
-    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
+  const slots = await SlotModel.find({ allowedContentTypes: { $in: [contentType] } });
 
   log.verbose(LOG_PREFIX, JSON.stringify(slots, undefined, 4));
   return slots;
@@ -150,10 +138,7 @@ export async function getSlotListForContentType(key) {
 export async function removeSlots() {
   log.info(LOG_PREFIX, 'delete slots');
 
-  const deleted = await SlotModel
-    .deleteMany()
-    .populate(POPULATE_ALLOWED_CONTENT_TYPES);
-
+  const deleted = await SlotModel.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

@@ -1,9 +1,6 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_TYPE } from '../db/populators';
-
 /* Data models */
 import ContentModel from '../db/content';
 
@@ -20,7 +17,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_CONTENT';
 export async function getContentByKey(key) {
   log.info(LOG_PREFIX, 'get content by key:', key);
 
-  const content = await ContentModel.findOne({ key }).populate(POPULATE_TYPE);
+  const content = await ContentModel.findOne({ key });
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new NotFoundError(`can't get content, no content found with key: ${key}`);
@@ -103,7 +100,7 @@ export async function removeContent(key) {
   /* If the content is not found, an exception is thrown */
   await getContentByKey(key);
 
-  const deleted = await ContentModel.findOneAndDelete({ key }).populate(POPULATE_TYPE);
+  const deleted = await ContentModel.findOneAndDelete({ key });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -111,7 +108,7 @@ export async function removeContent(key) {
 export async function getContentList() {
   log.info(LOG_PREFIX, 'get content list');
 
-  const contents = await ContentModel.find().populate(POPULATE_TYPE);
+  const contents = await ContentModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
@@ -122,7 +119,7 @@ export async function getContentByType(key) {
   /* If the content type is not found, an exception is thrown */
   const type = await getContentTypeByKey(key);
 
-  const contents = await ContentModel.find({ type }).populate(POPULATE_TYPE);
+  const contents = await ContentModel.find({ type });
   log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
@@ -130,7 +127,7 @@ export async function getContentByType(key) {
 export async function removeAllContent() {
   log.info(LOG_PREFIX, 'remove all content');
 
-  const deleted = await ContentModel.deleteMany().populate(POPULATE_TYPE);
+  const deleted = await ContentModel.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
