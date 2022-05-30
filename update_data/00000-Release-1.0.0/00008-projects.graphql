@@ -12,7 +12,7 @@ mutation {
     { statusCode }
 
     literature_wizard: addCustom(
-      	modelKey: ""PROJECT_MODEL"
+      	modelKey: "PROJECT_MODEL"
         key: "LITERATURE_WIZARD",
         params: [
             { key: "name", value: "Literature Wizard" },
