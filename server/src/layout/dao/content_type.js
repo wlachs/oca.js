@@ -12,6 +12,19 @@ import UnprocessableEntity from '../../core/errors/unprocessable_entity';
 /* Logging prefix */
 const LOG_PREFIX = 'LAYOUT_DAO_CONTENT_TYPE';
 
+export async function getContentTypeById(id) {
+  log.info(LOG_PREFIX, 'get content type by id', id);
+
+  const contentType = await ContentTypeModel.findById(id);
+  if (!contentType) {
+    log.error(LOG_PREFIX, 'no content type found with id:', id);
+    throw new NotFoundError(`can't get content type, no content type found with id: ${id}`);
+  }
+
+  log.verbose(LOG_PREFIX, JSON.stringify(contentType, undefined, 4));
+  return contentType;
+}
+
 export async function getContentTypeByKey(key) {
   log.info(LOG_PREFIX, 'get content type with key', key);
 
@@ -25,7 +38,7 @@ export async function getContentTypeByKey(key) {
   return contentType;
 }
 
-async function getContentTypeByKeyOrNull(key) {
+export async function getContentTypeByKeyOrNull(key) {
   log.info(LOG_PREFIX, 'get content type with key or null', key);
 
   try {
@@ -36,8 +49,8 @@ async function getContentTypeByKeyOrNull(key) {
   }
 }
 
-export async function addContentType(key) {
-  log.info(LOG_PREFIX, 'add content type:', key);
+export async function addContentType(key, parentKey) {
+  log.info(LOG_PREFIX, 'add content type:', key, parentKey);
 
   const existingContentType = await getContentTypeByKeyOrNull(key);
   if (existingContentType) {
@@ -45,14 +58,21 @@ export async function addContentType(key) {
     throw new Conflict(`can't create content type, content type with key already exists: ${key}`);
   }
 
+  const parent = await getContentTypeByKeyOrNull(parentKey);
+  if (!parent) {
+    log.error(LOG_PREFIX, 'content type with key not found:', parentKey);
+    throw new Conflict(`can't create content type, content type with key not found: ${parentKey}`);
+  }
+
   const contentType = new ContentTypeModel();
   contentType.key = key;
+  contentType.parent = parent;
 
   return contentType.save();
 }
 
-export async function updateContentType(key, newKey) {
-  log.info(LOG_PREFIX, 'update content type:', key, newKey);
+export async function updateContentType(key, newKey, parentKey) {
+  log.info(LOG_PREFIX, 'update content type:', key, newKey, parentKey);
 
   /* If the content type is not found, an exception is thrown */
   const contentType = await getContentTypeByKey(key);
@@ -68,19 +88,26 @@ export async function updateContentType(key, newKey) {
     throw new Conflict(`can't update content type, content type with key already exists: ${newKey}`);
   }
 
+  const parent = await getContentTypeByKeyOrNull(parentKey);
+  if (parentKey && !parent) {
+    log.error(LOG_PREFIX, 'content type with key not found:', parentKey);
+    throw new Conflict(`can't create content type, content type with key not found: ${parentKey}`);
+  }
+
   contentType.key = newKey;
+  contentType.parent = parent;
 
   return contentType.save();
 }
 
-export async function addOrIgnoreContentType(key) {
-  log.info(LOG_PREFIX, 'add or ignore content type:', key);
+export async function addOrIgnoreContentType(key, parentKey) {
+  log.info(LOG_PREFIX, 'add or ignore content type:', key, parentKey);
 
   try {
     return await getContentTypeByKey(key);
   } catch (e) {
-    log.info(LOG_PREFIX, 'content type not found, creating', key);
-    return addContentType(key);
+    log.info(LOG_PREFIX, 'content type not found, creating', key, parentKey);
+    return addContentType(key, parentKey);
   }
 }
 
