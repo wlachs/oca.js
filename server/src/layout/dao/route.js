@@ -3,7 +3,7 @@ import log from 'npmlog';
 import { jsonifyRoute, jsonifyRouteList } from './log/route';
 
 /* Data models */
-import RouteModel from '../db/route';
+import RouteModel from '../db/schema/route';
 
 /* Validate */
 import validate from './validators/route_validator';
@@ -30,7 +30,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_ROUTE';
 async function get404Route() {
   log.info(LOG_PREFIX, 'get 404 route - not found');
 
-  const route = await RouteModel.findOne({ path: NOT_FOUND_ROUTE_PATH })
+  const route = await RouteModel.findOne({ path: NOT_FOUND_ROUTE_PATH });
   if (!route) {
     log.info(LOG_PREFIX, 'no 404 route found with path:', NOT_FOUND_ROUTE_PATH);
     throw new NotFoundError(`can't get route, no route found with path: ${NOT_FOUND_ROUTE_PATH}`);
@@ -43,7 +43,7 @@ async function get404Route() {
 async function get401Route() {
   log.info(LOG_PREFIX, 'get 401 route - unauthorized');
 
-  const route = await RouteModel.findOne({ path: NOT_AUTHORIZED_ROUTE_PATH })
+  const route = await RouteModel.findOne({ path: NOT_AUTHORIZED_ROUTE_PATH });
   if (!route) {
     log.info(LOG_PREFIX, 'no 401 route found with path:', NOT_AUTHORIZED_ROUTE_PATH);
     throw new NotAuthorizedError(`can't get route, no route found with path: ${NOT_AUTHORIZED_ROUTE_PATH}`);
@@ -56,7 +56,7 @@ async function get401Route() {
 export async function getRouteByPath(path, user) {
   log.info(LOG_PREFIX, 'get route by path:', path);
 
-  const route = await RouteModel.findOne({ path })
+  const route = await RouteModel.findOne({ path });
   if (!route) {
     log.info(LOG_PREFIX, 'no route found with path:', path);
     throw new NotFoundError(`can't get route, no route found with path: ${path}`);
@@ -165,7 +165,7 @@ export async function removeRoute(path) {
 
   /* If the route is not found, an exception is thrown */
   await getRouteByPath(path);
-  const deleted = await RouteModel.findOneAndDelete({ path })
+  const deleted = await RouteModel.findOneAndDelete({ path });
 
   log.verbose(LOG_PREFIX, jsonifyRoute(deleted));
   return deleted;
@@ -174,7 +174,7 @@ export async function removeRoute(path) {
 export async function getRouteList(user) {
   log.info(LOG_PREFIX, 'get route list', user);
 
-  const routes = await RouteModel.find()
+  const routes = await RouteModel.find();
   if (!user) {
     return routes;
   }
@@ -189,7 +189,7 @@ export async function getRouteByView(key, user) {
 
   /* If the view is not found, an exception is thrown */
   const view = await getViewByKey(key);
-  const routes = await RouteModel.find({ view })
+  const routes = await RouteModel.find({ view });
   if (!user) {
     return routes;
   }

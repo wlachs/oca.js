@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import UserGroupModel from '../db/user_group';
+import UserGroupModel from '../db/schema/user_group';
 
 /* Errors */
 import NotFoundError from '../../core/errors/not_found';

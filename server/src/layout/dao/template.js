@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import TemplateModel from '../db/template';
+import TemplateModel from '../db/schema/template';
 
 /* DAO references */
 import { getSlotByKey, getSlotListByKeys } from './slot';
@@ -17,7 +17,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_TEMPLATE';
 export async function getTemplateByKey(key) {
   log.info(LOG_PREFIX, 'get template by key:', key);
 
-  const template = await TemplateModel.findOne({ key })
+  const template = await TemplateModel.findOne({ key });
   if (!template) {
     log.error(LOG_PREFIX, 'no template found with key:', key);
     throw new NotFoundError(`can't get template, no template found with key: ${key}`);
@@ -107,7 +107,7 @@ export async function removeTemplate(key) {
 export async function getTemplateList() {
   log.info(LOG_PREFIX, 'get template list');
 
-  const templates = await TemplateModel.find()
+  const templates = await TemplateModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
@@ -118,7 +118,7 @@ export async function getTemplateBySlot(key) {
   /* If the slot is not found, an exception is thrown */
   const slot = await getSlotByKey(key);
 
-  const templates = await TemplateModel.find({ slots: { $in: [slot] } })
+  const templates = await TemplateModel.find({ slots: { $in: [slot] } });
   log.verbose(LOG_PREFIX, JSON.stringify(templates, undefined, 4));
   return templates;
 }
@@ -126,7 +126,7 @@ export async function getTemplateBySlot(key) {
 export async function removeTemplates() {
   log.info(LOG_PREFIX, 'delete templates');
 
-  const deleted = await TemplateModel.deleteMany()
+  const deleted = await TemplateModel.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

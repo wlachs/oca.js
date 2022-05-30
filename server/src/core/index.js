@@ -1,5 +1,5 @@
 import log from 'npmlog';
-import initDB from './db';
+import initDB from './services/initDB';
 
 const LOG_PREFIX = 'CORE';
 

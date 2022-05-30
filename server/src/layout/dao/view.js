@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import ViewModel from '../db/view';
+import ViewModel from '../db/schema/view';
 
 /* Validate */
 import validate from './validators/view_validator';

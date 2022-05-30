@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import RedirectModel from '../db/redirect';
+import RedirectModel from '../db/schema/redirect';
 import { getRouteByPath } from './route';
 
 /* Errors */
@@ -17,7 +17,7 @@ export async function getRedirectByReferer(referer) {
 
   /* If the route is not found, an exception is thrown */
   const refererRoute = await getRouteByPath(referer);
-  const redirect = await RedirectModel.findOne({ referer: refererRoute })
+  const redirect = await RedirectModel.findOne({ referer: refererRoute });
 
   if (!redirect) {
     log.error(LOG_PREFIX, 'no redirect found with referer:', referer);

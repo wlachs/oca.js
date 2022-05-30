@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import SlotModel from '../db/slot';
+import SlotModel from '../db/schema/slot';
 
 /* DAO references */
 import { getContentTypeByKey, getContentTypeListByKeys } from './content_type';

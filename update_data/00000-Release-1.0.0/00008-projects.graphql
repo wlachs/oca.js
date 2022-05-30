@@ -1,6 +1,6 @@
 mutation {
     swofi: addCustom(
-      	modelKey: "PROJECT"
+      	modelKey: "PROJECT_MODEL"
         key: "SWOFI",
       	params: [
           { key: "name", value: "SWOFI" },
@@ -12,7 +12,7 @@ mutation {
     { statusCode }
 
     literature_wizard: addCustom(
-      	modelKey: "PROJECT"
+      	modelKey: ""PROJECT_MODEL"
         key: "LITERATURE_WIZARD",
         params: [
             { key: "name", value: "Literature Wizard" },

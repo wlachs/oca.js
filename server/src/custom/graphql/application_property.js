@@ -5,16 +5,14 @@ import {
 
 /* DAO references */
 import {
-  addApplicationProperty,
-  addOrUpdateApplicationProperty,
-  getApplicationPropertyByKey,
-  getApplicationPropertyList,
-  removeApplicationProperty,
-  updateApplicationProperty,
-} from '../dao/application_property';
+  addCustom, addOrUpdateCustom, getCustomByKey, getCustomList, removeCustomByKey, updateCustom,
+} from '../dao/custom';
 
 /* Wrapper */
-import { generateTemplateResponse, graphqlWrapper } from './wrapper';
+import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
+
+/* Model key */
+import { APPLICATION_PROPERTY_MODEL_KEY } from '../db/schema/application_property';
 
 export const ApplicationProperty = new GraphQLObjectType({
   name: 'ApplicationProperty',
@@ -44,13 +42,15 @@ export const ApplicationPropertyQuery = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => graphqlWrapper(getApplicationPropertyByKey(key)),
+    resolve: async (_, {
+      key,
+    }) => graphqlWrapper(getCustomByKey(APPLICATION_PROPERTY_MODEL_KEY, key)),
   },
 
   applicationProperties: {
     type: ApplicationPropertyResponseList,
     description: 'List of available application properties',
-    resolve: async () => graphqlWrapper(getApplicationPropertyList()),
+    resolve: async () => graphqlWrapper(getCustomList(APPLICATION_PROPERTY_MODEL_KEY)),
   },
 };
 
@@ -68,7 +68,9 @@ export const ApplicationPropertyMutation = {
         description: 'Value',
       },
     },
-    resolve: async (_, { key, value }) => graphqlWrapper(addApplicationProperty(key, value), 201),
+    resolve: async (_, {
+      key, value,
+    }) => graphqlWrapper(addCustom(APPLICATION_PROPERTY_MODEL_KEY, key, { value }), 201),
   },
 
   addOrUpdateApplicationProperty: {
@@ -86,7 +88,7 @@ export const ApplicationPropertyMutation = {
     },
     resolve: async (_, {
       key, value,
-    }) => graphqlWrapper(addOrUpdateApplicationProperty(key, value)),
+    }) => graphqlWrapper(addOrUpdateCustom(APPLICATION_PROPERTY_MODEL_KEY, key, { value })),
   },
 
   updateApplicationProperty: {
@@ -108,7 +110,7 @@ export const ApplicationPropertyMutation = {
     },
     resolve: async (_, {
       key, newKey, value,
-    }) => graphqlWrapper(updateApplicationProperty(key, newKey, value)),
+    }) => graphqlWrapper(updateCustom(APPLICATION_PROPERTY_MODEL_KEY, key, newKey, { value })),
   },
 
   removeApplicationProperty: {
@@ -120,6 +122,8 @@ export const ApplicationPropertyMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => graphqlWrapper(removeApplicationProperty(key)),
+    resolve: async (_, {
+      key,
+    }) => graphqlWrapper(removeCustomByKey(APPLICATION_PROPERTY_MODEL_KEY, key)),
   },
 };

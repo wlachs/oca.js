@@ -2,7 +2,7 @@
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 
 /* Queries and mutations */
-import { ApplicationPropertyMutation, ApplicationPropertyQuery } from '../core/graphql/application_property';
+import { ApplicationPropertyMutation, ApplicationPropertyQuery } from '../custom/graphql/application_property';
 import { ContentTypeMutation, ContentTypeQuery } from '../layout/graphql/content_type';
 import { SlotMutation, SlotQuery } from '../layout/graphql/slot';
 import { ContentMutation, ContentQuery } from '../layout/graphql/content';

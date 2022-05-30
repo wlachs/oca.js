@@ -6,7 +6,7 @@
 */
 
 import log from 'npmlog';
-import initDB from '../core/db';
+import initDB from '../core/services/initDB';
 import wipeDB from './services/wipe_db';
 import loadFiles from './services/graphql_loader';
 

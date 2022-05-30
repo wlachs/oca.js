@@ -19,13 +19,8 @@ import { KeyValueInputPair, KeyValueOutputPair } from '../../core/graphql/utils'
 /* Wrapper */
 import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
 
-function parseParams(params) {
-  const paramsObject = {};
-  for (const { key, value } of params) {
-    paramsObject[key] = value;
-  }
-  return paramsObject;
-}
+/* Utils */
+import { parseParams, rewritePromise } from '../utils/params';
 
 export const Custom = new GraphQLObjectType({
   name: 'Custom',
@@ -55,7 +50,7 @@ export const CustomQuery = {
         description: 'Model key of custom object',
       },
     },
-    resolve: async (_, { modelKey }) => graphqlWrapper(getCustomList(modelKey)),
+    resolve: async (_, { modelKey }) => graphqlWrapper(rewritePromise(getCustomList(modelKey))),
   },
 
   custom: {

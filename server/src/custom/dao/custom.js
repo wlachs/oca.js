@@ -2,14 +2,14 @@
 import log from 'npmlog';
 
 /* Data models */
-import findCustomModelByKey, { CUSTOM_MODEL_TABLE } from '../db';
+import findCustomModelByKey from '../services/modelLookup';
 
 /* Errors */
 import NotFoundError from '../../core/errors/not_found';
 import Conflict from '../../core/errors/conflict';
 
 /* Logging prefix */
-const LOG_PREFIX = 'CUSTOM_DAO_CUSTOM';
+const LOG_PREFIX = 'CORE_DAO_CUSTOM';
 
 export async function getCustomByKey(modelKey, key) {
   log.info(LOG_PREFIX, 'get custom of model and key', modelKey, key);
@@ -25,7 +25,7 @@ export async function getCustomByKey(modelKey, key) {
   return custom;
 }
 
-async function getCustomByKeyOrNull(modelKey, key) {
+export async function getCustomByKeyOrNull(modelKey, key) {
   log.info(LOG_PREFIX, 'get custom for model by key or null:', modelKey, key);
 
   try {
@@ -48,7 +48,10 @@ export async function addCustom(modelKey, key, params) {
   const Model = findCustomModelByKey(modelKey);
   const custom = new Model();
   custom.key = key;
-  custom.params = params;
+
+  for (const paramKey in params) {
+    custom[paramKey] = params[paramKey];
+  }
 
   log.verbose(LOG_PREFIX, JSON.stringify(custom, undefined, 4));
   return custom.save();
@@ -69,7 +72,9 @@ export async function updateCustom(modelKey, key, newKey, params) {
     custom.key = newKey;
   }
 
-  custom.params = { ...custom.params, ...params };
+  for (const paramKey in params) {
+    custom[paramKey] = params[paramKey];
+  }
 
   log.verbose(LOG_PREFIX, JSON.stringify(custom, undefined, 4));
   return custom.save();
@@ -114,11 +119,4 @@ export async function removeAllCustomForModel(modelKey) {
   const deleted = await Model.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
-}
-
-export async function removeAllCustom() {
-  log.info(LOG_PREFIX, 'remove all custom');
-  for (const [key] of CUSTOM_MODEL_TABLE) {
-    await removeAllCustomForModel(key);
-  }
 }

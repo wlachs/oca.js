@@ -2,8 +2,8 @@
 import log from 'npmlog';
 
 /* Data models */
-import SlotModel from '../../db/slot';
-import ContentModel from '../../db/content';
+import SlotModel from '../../db/schema/slot';
+import ContentModel from '../../db/schema/content';
 
 /* Errors */
 import UnprocessableEntity from '../../../core/errors/unprocessable_entity';

@@ -1,5 +1,6 @@
 import log from 'npmlog';
-import { removeAllCustom } from './custom';
+import { removeAllCustomForModel } from './custom';
+import { APPLICATION_PROPERTY_MODEL_KEY } from '../db/schema/application_property';
 
 const LOG_PREFIX = 'CUSTOM_DAO';
 
@@ -8,6 +9,6 @@ export async function clearDB() {
   log.info(LOG_PREFIX, 'clear db');
 
   return Promise.all([
-    await removeAllCustom(),
+    removeAllCustomForModel(APPLICATION_PROPERTY_MODEL_KEY),
   ]);
 }

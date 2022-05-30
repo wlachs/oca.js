@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import ContentTypeModel from '../db/content_type';
+import ContentTypeModel from '../db/schema/content_type';
 
 /* Errors */
 import NotFoundError from '../../core/errors/not_found';

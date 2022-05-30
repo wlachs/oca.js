@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import ContentModel from '../db/content';
+import ContentModel from '../db/schema/content';
 
 /* DAO references */
 import { getContentTypeByKey } from './content_type';

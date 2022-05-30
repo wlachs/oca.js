@@ -2,7 +2,7 @@
 import log from 'npmlog';
 
 /* Data models */
-import UserModel from '../db/user';
+import UserModel from '../db/schema/user';
 
 /* Utils */
 import hashUserPassword from './utils/hash_user_password';
