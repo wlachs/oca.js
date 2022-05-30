@@ -3,14 +3,13 @@ import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
+/* DAOs */
+import {
+  addContentType, addOrIgnoreContentType, getContentTypeList, removeContentType, updateContentType,
+} from '../dao/content_type';
+
 /* Wrapper */
 import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
-import {
-  resolveAddContentType,
-  resolveAddOrIgnoreContentType,
-  resolveContentTypeByKey,
-  resolveContentTypeList, resolveRemoveContentType, resolveUpdateContentType,
-} from './resolvers/content_type';
 
 export const ContentType = new GraphQLObjectType({
   name: 'ContentType',
@@ -20,10 +19,6 @@ export const ContentType = new GraphQLObjectType({
       type: GraphQLNonNull(GraphQLString),
       description: 'Unique key',
     },
-    chain: {
-      type: GraphQLList(GraphQLString),
-      description: 'Content type chain',
-    },
   },
 });
 
@@ -31,21 +26,10 @@ const ContentTypeResponse = generateTemplateResponse(ContentType);
 const ContentTypeResponseList = generateTemplateResponse(GraphQLList(ContentType));
 
 export const ContentTypeQuery = {
-  contentType: {
-    type: ContentTypeResponse,
-    description: 'Get details of a content type',
-    args: {
-      key: {
-        type: GraphQLNonNull(GraphQLString),
-        description: 'Unique key',
-      },
-    },
-    resolve: async (_, { key }) => graphqlWrapper(resolveContentTypeByKey(key)),
-  },
   contentTypes: {
     type: ContentTypeResponseList,
     description: 'List of available content types',
-    resolve: async () => graphqlWrapper(resolveContentTypeList()),
+    resolve: async () => graphqlWrapper(getContentTypeList()),
   },
 };
 
@@ -58,14 +42,8 @@ export const ContentTypeMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Unique key',
       },
-      parentKey: {
-        type: GraphQLString,
-        description: 'Parent key if available',
-      },
     },
-    resolve: async (_, {
-      key, parentKey,
-    }) => graphqlWrapper(resolveAddContentType(key, parentKey), 201),
+    resolve: async (_, { key }) => graphqlWrapper(addContentType(key), 201),
   },
 
   addOrIgnoreContentType: {
@@ -76,14 +54,8 @@ export const ContentTypeMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'Unique key',
       },
-      parentKey: {
-        type: GraphQLString,
-        description: 'Parent key if available',
-      },
     },
-    resolve: async (_, {
-      key, parentKey,
-    }) => graphqlWrapper(resolveAddOrIgnoreContentType(key, parentKey)),
+    resolve: async (_, { key }) => graphqlWrapper(addOrIgnoreContentType(key)),
   },
 
   updateContentType: {
@@ -98,14 +70,8 @@ export const ContentTypeMutation = {
         type: GraphQLNonNull(GraphQLString),
         description: 'New key',
       },
-      parentKey: {
-        type: GraphQLString,
-        description: 'Parent key if available',
-      },
     },
-    resolve: async (_, {
-      key, newKey, parentKey,
-    }) => graphqlWrapper(resolveUpdateContentType(key, newKey, parentKey)),
+    resolve: async (_, { key, newKey }) => graphqlWrapper(updateContentType(key, newKey)),
   },
 
   removeContentType: {
@@ -117,6 +83,6 @@ export const ContentTypeMutation = {
         description: 'Unique key',
       },
     },
-    resolve: async (_, { key }) => graphqlWrapper(resolveRemoveContentType(key)),
+    resolve: async (_, { key }) => graphqlWrapper(removeContentType(key)),
   },
 };
