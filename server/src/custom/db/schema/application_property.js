@@ -8,4 +8,5 @@ const applicationPropertySchema = new Schema({
   value: { type: Schema.Types.String, required: true },
 });
 
+export const APPLICATION_PROPERTY_MODEL_KEY = 'APPLICATION_PROPERTY_MODEL';
 export default model('ApplicationProperty', applicationPropertySchema);

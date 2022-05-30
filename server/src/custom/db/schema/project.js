@@ -9,4 +9,5 @@ const projectSchema = new Schema({
   link: { type: Schema.Types.String, required: true },
 });
 
+export const PROJECT_MODEL_KEY = 'PROJECT_MODEL';
 export default model('Project', projectSchema);

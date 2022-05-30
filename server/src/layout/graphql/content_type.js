@@ -3,13 +3,9 @@ import {
   GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
-/* DAO references */
+/* DAOs */
 import {
-  addContentType,
-  addOrIgnoreContentType,
-  getContentTypeList,
-  removeContentType,
-  updateContentType,
+  addContentType, addOrIgnoreContentType, getContentTypeList, removeContentType, updateContentType,
 } from '../dao/content_type';
 
 /* Wrapper */

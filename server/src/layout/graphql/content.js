@@ -1,6 +1,6 @@
 /* GraphQL imports */
 import {
-  GraphQLObjectType, GraphQLInputObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
+  GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLList,
 } from 'graphql';
 
 /* DAO references */
@@ -15,40 +15,11 @@ import {
 } from '../dao/content';
 
 /* GraphQL references */
+import { KeyValueInputPair, KeyValueOutputPair } from '../../core/graphql/utils';
 import { ContentType } from './content_type';
 
 /* Wrapper */
-import { generateTemplateResponse, graphqlWrapper } from '../../core/graphql/wrapper';
-
-const KeyValueInputPair = new GraphQLInputObjectType({
-  name: 'InputStringPair',
-  description: 'Key-Value pair of strings',
-  fields: {
-    key: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Key',
-    },
-    value: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Value',
-    },
-  },
-});
-
-const KeyValueOutputPair = new GraphQLObjectType({
-  name: 'OutputStringPair',
-  description: 'Key-Value pair of strings',
-  fields: {
-    key: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Key',
-    },
-    value: {
-      type: GraphQLNonNull(GraphQLString),
-      description: 'Value',
-    },
-  },
-});
+import { generateTemplateResponse, graphqlWrapper, mapToAttributes } from '../../core/graphql/wrapper';
 
 export const Content = new GraphQLObjectType({
   name: 'Content',
@@ -65,6 +36,11 @@ export const Content = new GraphQLObjectType({
     attributes: {
       type: GraphQLList(KeyValueOutputPair),
       description: 'Optional list of content attributes',
+      resolve: mapToAttributes,
+    },
+    componentMapper: {
+      type: GraphQLString,
+      description: 'Optional dynamic component mapper key',
     },
   },
 });
@@ -121,10 +97,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, type, attributes,
-    }) => graphqlWrapper(addContent(key, type, attributes), 201),
+      key, type, attributes, componentMapper,
+    }) => graphqlWrapper(addContent(key, type, attributes, componentMapper), 201),
   },
 
   addOrUpdateContent: {
@@ -143,10 +123,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, type, attributes,
-    }) => graphqlWrapper(addOrUpdateContent(key, type, attributes)),
+      key, type, attributes, componentMapper,
+    }) => graphqlWrapper(addOrUpdateContent(key, type, attributes, componentMapper)),
   },
 
   updateContent: {
@@ -169,10 +153,14 @@ export const ContentMutation = {
         type: GraphQLList(KeyValueInputPair),
         description: 'Optional attributes',
       },
+      componentMapper: {
+        type: GraphQLString,
+        description: 'Optional dynamic component mapper key',
+      },
     },
     resolve: async (_, {
-      key, newKey, type, attributes,
-    }) => graphqlWrapper(updateContent(key, newKey, type, attributes)),
+      key, newKey, type, attributes, componentMapper,
+    }) => graphqlWrapper(updateContent(key, newKey, type, attributes, componentMapper)),
   },
 
   removeContent: {

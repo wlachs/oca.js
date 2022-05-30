@@ -14,12 +14,12 @@ export async function clearDB() {
   log.info(LOG_PREFIX, 'clear db');
 
   return Promise.all([
-    await removeAllRedirects(),
-    await removeRoutes(),
-    await removeViews(),
-    await removeTemplates(),
-    await removeSlots(),
-    await removeAllContent(),
-    await removeContentTypes(),
+    removeAllRedirects(),
+    removeRoutes(),
+    removeViews(),
+    removeTemplates(),
+    removeSlots(),
+    removeAllContent(),
+    removeContentTypes(),
   ]);
 }

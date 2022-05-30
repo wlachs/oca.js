@@ -17,4 +17,11 @@ mutation {
         ]
     )
     { statusCode }
+
+    projectListContent: addOrUpdateContent(
+        key: "PROJECT_LIST_CONTENT",
+        type: "MAIN_CONTENT_TYPE",
+        componentMapper: "PROJECT_LIST"
+    )
+    { statusCode }
 }

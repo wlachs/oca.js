@@ -1,11 +1,8 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_USER_GROUP_KEY } from '../db/populators';
-
 /* Data models */
-import UserGroupModel from '../db/user_group';
+import UserGroupModel from '../db/schema/user_group';
 
 /* Errors */
 import NotFoundError from '../../core/errors/not_found';
@@ -17,10 +14,7 @@ const LOG_PREFIX = 'AUTH_DAO_USER_GROUP';
 export async function getUserGroupByKey(key) {
   log.info(LOG_PREFIX, 'get user group by key:', key);
 
-  const userGroup = await UserGroupModel
-    .findOne({ key })
-    .populate(POPULATE_USER_GROUP_KEY);
-
+  const userGroup = await UserGroupModel.findOne({ key });
   if (!userGroup) {
     log.error(LOG_PREFIX, 'no user group found with key:', key);
     throw new NotFoundError(`can't get user group, no user group found with key: ${key}`);
@@ -59,10 +53,7 @@ export async function getUserGroupChain(key) {
 export async function getUserGroupsByKeys(keys) {
   log.info(LOG_PREFIX, 'get user groups by keys:', keys);
 
-  const userGroups = await UserGroupModel
-    .find({ key: { $in: keys } })
-    .populate(POPULATE_USER_GROUP_KEY);
-
+  const userGroups = await UserGroupModel.find({ key: { $in: keys } });
   log.verbose(LOG_PREFIX, JSON.stringify(userGroups, undefined, 4));
   return userGroups;
 }
@@ -124,10 +115,7 @@ export async function removeUserGroup(key) {
   /* If the user group is not found, an exception is thrown */
   await getUserGroupByKey(key);
 
-  const deleted = await UserGroupModel
-    .findOneAndDelete({ key })
-    .populate(POPULATE_USER_GROUP_KEY);
-
+  const deleted = await UserGroupModel.findOneAndDelete({ key });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -135,10 +123,7 @@ export async function removeUserGroup(key) {
 export async function getUserGroupList() {
   log.info(LOG_PREFIX, 'get user group list');
 
-  const users = await UserGroupModel
-    .find()
-    .populate(POPULATE_USER_GROUP_KEY);
-
+  const users = await UserGroupModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(users, undefined, 4));
   return users;
 }

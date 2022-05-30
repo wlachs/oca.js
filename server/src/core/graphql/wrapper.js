@@ -2,6 +2,7 @@
 import {
   GraphQLInt, GraphQLNonNull, GraphQLObjectType, GraphQLString,
 } from 'graphql';
+import executeMapping from '../../custom/mapping';
 
 export async function graphqlWrapper(promise, SUCCESS = 200) {
   try {
@@ -49,4 +50,11 @@ export function generateTemplateResponse(ofType) {
   });
 
   return GraphQLNonNull(generatedType);
+}
+
+export async function mapToAttributes(source) {
+  if (source.componentMapper) {
+    return executeMapping(source);
+  }
+  return source.attributes;
 }

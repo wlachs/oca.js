@@ -5,7 +5,7 @@
 */
 
 import log from 'npmlog';
-import initDB from '../core/db';
+import initDB from '../core/services/initDB';
 import loadFiles from './services/graphql_loader';
 
 const LOG_PREFIX = 'RELEASE_DATA_UPDATE';

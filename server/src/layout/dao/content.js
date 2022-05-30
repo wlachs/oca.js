@@ -1,11 +1,8 @@
 /* Logging */
 import log from 'npmlog';
 
-/* Populate */
-import { POPULATE_TYPE } from '../db/populators';
-
 /* Data models */
-import ContentModel from '../db/content';
+import ContentModel from '../db/schema/content';
 
 /* DAO references */
 import { getContentTypeByKey } from './content_type';
@@ -20,7 +17,7 @@ const LOG_PREFIX = 'LAYOUT_DAO_CONTENT';
 export async function getContentByKey(key) {
   log.info(LOG_PREFIX, 'get content by key:', key);
 
-  const content = await ContentModel.findOne({ key }).populate(POPULATE_TYPE);
+  const content = await ContentModel.findOne({ key });
   if (!content) {
     log.error(LOG_PREFIX, 'no content found with key:', key);
     throw new NotFoundError(`can't get content, no content found with key: ${key}`);
@@ -41,7 +38,7 @@ async function getContentByKeyOrNull(key) {
   }
 }
 
-export async function addContent(key, type, attributes) {
+export async function addContent(key, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'add content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   const existingContent = await getContentByKeyOrNull(key);
@@ -57,12 +54,13 @@ export async function addContent(key, type, attributes) {
   content.key = key;
   content.type = contentType;
   content.attributes = attributes;
+  content.componentMapper = componentMapper;
 
   log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
-export async function updateContent(key, newKey, type, attributes) {
+export async function updateContent(key, newKey, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'update content:', key, newKey, type, JSON.stringify(attributes, undefined, 4));
 
   /* If the content is not found, an exception is thrown */
@@ -82,18 +80,19 @@ export async function updateContent(key, newKey, type, attributes) {
 
   content.type = contentType;
   content.attributes = attributes;
+  content.componentMapper = componentMapper;
 
   log.verbose(LOG_PREFIX, JSON.stringify(content, undefined, 4));
   return content.save();
 }
 
-export async function addOrUpdateContent(key, type, attributes) {
+export async function addOrUpdateContent(key, type, attributes, componentMapper) {
   log.info(LOG_PREFIX, 'add or update content:', key, type, JSON.stringify(attributes, undefined, 4));
 
   try {
-    return await updateContent(key, undefined, type, attributes);
+    return await updateContent(key, undefined, type, attributes, componentMapper);
   } catch (e) {
-    return addContent(key, type, attributes);
+    return addContent(key, type, attributes, componentMapper);
   }
 }
 
@@ -103,7 +102,7 @@ export async function removeContent(key) {
   /* If the content is not found, an exception is thrown */
   await getContentByKey(key);
 
-  const deleted = await ContentModel.findOneAndDelete({ key }).populate(POPULATE_TYPE);
+  const deleted = await ContentModel.findOneAndDelete({ key });
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }
@@ -111,7 +110,7 @@ export async function removeContent(key) {
 export async function getContentList() {
   log.info(LOG_PREFIX, 'get content list');
 
-  const contents = await ContentModel.find().populate(POPULATE_TYPE);
+  const contents = await ContentModel.find();
   log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
@@ -122,7 +121,7 @@ export async function getContentByType(key) {
   /* If the content type is not found, an exception is thrown */
   const type = await getContentTypeByKey(key);
 
-  const contents = await ContentModel.find({ type }).populate(POPULATE_TYPE);
+  const contents = await ContentModel.find({ type });
   log.verbose(LOG_PREFIX, JSON.stringify(contents, undefined, 4));
   return contents;
 }
@@ -130,7 +129,7 @@ export async function getContentByType(key) {
 export async function removeAllContent() {
   log.info(LOG_PREFIX, 'remove all content');
 
-  const deleted = await ContentModel.deleteMany().populate(POPULATE_TYPE);
+  const deleted = await ContentModel.deleteMany();
   log.verbose(LOG_PREFIX, JSON.stringify(deleted, undefined, 4));
   return deleted;
 }

@@ -27,6 +27,7 @@ async function connect() {
       autoIndex: false,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      family: 4,
     });
 }
 
