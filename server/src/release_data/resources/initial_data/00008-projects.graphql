@@ -1,6 +1,6 @@
 mutation {
     test: addCustom(
-        modelKey: "PROJECT",
+        modelKey: "PROJECT_MODEL",
         key: "TEST_PROJECT",
         params: [
             { key: "name", value: "Test" },
