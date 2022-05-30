@@ -1,23 +1,15 @@
 /* React imports */
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './index.css';
 
 /* Custom imports */
 import { Col, Row, Anchor } from 'react-bootstrap';
 
-/* Redux imports */
-import { connect } from 'react-redux';
-import { getProjectList } from '../../redux/actions';
-
-function ProjectListContent({ projects, getProjectList_ }) {
-  useEffect(() => {
-    getProjectList_();
-  }, []);
-
-  return projects.map(({
-    key, name, description, imageUrl, link,
-  }) => (
+function ProjectContent({
+  key, name, description, imageUrl, link,
+}) {
+  return (
     <Row key={key}>
       <Col xs={12} className="d-flex flex-column justify-content-center align-items-center">
         <Anchor href={link} className="project-card d-flex flex-row align-items-center p-2 mb-1">
@@ -31,33 +23,30 @@ function ProjectListContent({ projects, getProjectList_ }) {
         </Anchor>
       </Col>
     </Row>
-  ));
+  );
+}
+
+ProjectContent.propTypes = {
+  key: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+};
+
+function ProjectListContent({ attributes }) {
+  return attributes.map(({ value }) => JSON.parse(value)).map(ProjectContent);
 }
 
 ProjectListContent.propTypes = {
-  projects: PropTypes.arrayOf(PropTypes.shape({
+  attributes: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    imageUrl: PropTypes.string,
-    link: PropTypes.string,
+    value: PropTypes.string,
   })),
-  getProjectList_: PropTypes.func,
 };
 
 ProjectListContent.defaultProps = {
-  projects: [],
-  getProjectList_: null,
+  attributes: [],
 };
 
-function mapStateToProps(state) {
-  return {
-    projects: state.custom.projects,
-  };
-}
-
-const mapDispatchToProps = {
-  getProjectList_: getProjectList,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContent);
+export default ProjectListContent;

@@ -9,7 +9,6 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 
 // App imports
 import core from '../core/redux/reducer';
-import custom from '../custom/redux/reducer';
 import { HARD_RESET } from '../core/redux/action_types';
 
 // Persistence config
@@ -22,7 +21,6 @@ const persistConfig = {
 // App reducer
 const appReducer = combineReducers({
   core: persistReducer(persistConfig, core),
-  custom,
 });
 
 // Root reducer
