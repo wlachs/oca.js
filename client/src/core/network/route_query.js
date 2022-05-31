@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { query } from 'gql-query-builder';
 import apiEndpoint from '../config/api_config';
-import { DEVELOPMENT } from '../config/environment';
+import { LOCAL } from '../config/environment';
 import returnAfter from '../utils/delayed_execution';
 import extractNetworkResponse from '../utils/extract_network_response';
 
@@ -57,7 +57,7 @@ async function routeQuery(path, bearer) {
   const extractedResponse = extractNetworkResponse(response.data.data.route);
 
   /* Introduce delay on dev */
-  if (process.env.NODE_ENV === DEVELOPMENT) {
+  if (process.env.NODE_ENV === LOCAL) {
     return returnAfter(extractedResponse, 1000);
   }
 
