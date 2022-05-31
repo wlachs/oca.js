@@ -1,3 +1,3 @@
+export const LOCAL = 'local';
 export const DEVELOPMENT = 'development';
-export const STAGE = 'stage';
 export const PRODUCTION = 'production';
