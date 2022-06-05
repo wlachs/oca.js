@@ -1,5 +1,4 @@
 import localConfiguration from './local.json';
-import devConfiguration from './dev.json';
 import prodConfiguration from './production.json';
 import { DEVELOPMENT, LOCAL, PRODUCTION } from './environment';
 
@@ -8,7 +7,7 @@ function getEndpoint() {
     case LOCAL:
       return localConfiguration.serverUrl;
     case DEVELOPMENT:
-      return devConfiguration.serverUrl;
+      return localConfiguration.serverUrl;
     case PRODUCTION:
       return prodConfiguration.serverUrl;
     default:
