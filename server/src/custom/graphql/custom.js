@@ -106,7 +106,7 @@ export const CustomMutation = {
         description: 'Unique ID',
       },
       newKey: {
-        type: GraphQLNonNull(GraphQLString),
+        type: GraphQLString,
         description: 'New unique ID',
       },
       params: {

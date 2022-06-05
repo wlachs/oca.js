@@ -10,4 +10,4 @@ RUN npm run build
 WORKDIR /usr/src/app
 RUN mv client/build server/client
 WORKDIR /usr/src/app/server
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start" ]
