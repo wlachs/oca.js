@@ -151,8 +151,8 @@ export const RouteMutation = {
       },
     },
     resolve: async (_, {
-      path, newPath, view, accessGroup,
-    }) => graphqlWrapper(updateRoute(path, newPath, view, accessGroup)),
+      path, newPath, view, accessGroups,
+    }) => graphqlWrapper(updateRoute(path, newPath, view, accessGroups)),
   },
 
   removeRoute: {
