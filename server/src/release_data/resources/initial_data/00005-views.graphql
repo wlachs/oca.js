@@ -1,7 +1,7 @@
 mutation {
     homeView: addOrUpdateView(
         key: "HOME_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -21,7 +21,7 @@ mutation {
 
     projectView: addOrUpdateView(
         key: "PROJECT_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -41,7 +41,7 @@ mutation {
 
     contactView: addOrUpdateView(
         key: "CONTACT_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -62,7 +62,7 @@ mutation {
 
     adminLoginView: addOrUpdateView(
         key: "ADMIN_LOGIN_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -83,7 +83,7 @@ mutation {
 
     adminDashboardView: addOrUpdateView(
         key: "ADMIN_DASHBOARD_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -104,7 +104,7 @@ mutation {
 
     notFoundView: addOrUpdateView(
         key: "NOT_FOUND_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",
@@ -125,7 +125,7 @@ mutation {
 
     notAuthorizedView: addOrUpdateView(
         key: "NOT_AUTHORIZED_VIEW",
-        template: "SIMPLE_PAGE_TEMPLATE",
+        template: "THREE_SLOT_PAGE_TEMPLATE",
         content: [
             {
                 slot: "TOP_BAR_SLOT",

@@ -1,11 +1,16 @@
 /* Custom imports */
-import SimplePage from '../templates/SimplePage';
+import TwoComponentPage from '../templates/TwoComponentPage';
+import ThreeComponentPage from '../templates/ThreeComponentPage';
 import MissingPage from '../templates/MissingPage';
 
 const TEMPLATE_MAP = [
   {
-    key: 'SIMPLE_PAGE_TEMPLATE',
-    content: SimplePage,
+    key: 'TWO_SLOT_PAGE_TEMPLATE',
+    content: TwoComponentPage,
+  },
+  {
+    key: 'THREE_SLOT_PAGE_TEMPLATE',
+    content: ThreeComponentPage,
   },
   {
     key: 'MISSING_TEMPLATE',
