@@ -2,7 +2,7 @@ mutation {
     topBarSlot: addSlot(key: "TOP_BAR_SLOT", contentTypes: ["TOP_BAR_CONTENT_TYPE"])
     { statusCode }
 
-    pageHeaderSlot: addSlot(key: "PAGE_HEADER_SLOT", contentTypes: ["HEADER_CONTENT_TYPE"])
+    pageHeaderSlot: addSlot(key: "PAGE_HEADER_SLOT", contentTypes: ["HEADER_CONTENT_TYPE", MAIN_CONTENT_TYPE])
     { statusCode }
 
     mainContentSlot: addSlot(key: "MAIN_CONTENT_SLOT", contentTypes: ["MAIN_CONTENT_TYPE", "LOGIN_FORM_CONTENT_TYPE"])

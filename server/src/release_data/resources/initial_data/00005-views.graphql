@@ -102,6 +102,23 @@ mutation {
     )
     { statusCode }
 
+    adminCustomEditorView: addOrUpdateView(
+        key: "ADMIN_CUSTOM_EDITOR_VIEW",
+        template: "TWO_SLOT_PAGE_TEMPLATE",
+        content: [
+            {
+                slot: "TOP_BAR_SLOT",
+                content: "ADMIN_TOP_NAV_CONTENT"
+            },
+            {
+                slot: "MAIN_CONTENT_SLOT",
+                content: "HOME_IMAGE_CONTENT"
+            }
+        ],
+        pageTitle: "Admin Custom Editor",
+    )
+    { statusCode }
+
     notFoundView: addOrUpdateView(
         key: "NOT_FOUND_VIEW",
         template: "THREE_SLOT_PAGE_TEMPLATE",

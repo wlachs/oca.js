@@ -34,6 +34,13 @@ mutation {
     )
     { statusCode }
 
+    adminCustomEditorRoute: addRoute(
+        path: "/editor/custom",
+        view: "ADMIN_CUSTOM_EDITOR_VIEW",
+        accessGroups: ["ADMIN_USER_GROUP"]
+    )
+    { statusCode }
+
     notFoundRoute: addRoute(
         path: "/notfound",
         view: "NOT_FOUND_VIEW",
