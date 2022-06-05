@@ -1,9 +1,7 @@
 /* React imports */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-
-/* Custom imports */
-import linkData from '../links.json';
 
 export function LogoLink() {
   return (
@@ -18,10 +16,21 @@ export function LogoLink() {
   );
 }
 
-export function Links() {
-  return linkData.links.map(({ text, link }) => (
-    <NavLink to={link} key={link} className={({ isActive }) => (isActive ? 'link link_active' : 'link')}>
-      {text}
+export function Links({ links }) {
+  return links.map(({ key, value }) => (
+    <NavLink to={value} key={value} className={({ isActive }) => (isActive ? 'link link_active' : 'link')}>
+      {key}
     </NavLink>
   ));
 }
+
+Links.propTypes = {
+  links: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    value: PropTypes.string,
+  })),
+};
+
+Links.defaultProps = {
+  links: [],
+};

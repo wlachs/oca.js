@@ -8,7 +8,7 @@ import UnprocessableEntity from '../../../core/errors/unprocessable_entity';
 const LOG_PREFIX = 'LAYOUT_DAO_VALIDATE_ROUTE';
 
 /* Route validation */
-const ROUTE_REGEX = /^(\/(([a-zA-Z]*)|(\?[a-zA-Z]+)))+$/;
+const ROUTE_REGEX = /^\/$|^(\/.+?)+$/;
 
 function validate(route) {
   log.info(LOG_PREFIX, 'validate route:', JSON.stringify(route, undefined, 4));

@@ -1,7 +1,8 @@
 mutation {
     topNavContent: addContent(
         key: "TOP_NAV_CONTENT",
-        type: "TOP_BAR_CONTENT_TYPE"
+        type: "TOP_BAR_CONTENT_TYPE",
+        componentMapper: "NAV_LINKS"
     )
     { statusCode }
 

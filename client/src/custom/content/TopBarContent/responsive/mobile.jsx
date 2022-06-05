@@ -1,11 +1,12 @@
 /* React imports */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 /* Custom imports */
 import { Col, Row } from 'react-bootstrap';
 import { LogoLink, Links } from './common';
 
-function Mobile() {
+function Mobile({ links }) {
   const [isExpanded, setExpanded] = useState(false);
 
   return (
@@ -26,12 +27,23 @@ function Mobile() {
       <Row className="d-block d-lg-none">
         <Col xs={12} className={`${!isExpanded ? 'collapse' : ''}`}>
           <div className="d-flex flex-column-reverse justify-content-center align-items-center">
-            <Links />
+            <Links links={links} />
           </div>
         </Col>
       </Row>
     </>
   );
 }
+
+Mobile.propTypes = {
+  links: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.string,
+    value: PropTypes.string,
+  })),
+};
+
+Mobile.defaultProps = {
+  links: [],
+};
 
 export default Mobile;
