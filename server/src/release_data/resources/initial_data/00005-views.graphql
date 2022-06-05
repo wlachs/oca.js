@@ -87,7 +87,7 @@ mutation {
         content: [
             {
                 slot: "TOP_BAR_SLOT",
-                content: "TOP_NAV_CONTENT"
+                content: "ADMIN_TOP_NAV_CONTENT"
             },
             {
                 slot: "PAGE_HEADER_SLOT",

@@ -3,6 +3,7 @@ import log from 'npmlog';
 
 /* Mappers */
 import navLinksToComponent from './navigation/navLinksToComponent';
+import adminNavLinksToComponent from './navigation/adminNavLinksToComponent';
 import projectListToComponent from './project/projectListToComponent';
 
 /* Errors */
@@ -14,6 +15,7 @@ const LOG_PREFIX = 'CUSTOM_MAPPING';
 /* Mapper function lookup table */
 const MAPPING_TABLE = new Map([
   ['NAV_LINKS', navLinksToComponent],
+  ['ADMIN_NAV_LINKS', adminNavLinksToComponent],
   ['PROJECT_LIST', projectListToComponent],
 ]);
 

@@ -6,6 +6,13 @@ mutation {
     )
     { statusCode }
 
+    adminTopNavContent: addContent(
+        key: "ADMIN_TOP_NAV_CONTENT",
+        type: "TOP_BAR_CONTENT_TYPE",
+        componentMapper: "ADMIN_NAV_LINKS"
+    )
+    { statusCode }
+
     homeImageContent: addContent(
         key: "HOME_IMAGE_CONTENT",
         type: "MAIN_CONTENT_TYPE"

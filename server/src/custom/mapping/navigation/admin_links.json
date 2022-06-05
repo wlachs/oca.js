@@ -1,0 +1,12 @@
+{
+  "links": [
+    {
+      "text": "Admin Page",
+      "link": "/admindashboard"
+    },
+    {
+      "text": "Custom",
+      "link": "/editor/custom"
+    }
+  ]
+}
