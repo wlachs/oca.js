@@ -2,9 +2,9 @@
 import log from 'npmlog';
 
 /* Clear DB script for each module */
-import { clearDB as clearCore } from '../../custom/dao';
-import { clearDB as clearLayout } from '../../layout/dao';
-import { clearDB as clearAuth } from '../../auth/dao';
+import clearCustom from '../../custom/dao';
+import clearLayout from '../../layout/dao';
+import clearAuth from '../../auth/dao';
 
 /* Logging prefix */
 const LOG_PREFIX = 'RELEASE_DATA_SERVICES_WIPE_DB';
@@ -14,7 +14,7 @@ async function wipeDB() {
 
   return Promise.all([
     clearLayout(),
-    clearCore(),
+    clearCustom(),
     clearAuth(),
   ]);
 }

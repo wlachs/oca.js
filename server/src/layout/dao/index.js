@@ -9,8 +9,7 @@ import { removeAllRedirects } from './redirect';
 
 const LOG_PREFIX = 'LAYOUT_DAO';
 
-// eslint-disable-next-line import/prefer-default-export
-export async function clearDB() {
+async function clearLayout() {
   log.info(LOG_PREFIX, 'clear db');
 
   return Promise.all([
@@ -23,3 +22,5 @@ export async function clearDB() {
     removeContentTypes(),
   ]);
 }
+
+export default clearLayout;
