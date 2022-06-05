@@ -26,3 +26,6 @@ yarn-error.log*
 # IDE
 .idea/
 .eslintcache
+
+# Custom release data
+/update_data/

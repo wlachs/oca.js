@@ -1,4 +1,0 @@
-mutation {
-    loginFormContentType: addOrIgnoreContentType(key: "LOGIN_FORM_CONTENT_TYPE")
-    { statusCode }
-}
