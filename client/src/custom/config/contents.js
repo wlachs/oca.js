@@ -23,6 +23,10 @@ const CONTENT_MAP = [
     key: 'LOGIN_FORM_CONTENT_TYPE',
     content: LoginFormContent,
   },
+  {
+    key: 'ADMIN_EDITOR_CONTENT_TYPE',
+    content: HomeImageContent,
+  },
   /*
    * Key-based component associations
    */

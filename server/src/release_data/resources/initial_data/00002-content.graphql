@@ -81,6 +81,15 @@ mutation {
     )
     { statusCode }
 
+    adminProjectEditorContent: addContent(
+        key: "ADMIN_CUSTOM_EDITOR_CONTENT",
+        type: "ADMIN_EDITOR_CONTENT_TYPE",
+        attributes: [
+            { key: "modelKey", value: "PROJECT_MODEL" },
+        ]
+    )
+    { statusCode }
+
     notFoundHeaderTextContent: addContent(
         key: "NOT_FOUND_HEADER_TEXT_CONTENT",
         type: "HEADER_CONTENT_TYPE",

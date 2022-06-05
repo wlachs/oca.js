@@ -14,4 +14,8 @@ mutation {
     loginFormContentType: addContentType(key: "LOGIN_FORM_CONTENT_TYPE") {
         statusCode
     }
+
+    adminEditorContentType: addContentType(key: "ADMIN_EDITOR_CONTENT_TYPE") {
+        statusCode
+    }
 }

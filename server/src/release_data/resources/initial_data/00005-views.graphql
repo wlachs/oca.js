@@ -112,7 +112,7 @@ mutation {
             },
             {
                 slot: "MAIN_CONTENT_SLOT",
-                content: "HOME_IMAGE_CONTENT"
+                content: "ADMIN_CUSTOM_EDITOR_CONTENT"
             }
         ],
         pageTitle: "Admin Custom Editor",
