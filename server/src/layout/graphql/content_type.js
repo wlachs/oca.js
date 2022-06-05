@@ -67,6 +67,10 @@ export const ContentTypeMutation = {
         description: 'Unique key',
       },
       newKey: {
+        /*
+        This is marked as non-null because this is the only parameter of the object.
+        Change this to optional if the object model has other fields
+        */
         type: GraphQLNonNull(GraphQLString),
         description: 'New key',
       },
