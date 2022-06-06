@@ -5,6 +5,7 @@ import log from 'npmlog';
 import navLinksToComponent from './navigation/navLinksToComponent';
 import adminNavLinksToComponent from './navigation/adminNavLinksToComponent';
 import projectListToComponent from './project/projectListToComponent';
+import customEditorFieldsToComponent from './editor/customEditorFieldsToComponent';
 
 /* Errors */
 import NotFoundError from '../../core/errors/not_found';
@@ -17,6 +18,7 @@ const MAPPING_TABLE = new Map([
   ['NAV_LINKS', navLinksToComponent],
   ['ADMIN_NAV_LINKS', adminNavLinksToComponent],
   ['PROJECT_LIST', projectListToComponent],
+  ['CUSTOM_EDITOR_FIELDS', customEditorFieldsToComponent],
 ]);
 
 async function executeMapping(source) {

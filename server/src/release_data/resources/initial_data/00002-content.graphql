@@ -86,7 +86,8 @@ mutation {
         type: "ADMIN_EDITOR_CONTENT_TYPE",
         attributes: [
             { key: "modelKey", value: "PROJECT_MODEL" },
-        ]
+        ],
+        componentMapper: "CUSTOM_EDITOR_FIELDS"
     )
     { statusCode }
 
