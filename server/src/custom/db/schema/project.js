@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const { model, Schema } = mongoose;
-const projectSchema = new Schema({
+export const projectSchema = new Schema({
   key: { type: Schema.Types.String, required: true, unique: true },
   name: { type: Schema.Types.String, required: true },
   description: { type: Schema.Types.String, required: true },

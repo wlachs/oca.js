@@ -1,4 +1,4 @@
-const HIDDEN_PROPERTIES = ['key', '_id', '__v'];
+import findCustomSchemaByKey from '../services/schemaLookup';
 
 export function parseParams(params) {
   const paramsObject = {};
@@ -8,23 +8,27 @@ export function parseParams(params) {
   return paramsObject;
 }
 
-function rewriteParams(data) {
-  const { _doc } = data;
-  const params = [];
+function rewriteParams(modelKey) {
+  const schema = findCustomSchemaByKey(modelKey);
 
-  for (const key in _doc) {
-    if (!HIDDEN_PROPERTIES.includes(key)) {
-      params.push({ key, value: _doc[key] });
+  return (data) => {
+    const params = [];
+
+    for (const key of schema) {
+      if (data[key]) {
+        params.push({ key, value: data[key] });
+      }
     }
-  }
-  return { key: _doc.key, params };
+
+    return { key: data.key, params };
+  };
 }
 
-export async function rewritePromise(promise) {
+export async function rewritePromise(promise, modelKey) {
   const data = await promise;
 
   if (Array.isArray(data)) {
-    return data.map(rewriteParams);
+    return data.map(rewriteParams(modelKey));
   }
 
   return rewriteParams(data);

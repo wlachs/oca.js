@@ -50,7 +50,9 @@ export const CustomQuery = {
         description: 'Model key of custom object',
       },
     },
-    resolve: async (_, { modelKey }) => graphqlWrapper(rewritePromise(getCustomList(modelKey))),
+    resolve: async (_, {
+      modelKey,
+    }) => graphqlWrapper(rewritePromise(getCustomList(modelKey), modelKey)),
   },
 
   custom: {
