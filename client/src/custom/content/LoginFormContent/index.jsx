@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import './index.css';
 import { Button, Col, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { login } from '../../../core/redux/actions';
+import { login } from '../../../core/redux/thunks';
 
 const initialFormData = Object.freeze({
   username: '',

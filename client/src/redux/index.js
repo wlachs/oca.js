@@ -7,9 +7,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
-// App imports
-import core from '../core/redux/reducer';
+// Action types
 import { HARD_RESET } from '../core/redux/action_types';
+
+// Reducers
+import core from '../core/redux/reducer';
+import custom from '../custom/redux/reducer';
 
 // Persistence config
 const persistConfig = {
@@ -21,6 +24,7 @@ const persistConfig = {
 // App reducer
 const appReducer = combineReducers({
   core: persistReducer(persistConfig, core),
+  custom,
 });
 
 // Root reducer

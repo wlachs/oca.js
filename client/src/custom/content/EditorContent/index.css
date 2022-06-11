@@ -1,0 +1,13 @@
+@import '../../../core/config/global.css';
+
+.content-editor-header {
+    color: var(--off-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+.content-editor-cell {
+    border: 1px solid var(--primary-color);
+    padding: .5rem;
+    font-size: 10pt;
+}

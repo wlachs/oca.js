@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 /* Redux imports */
 import { connect } from 'react-redux';
-import { getRoute } from '../redux/actions';
+import { getRoute } from '../redux/thunks';
 
 /* Custom containers */
 import LoadingIndicator from './LoadingIndicator';

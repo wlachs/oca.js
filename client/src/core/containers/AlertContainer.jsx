@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 /* Redux imports */
 import { connect } from 'react-redux';
-import { clearAlert } from '../redux/actions';
+import { clearAlert } from '../redux/thunks';
 
 /* Custom components */
 import AlertMessage from '../components/AlertMessage';

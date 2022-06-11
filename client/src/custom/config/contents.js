@@ -6,6 +6,7 @@ import ContactEmailContent from '../content/ContactEmailContent';
 import ProjectListContent from '../content/ProjectListContent';
 import HeaderTextContent from '../content/HeaderTextContent';
 import LoginFormContent from '../content/LoginFormContent';
+import EditorContent from '../content/EditorContent';
 
 const CONTENT_MAP = [
   /*
@@ -25,7 +26,7 @@ const CONTENT_MAP = [
   },
   {
     key: 'ADMIN_EDITOR_CONTENT_TYPE',
-    content: HomeImageContent,
+    content: EditorContent,
   },
   /*
    * Key-based component associations

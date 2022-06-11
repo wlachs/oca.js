@@ -3,19 +3,25 @@ import { query } from 'gql-query-builder';
 import apiEndpoint from '../../core/config/api_config';
 import extractNetworkResponse from '../../core/utils/extract_network_response';
 
-async function projectListQuery() {
+async function customListQuery(modelKey) {
   const response = await axios.post(apiEndpoint(), query({
-    operation: 'projects',
+    operation: 'customList',
+    variables: { modelKey: { value: modelKey, required: true } },
     fields: [
       'statusCode',
       'message',
       {
-        node: ['key', 'name', 'description', 'imageUrl', 'link'],
+        node: [
+          'key',
+          {
+            params: ['key', 'value'],
+          },
+        ],
       },
     ],
   }));
 
-  return extractNetworkResponse(response.data.data.projects);
+  return extractNetworkResponse(response.data.data.customList);
 }
 
-export default projectListQuery;
+export default customListQuery;
