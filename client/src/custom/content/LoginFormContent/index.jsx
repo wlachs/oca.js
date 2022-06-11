@@ -16,6 +16,7 @@ const initialFormData = Object.freeze({
 
 function LoginFormContent({ login_ }) {
   const [formData, updateFormData] = useState(initialFormData);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     updateFormData({
@@ -28,7 +29,7 @@ function LoginFormContent({ login_ }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login_(formData.username, formData.password, useNavigate());
+    login_(formData.username, formData.password, navigate);
   };
 
   return (
