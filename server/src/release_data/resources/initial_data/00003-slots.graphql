@@ -11,7 +11,7 @@ mutation {
         key: "PAGE_HEADER_SLOT",
         contentTypes: [
             "HEADER_CONTENT_TYPE",
-            MAIN_CONTENT_TYPE
+            "MAIN_CONTENT_TYPE"
         ]
     )
     { statusCode }
