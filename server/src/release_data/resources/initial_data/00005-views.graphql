@@ -91,7 +91,7 @@ mutation {
             },
             {
                 slot: "PAGE_HEADER_SLOT",
-                content: "ADMIN_HEADER_TEXT_CONTENT"
+                content: "ADMIN_DASHBOARD_HEADER_TEXT_CONTENT"
             },
             {
                 slot: "MAIN_CONTENT_SLOT",

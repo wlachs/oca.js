@@ -75,6 +75,16 @@ mutation {
     )
     { statusCode }
 
+    adminDashboardHeaderTextContent: addContent(
+        key: "ADMIN_DASHBOARD_HEADER_TEXT_CONTENT",
+        type: "HEADER_CONTENT_TYPE",
+        attributes: [
+            { key: "h1", value: "Admin Dashboard" },
+            { key: "h2", value: "You are logged is as admin!" }
+        ]
+    )
+    { statusCode }
+
     adminLoginFormContent: addContent(
         key: "ADMIN_LOGIN_FORM_CONTENT",
         type: "LOGIN_FORM_CONTENT_TYPE"
