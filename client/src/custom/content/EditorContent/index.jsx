@@ -1,5 +1,5 @@
 /* React imports */
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import './index.css';
 
@@ -19,6 +19,47 @@ function prepareData({ params }) {
     [row.key]: row.value,
   }), {});
 }
+
+function EditorRowContent({ row }) {
+  const originalRowValues = row.cells.map((cell) => ({
+    key: cell.column.Header,
+    value: cell.value,
+  }));
+
+  const [rowValues, setRowValues] = useState(originalRowValues);
+  const getValue = (key) => rowValues.find((rw) => rw.key === key).value;
+  const setValue = (key, value) => {
+    setRowValues([...rowValues.filter((rw) => rw.key !== key), { key, value }]);
+  };
+
+  return (
+    <tr {...row.getRowProps()}>
+      {row.cells.map((cell) => (
+        <td className="content-editor-cell" {...cell.getCellProps()}>
+          <input
+            className="w-100"
+            type="text"
+            value={getValue(cell.column.Header)}
+            onChange={(e) => setValue(cell.column.Header, e.target.value)}
+          />
+        </td>
+      ))}
+      <td className="content-editor-cell-buttons">
+        Save | Delete
+      </td>
+    </tr>
+  );
+}
+
+EditorRowContent.propTypes = {
+  row: PropTypes.shape({
+    getRowProps: PropTypes.func,
+    cells: PropTypes.arrayOf(PropTypes.shape({
+      getCellProps: PropTypes.func,
+      render: PropTypes.func,
+    })),
+  }).isRequired,
+};
 
 function EditorContent({ attributes }) {
   const { value: modelKey } = attributes.find(({ key }) => key === 'modelKey');
@@ -67,15 +108,7 @@ function EditorContent({ attributes }) {
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td className="content-editor-cell" {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
-                ))}
-              </tr>
-            );
+            return <EditorRowContent key={row} row={row} />;
           })}
         </tbody>
       </table>
